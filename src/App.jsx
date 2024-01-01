@@ -1,25 +1,25 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-// function App() {
+function App() {
   
 
-//   return (
-//     <>
-//       <h1 className="text-2xl font-bold underline">
-//       Hello world!
-//       </h1>
-//     </>  
-//   )
-// }
+  return (
+    <>
+      <h1 className="text-2xl font-bold underline">
+      Hello world!
+      </h1>
+    </>  
+  )
+}
 
-// export default App
+export default App
 
-import React from "react";
+// import React from "react";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // import Homepage from "./Pages/Home/homepage";
 // import Welcome from "./Pages/Welcome/welcomepage";
@@ -30,12 +30,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // // import Profileform from './Pages/Profile/Profileform'
 // import ProjectPost from "./Pages/ProjectPost/posting";
 
-function App() {
-  return (
-    <Router>
-      <>
-        <Routes>
-          <Route path="/homepage" element={<Homepage />} />
+// function App() {
+//   return (
+//     <Router>
+//       <>
+//         <Routes>
+//           <Route path="/homepage" element={<Homepage />} />
           {/* <Route path="/signin" element={<Signin />} />
           <Route path="/student/register" element={<Register />} />
           <Route path="/company/register" element={<RegisterCompany />} /> */}
@@ -52,10 +52,10 @@ function App() {
           />
           <Route path="/post" element={<ProjectPost />} />
           <Route path="/" element={<Welcome />} /> */}
-        </Routes>
+        {/* </Routes>
       </>
     </Router>
   );
 }
 
-export default App;
+export default App; */}
