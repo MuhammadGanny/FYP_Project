@@ -21,8 +21,8 @@ export default {
   esbuild: {
     jsxFactory: "React.createElement",
     jsxFragment: "React.Fragment",
-    loaders: {
-      ".js": "jsx", // Set the loader for .js files to 'jsx'
-    },
+    // loaders: {
+    //   // ".js": "jsx", // Set the loader for .js files to 'jsx'
+    // },
   },
 };

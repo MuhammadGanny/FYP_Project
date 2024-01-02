@@ -39,7 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     
-    axios.get('http://localhost:3000/posts')
+    axios.get('http://localhost:5000/posts')
       .then((response) => {
         setProjectPosts(response.data.posts);
       })
