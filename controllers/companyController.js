@@ -1,16 +1,21 @@
 // controllers/companyController.js
+import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 import { Company, CompanyProfile } from '../models/companyModel';
 
 const registerCompany = async (req, res) => {
   try {
-    // Implement logic to register a new company based on incoming request data
-    // For example:
-    const { companyId, companyName, email, password, phone, address, industry } = req.body;
+    const { companyName, email, password, phone, address, industry } = req.body;
+    const companyId = uuidv4(); // Generate UUID v4 for company ID
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newCompany = new Company({
       companyId,
       companyName,
       email,
-      password,
+      password: hashedPassword, // Store hashed password
       phone,
       address,
       industry,
