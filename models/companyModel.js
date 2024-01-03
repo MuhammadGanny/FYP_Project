@@ -6,8 +6,7 @@ const companySchema = new mongoose.Schema({
   email: String,
   password: String,
   phone: String,
-  address: String,
-  industry: String,
+  companyAddress: String,
   // Other relevant fields for company details
 });
 

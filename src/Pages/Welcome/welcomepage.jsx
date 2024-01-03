@@ -14,7 +14,7 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import LOGO from '../Assets/logo.svg';
+import LOGO from "../Assets/logo.svg";
 const products = [
   {
     name: "Analytics",

@@ -1,5 +1,5 @@
 import LOGO from "../Assets/logo.svg";
-import React, { useState } from "react";
+import React,{ useState } from "react";
 import axios from "axios";
 
 //import { useState } from 'react';
@@ -8,11 +8,11 @@ export default function RegisterCompany() {
   // const [userType, setUserType] = useState('university'); // Default to university
 
   const [formData, setFormData] = useState({
-    name: "",
+    companyname: "",
     email: "",
     password: "",
     phone: "",
-    university: "",
+    companyaddress: "",
   });
 
   const [successMessage, setSuccessMessage] = useState("");

@@ -1,7 +1,7 @@
 // controllers/companyController.js
-import { v4 as uuidv4 } from 'uuid';
-import bcrypt from 'bcrypt';
-import { Company, CompanyProfile } from '../models/companyModel';
+import { v4 as uuidv4 } from "uuid";
+import bcrypt from "bcrypt";
+import { Company, CompanyProfile } from "../models/companyModel.js";
 
 const registerCompany = async (req, res) => {
   try {
@@ -23,10 +23,10 @@ const registerCompany = async (req, res) => {
     });
 
     await newCompany.save();
-    res.status(201).json({ message: 'Company registered successfully' });
+    res.status(201).json({ message: "Company registered successfully" });
   } catch (error) {
-    console.error('Error registering company:', error);
-    res.status(500).json({ error: 'Error registering company' });
+    console.error("Error registering company:", error);
+    res.status(500).json({ error: "Error registering company" });
   }
 };
 
@@ -39,7 +39,7 @@ const createCompanyProfile = async (req, res) => {
     let companyProfile = await CompanyProfile.findOne({ companyId });
 
     if (companyProfile) {
-      return res.status(400).json({ error: 'Company profile already exists' });
+      return res.status(400).json({ error: "Company profile already exists" });
     }
 
     // Create a new company profile
@@ -53,10 +53,13 @@ const createCompanyProfile = async (req, res) => {
 
     await companyProfile.save();
 
-    res.status(201).json({ message: 'Company profile created successfully', companyProfile });
+    res.status(201).json({
+      message: "Company profile created successfully",
+      companyProfile,
+    });
   } catch (error) {
-    console.error('Error creating company profile:', error);
-    res.status(500).json({ error: 'Error creating company profile' });
+    console.error("Error creating company profile:", error);
+    res.status(500).json({ error: "Error creating company profile" });
   }
 };
 
@@ -67,13 +70,13 @@ const getCompanyProfile = async (req, res) => {
     const companyProfile = await CompanyProfile.findOne({ companyId });
 
     if (!companyProfile) {
-      return res.status(404).json({ error: 'Company profile not found' });
+      return res.status(404).json({ error: "Company profile not found" });
     }
 
     res.status(200).json({ companyProfile });
   } catch (error) {
-    console.error('Error fetching company profile:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching company profile:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -96,10 +99,10 @@ const updateCompanyProfile = async (req, res) => {
     // Update other fields as needed
 
     await companyProfile.save();
-    res.status(200).json({ message: 'Company profile updated successfully' });
+    res.status(200).json({ message: "Company profile updated successfully" });
   } catch (error) {
-    console.error('Error updating company profile:', error);
-    res.status(500).json({ error: 'Error updating company profile' });
+    console.error("Error updating company profile:", error);
+    res.status(500).json({ error: "Error updating company profile" });
   }
 };
 

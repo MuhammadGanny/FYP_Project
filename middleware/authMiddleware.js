@@ -1,9 +1,9 @@
+import express from "express";
+import cors from "cors";
+const app = express();
 
-const authenticateUser = (req, res, next) => {
-   
-  };
-  
-  module.exports = {
-    authenticateUser,
-  };
-  
+app.use(cors());
+
+const authenticateUser = (req, res, next) => {};
+
+export { authenticateUser };
