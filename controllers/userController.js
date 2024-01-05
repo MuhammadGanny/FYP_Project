@@ -2,34 +2,22 @@ import { User, UserProfile } from '../models/userModel.js';
 import bcrypt from 'bcrypt'
 import upload from '../middleware/multerSetup.js';
 import { v4 as uuidv4 } from 'uuid';
-
-// const { User } = require('../models/userModel');
-// const bcrypt = require('bcrypt');
-// const UserProfile = require('../models/userModel'); 
-// const { v4: uuidv4 } = require('uuid');
-// const UserProfile = require("../models/userModel")
-// const { UserProfile } = require("../models/userModel");
-// const upload = require('../middleware/multerSetup');
+import jwt from 'jsonwebtoken';
 
 // const registerUser = async (req, res) => {
 //   const { name, email, password, phone, university } = req.body;
 
 //   if (!name || !email || !password || !phone) {
-//     return res.status(400).json({ error: "All fields are required" });
+//     return res.status(400).json({ error: 'All fields are required' });
 //   }
 
-  
-//   const existingUser = await User.findOne({ email });
+//   // Generate a custom userId
+//   const userId = uuidv4(); // This will create a unique user ID
 
-//   if (existingUser) {
-//     return res.status(400).json({ error: "User with this email already exists" });
-//   }
-
-  
 //   const hashedPassword = await bcrypt.hash(password, 10);
 
-  
 //   const newUser = new User({
+//     userId, // Assign the generated userId
 //     name,
 //     email,
 //     password: hashedPassword,
@@ -39,18 +27,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 //   try {
 //     await newUser.save();
-//     res.status(201).json({ message: "User registered successfully" });
+//     res.status(201).json({ message: 'User registered successfully' });
 //   } catch (error) {
-//     if (error.errors) {
-//       console.error("Validation errors:", error.errors);
-//       res.status(400).json({ error: "Validation failed" });
-//     } else {
-//       console.error("Error registering user:", error);
-//       res.status(500).json({ error: "Error registering user" });
-//     }
+//     console.error('Error registering user:', error);
+//     res.status(500).json({ error: 'Error registering user' });
 //   }
 // };
-
 const registerUser = async (req, res) => {
   const { name, email, password, phone, university } = req.body;
 
@@ -58,22 +40,42 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  // Generate a custom userId
-  const userId = uuidv4(); // This will create a unique user ID
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const newUser = new User({
-    userId, // Assign the generated userId
-    name,
-    email,
-    password: hashedPassword,
-    phone,
-    university,
-  });
-
   try {
+    // Check if the user with the provided email already exists
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already exists. Please use a different email' });
+    }
+
+    // Generate a custom userId
+    const userId = uuidv4(); // This will create a unique user ID
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      userId, // Assign the generated userId
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      university,
+    });
+
     await newUser.save();
+
+    const userProfile = new UserProfile({
+      userId,
+      // Other fields of the user profile, initialized as empty for now
+      bio: '',
+      projects: [],
+      skills: [],
+      experiences: [],
+      education: [],
+      // Add other fields as needed
+    });
+
+    await userProfile.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     console.error('Error registering user:', error);
@@ -81,101 +83,57 @@ const registerUser = async (req, res) => {
   }
 };
 
+
+
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
-  
-    
-    const user = await User.findOne({ email });
-  
-    if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-  
-    
-    const passwordMatch = await bcrypt.compare(password, user.password);
-  
-    if (passwordMatch) {
-      res.status(200).json({ message: "User logged in successfully" });
-    } else {
-      res.status(401).json({ error: "Invalid email or password" });
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (passwordMatch) {
+            // Generate JWT token
+            // const token = jwt.sign({ userId: user._id }, 'your_secret_key_here', { expiresIn: '1h' });
+            // localStorage.setItem('token', response.data.token);
+            const token = jwt.sign({ userId: user.userId }, 'your_secret_key_here', {
+              expiresIn: '1h', // Set expiration time for the token
+            });
+
+            res.status(200).json({ message: "User logged in successfully", token });
+        } else {
+            res.status(401).json({ error: "Invalid email or password" });
+        }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-// const createUserProfile = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const { bio, projects, skills, experiences, education } = req.body;
 
-//     // Check if the user profile already exists
-//     let userProfile = await UserProfile.findOne({ userId });
-
-//     if (userProfile) {
-//       return res.status(400).json({ error: 'User profile already exists' });
-//     }
-
-//     // Create a new user profile
-//     userProfile = new UserProfile({
-//       userId,
-//       bio,
-//       projects,
-//       skills,
-//       experiences,
-//       education,
-//     });
-
-//     await userProfile.save();
-
-//     res.status(201).json({ message: 'User profile created successfully', userProfile });
-//   } catch (error) {
-//     console.error('Error creating user profile:', error);
-//     res.status(500).json({ error: 'Error creating user profile' });
-//   }
-// };
-
-// const createUserProfile = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const { bio, projects, skills, experiences, education } = req.body;
-
-//     // Check if the user exists
-//     const user = await User.findById(userId);
-
+// const loginUser = async (req, res) => {
+//     const { email, password } = req.body;
+  
+    
+//     const user = await User.findOne({ email });
+  
 //     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
+//       return res.status(401).json({ error: "Invalid email or password" });
 //     }
-
-//     // Check if the user profile already exists
-//     let userProfile = await UserProfile.findOne({ userId });
-
-//     if (userProfile) {
-//       return res.status(400).json({ error: 'User profile already exists' });
+  
+    
+//     const passwordMatch = await bcrypt.compare(password, user.password);
+  
+//     if (passwordMatch) {
+//       res.status(200).json({ message: "User logged in successfully" });
+//     } else {
+//       res.status(401).json({ error: "Invalid email or password" });
 //     }
-
-//     // Create a new user profile associated with the user's userId
-//     userProfile = new UserProfile({
-//       userId, // Associate the profile with the correct user
-//       bio,
-//       projects,
-//       skills,
-//       experiences,
-//       education,
-//     });
-//     //  userProfile = new UserProfile({
-//     //   userId: userId, // Associate the profile with the correct user
-//     //   bio,
-//     //   projects,
-//     //   skills,
-//     //   experiences,
-//     //   education,
-//     // });
-
-//     await userProfile.save();
-
-//     res.status(201).json({ message: 'User profile created successfully', userProfile });
-//   } catch (error) {
-//     console.error('Error creating user profile:', error);
-//     res.status(500).json({ error: 'Error creating user profile' });
-//   }
 // };
 
 const createUserProfile = async (req, res) => {
@@ -216,7 +174,6 @@ const createUserProfile = async (req, res) => {
   }
 };
 
-
 const getUserProfile = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -235,8 +192,6 @@ const getUserProfile = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
 
 const updateUserProfile = async (req, res) => {
   const { userId } = req.params;
@@ -278,54 +233,6 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-// const updateUserProfilePicture = async (req, res) => {
-//   try {
-//     const userProfile = await UserProfile.findOne({ userId: req.params.userId });
-
-//     if (!userProfile) {
-//       return res.status(404).json({ error: 'User profile not found' });
-//     }
-
-//     // Handle file upload using Multer or other middleware
-//     upload(req, res, async (err) => {
-//       if (err) {
-//         return res.status(400).json({ error: 'File upload failed' });
-//       }
-
-//       // Assuming your file upload middleware saves the file to req.file
-//       userProfile.profilePicture.data = req.file.buffer;
-//       userProfile.profilePicture.contentType = req.file.mimetype;
-
-//       await userProfile.save();
-
-//       res.status(200).json({ message: 'Profile picture updated successfully' });
-//     });
-//   } catch (error) {
-//     console.error('Error updating profile picture:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-// const updateUserProfilePicture = async (req, res) => {
-//   try {
-//     // Use the upload middleware to handle file uploads
-//     upload(req, res, async (err) => {
-//       if (err) {
-//         return res.status(400).json({ error: 'File upload failed' });
-//       }
-
-//       // Handle the uploaded file (available in req.file) and update the profile picture
-//       // Example: const { buffer, mimetype } = req.file;
-
-//       // Continue with your logic to update the profile picture
-//     });
-//   } catch (error) {
-//     console.error('Error updating profile picture:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-
 const updateUserProfilePicture = async (req, res) => {
   try {
     upload(req, res, (err) => {
@@ -346,8 +253,6 @@ const updateUserProfilePicture = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
 
 const updateBio = async (req, res) => {
   const { userId } = req.params;
@@ -438,22 +343,47 @@ const updateEducation = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+// const getCurrentUser = async (req, res) => {
+//   try {
+//     // Assuming you've set up authentication and have access to the user's ID
+//     const userId = req.userId; // Fetch the user ID from the authentication middleware
 
+//     // Fetch the user details based on the userId
+//     const currentUser = await User.findOne({ userId });
 
+//     if (!currentUser) {
+//       console.log('user noooooo found ');
+//       return res.status(404).json({ error: 'User not found' });
+//     }
 
-// module.exports = {
-//   registerUser,
-//   loginUser,
-//   createUserProfile,
-//   getUserProfile,
-//   updateUserProfile,
-//   updateUserProfilePicture,
-//   updateBio,
-//   updateProjects,
-//   updateSkills,
-//   updateExperiences,
-//   updateEducation
+//     // Send back the user data as a response
+//     res.status(200).json({ currentUser });
+//   } catch (error) {
+//     console.error('Error fetching current user:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
 // };
+
+const getCurrentUser = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Fetch the user ID from the route parameters
+
+    // Fetch the user details based on the userId
+    const currentUser = await User.findOne({ userId });
+
+    if (!currentUser) {
+      console.log('User nottttt found');
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Send back the user data as a response
+    res.status(200).json({ currentUser });
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 export default {
   registerUser,
@@ -466,5 +396,6 @@ export default {
   updateProjects,
   updateSkills,
   updateExperiences,
-  updateEducation
+  updateEducation,
+  getCurrentUser
 };

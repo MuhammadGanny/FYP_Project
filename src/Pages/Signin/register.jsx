@@ -23,12 +23,13 @@ export default function Register() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/user/register",
+        "http://localhost:5000/user/register",
         formData
       );
 
       if (response.status === 201) {
         console.log("Registration successful");
+        
         window.location.href = "/signin";
         setSuccessMessage("Registration successful");
         setErrorMessage("");

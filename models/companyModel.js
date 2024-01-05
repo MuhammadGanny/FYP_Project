@@ -10,6 +10,7 @@ const companySchema = new mongoose.Schema({
   // Other relevant fields for company details
 });
 
+
 const companyProfileSchema = new mongoose.Schema({
   companyId: { type: String, required: true, unique: true },
   description: String,
