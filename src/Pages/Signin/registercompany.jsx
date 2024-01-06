@@ -1,5 +1,5 @@
 import LOGO from "../Assets/logo.svg";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 //import { useState } from 'react';
@@ -8,11 +8,11 @@ export default function RegisterCompany() {
   // const [userType, setUserType] = useState('university'); // Default to university
 
   const [formData, setFormData] = useState({
-    companyname: "",
+    companyName: "",
     email: "",
     password: "",
     phone: "",
-    companyaddress: "",
+    companyAddress: "",
   });
 
   const [successMessage, setSuccessMessage] = useState("");
@@ -24,7 +24,7 @@ export default function RegisterCompany() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/user/register",
+        "http://localhost:5000/company/register",
         formData
       );
 
@@ -79,8 +79,8 @@ export default function RegisterCompany() {
               </div>
               <div className="mt-2">
                 <input
-                  id="name"
-                  name="name"
+                  id="companyName"
+                  name="companyName"
                   type="name"
                   autoComplete="name"
                   required
@@ -178,10 +178,10 @@ export default function RegisterCompany() {
               </div>
               <div className="mt-2">
                 <input
-                  id="uname"
-                  name="uname"
-                  type="uname"
-                  autoComplete="uname"
+                  id="companyAddress"
+                  name="companyAddress"
+                  type="address"
+                  autoComplete="address"
                   required
                   className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={handleInputChange}

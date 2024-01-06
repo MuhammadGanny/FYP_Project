@@ -12,24 +12,47 @@ export default function Signin() {
     const passwordInput = e.target.password.value;
 
     try {
-      const response = await axios.post("http://localhost:5000/user/login", {
-        email: emailInput,
-        password: passwordInput,
-      });
+      const companyResponse = await axios.post(
+        "http://localhost:5000/company/login",
+        {
+          email: emailInput,
+          password: passwordInput,
+        }
+      );
 
-      if (response.status === 200) {
+      const userResponse = await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          email: emailInput,
+          password: passwordInput,
+        }
+      );
+
+      // Continue with the rest of your code...
+      // ...
+
+      if (userResponse.status === 200) {
         console.log("User is signed in.");
         setMessage("User is signed in.");
         setErrorMessage("");
         window.location.href = "/homepage";
+      }
+      if (companyResponse.status === 200) {
+        console.log("Company is signed in.");
+        setMessage("Company is signed in.");
+        setErrorMessage("");
+        window.location.href = "/#";
       } else {
         console.error("Login failed.");
         setMessage("");
-        if (response.status === 401) {
+
+        if (userResponse.status === 401 || companyResponse.status === 401) {
           setErrorMessage("Incorrect Email & Password");
         } else {
-          // Handle other cases as needed
-          setErrorMessage("Login failed: " + response.data.error);
+          setErrorMessage(
+            "Login failed: " + userResponse.data.error ||
+              companyResponse.data.error
+          );
         }
       }
     } catch (error) {
@@ -38,7 +61,6 @@ export default function Signin() {
       setErrorMessage("Error occurred during login");
     }
   };
-
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

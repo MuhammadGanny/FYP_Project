@@ -92,7 +92,7 @@ export default function UserProfile () {
 
         <div className="mt-4">
           <h4 className="text-lg font-medium">Projects</h4>
-          <ul className="list-none">list ptojects 
+          <ul className="list-none">list projects 
             {/* {projects.map((item) => (
               <li key={item.id} className="text-sm">
                 <a href={item.link}>

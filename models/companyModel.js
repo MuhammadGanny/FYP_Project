@@ -1,14 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const companySchema = new mongoose.Schema({
-  companyId: { type: String, required: true, unique: true },
-  companyName: String,
-  email: String,
-  password: String,
-  phone: String,
-  companyAddress: String,
-  // Other relevant fields for company details
-});
+const companySchema = new mongoose.Schema(
+  {
+    companyId: { type: String, required: true, unique: true },
+    companyName: String,
+    email: String,
+    password: String,
+    phone: String,
+    companyAddress: String,
+    // Other relevant fields for company details
+  },
+  { versionKey: false }
+);
 
 const companyProfileSchema = new mongoose.Schema({
   companyId: { type: String, required: true, unique: true },
@@ -18,7 +21,7 @@ const companyProfileSchema = new mongoose.Schema({
   // Other fields related to the company profile
 });
 
-const Company = mongoose.model('Company', companySchema);
-const CompanyProfile = mongoose.model('CompanyProfile', companyProfileSchema);
+const Company = mongoose.model("Company", companySchema);
+const CompanyProfile = mongoose.model("CompanyProfile", companyProfileSchema);
 
 export { Company, CompanyProfile };

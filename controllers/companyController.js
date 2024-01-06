@@ -5,7 +5,7 @@ import { Company, CompanyProfile } from "../models/companyModel.js";
 
 const registerCompany = async (req, res) => {
   try {
-    const { companyName, email, password, phone, address, industry } = req.body;
+    const { companyName, email, password, phone, companyAddress } = req.body;
     const companyId = uuidv4(); // Generate UUID v4 for company ID
 
     // Hash the password
@@ -17,9 +17,7 @@ const registerCompany = async (req, res) => {
       email,
       password: hashedPassword, // Store hashed password
       phone,
-      address,
-      industry,
-      // Other relevant fields
+      companyAddress,
     });
 
     await newCompany.save();
@@ -30,6 +28,24 @@ const registerCompany = async (req, res) => {
   }
 };
 
+const loginCompany = async (req, res) => {
+  console.log("Comes here");
+  const { email, password } = req.body;
+
+  const company = await Company.findOne({ email });
+  console.log(company);
+  if (!company) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+
+  const passwordMatch = await bcrypt.compare(password, company.password);
+
+  if (passwordMatch) {
+    res.status(200).json({ message: "Company logged in successfully" });
+  } else {
+    res.status(401).json({ error: "Invalid email or password" });
+  }
+};
 const createCompanyProfile = async (req, res) => {
   try {
     const { companyId } = req.params;
@@ -80,12 +96,10 @@ const getCompanyProfile = async (req, res) => {
   }
 };
 
-const updateCompanyProfile = async (req, res) => {
+const updateCompanyDescription = async (req, res) => {
   try {
     const { companyId } = req.params;
-    // Implement logic to update the company profile based on incoming request data
-    // For example:
-    const { description, products, services } = req.body;
+    const { description } = req.body;
 
     let companyProfile = await CompanyProfile.findOne({ companyId });
 
@@ -94,21 +108,65 @@ const updateCompanyProfile = async (req, res) => {
     }
 
     companyProfile.description = description;
-    companyProfile.products = products;
-    companyProfile.services = services;
-    // Update other fields as needed
 
     await companyProfile.save();
-    res.status(200).json({ message: "Company profile updated successfully" });
+    res
+      .status(200)
+      .json({ message: "Company description updated successfully" });
   } catch (error) {
-    console.error("Error updating company profile:", error);
-    res.status(500).json({ error: "Error updating company profile" });
+    console.error("Error updating company description:", error);
+    res.status(500).json({ error: "Error updating company description" });
+  }
+};
+
+const updateCompanyProducts = async (req, res) => {
+  try {
+    const { companyId } = req.params;
+    const { products } = req.body;
+
+    let companyProfile = await CompanyProfile.findOne({ companyId });
+
+    if (!companyProfile) {
+      companyProfile = new CompanyProfile({ companyId });
+    }
+
+    companyProfile.products = products;
+
+    await companyProfile.save();
+    res.status(200).json({ message: "Company products updated successfully" });
+  } catch (error) {
+    console.error("Error updating company products:", error);
+    res.status(500).json({ error: "Error updating company products" });
+  }
+};
+
+const updateCompanyServices = async (req, res) => {
+  try {
+    const { companyId } = req.params;
+    const { services } = req.body;
+
+    let companyProfile = await CompanyProfile.findOne({ companyId });
+
+    if (!companyProfile) {
+      companyProfile = new CompanyProfile({ companyId });
+    }
+
+    companyProfile.services = services;
+
+    await companyProfile.save();
+    res.status(200).json({ message: "Company services updated successfully" });
+  } catch (error) {
+    console.error("Error updating company services:", error);
+    res.status(500).json({ error: "Error updating company services" });
   }
 };
 
 export default {
   registerCompany,
+  loginCompany,
   createCompanyProfile,
   getCompanyProfile,
-  updateCompanyProfile,
+  updateCompanyDescription,
+  updateCompanyProducts,
+  updateCompanyServices,
 };
