@@ -213,7 +213,7 @@ export default function Home() {
         <main className=''>
           
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          {projectPosts.map((post) => (
+          {projectPosts.map((post) => (   
             <Card key={post._id} className="mt-6 w-[60%] ml-[20%]">
               <CardBody>
                 <Typography variant="h5" color="blue-gray" className="mb-2">

@@ -139,8 +139,8 @@ export default function Profile() {
         </div>
         {/* <!-- Basic Info --> */}
         <div className="ml-4">
-          <h1 className="text-xl font-bold text-gray-800">User's Name</h1>
-          <p className="text-gray-500">University Name</p>
+          <h1 className="text-xl font-bold text-gray-800">{userData.name}</h1>
+          <p className="text-gray-500">{userData.university}</p>
           {/* <!-- Other basic info like email, phone, etc. --> */}
         </div>
       </div>
@@ -160,6 +160,11 @@ export default function Profile() {
         {/* <!-- Display user's projects using a list or cards -->
         <!-- Example: --> */}
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {userProfile.projects && userProfile.projects.map((project, index) => (
+    <li key={index} className="bg-white p-4 shadow-md rounded-lg">
+      {project.name}
+    </li>
+  ))}
           <li className="bg-white p-4 shadow-md rounded-lg">Project 1</li>
           <li className="bg-white p-4 shadow-md rounded-lg">Project 2</li>
           {/* <!-- Add more projects here --> */}
