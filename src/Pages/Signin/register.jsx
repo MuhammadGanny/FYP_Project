@@ -29,6 +29,7 @@ export default function Register() {
 
       if (response.status === 201) {
         console.log("Registration successful");
+        
         window.location.href = "/signin";
         setSuccessMessage("Registration successful");
         setErrorMessage("");

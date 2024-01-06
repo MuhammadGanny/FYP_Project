@@ -34,6 +34,13 @@ export default function Signin() {
       if (userResponse.status === 200) {
         console.log("User is signed in.");
         setMessage("User is signed in.");
+        const token = response.data.token;
+        console.log("token:", token); 
+        localStorage.setItem('token', token);
+
+        const userId = response.data.userId; // Obtain the userId from the response
+        console.log("UserId:", userId); 
+        localStorage.setItem("userId", userId);
         setErrorMessage("");
         window.location.href = "/homepage";
       }

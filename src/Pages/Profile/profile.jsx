@@ -1,10 +1,17 @@
 
 import Header from "../components/header"
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { Pencil } from 'lucide-react';
 import { SaveAll } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 
 export default function Profile() {
+  const [userData, setUserData] = useState({});
+  const [userProfile, setUserProfile] = useState({});
+  
+
   const [isEditing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState("I'm a passionate Front End Developer with a love for creating beautiful and user-friendly web interfaces. I have a strong background in web development, Java programming, and UI design.");
 
@@ -26,63 +33,154 @@ export default function Profile() {
   const handleInputChange = (e) => {
     setEditedText(e.target.value);
   };
+
+  //  useEffect(() => {
+  //   // Fetch user data
+  //   const userId = localStorage.getItem("userId");
+
+  //   axios.get('http://localhost:5000/user/currentuser')
+  //     .then((response) => {
+  //       setUserData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching user data:', error);
+  //     });
+    
+  //   // Fetch user profile data
+  //   axios.get(`http://localhost:5000/user/${userData.userId}`)
+  //     .then((response) => {
+  //       setUserProfile(response.data);
+  //      // setEditedText(response.data.bio || ''); // Set bio for editing
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching user profile data:', error);
+  //     });
+  // }, []);
+  
+  // useEffect(() => {
+  //   // Fetch user data
+  //   const token = localStorage.getItem('token'); // Retrieve the token from local storage
+  
+  //   axios.get('http://localhost:5000/user/currentuser', {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+  //     },
+  //   })
+  //     .then((response) => {
+  //       setUserData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching user data:', error);
+  //     });
+  
+  //   // Fetch user profile data
+  //   axios.get(`http://localhost:5000/user/${userData.userId}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+  //     },
+  //   })
+  //     .then((response) => {
+  //       setUserProfile(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching user profile data:', error);
+  //     });
+  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    const userId = localStorage.getItem('userId');
+    //${userId}
+    axios.get(`http://localhost:5000/user/currentuser/da2e3948-b717-4ca4-abeb-b365c231f55d`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+      },
+    })
+      .then((response) => {
+        console.log('User Data:', response.data); 
+        setUserData(response.data);
+        const userId = response.data.userId;
+        // Fetch user profile data using the obtained userId
+       // ${userId}
+        axios.get(`http://localhost:5000/user/profile/da2e3948-b717-4ca4-abeb-b365c231f55d`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+          },
+        })
+          .then((profileResponse) => {
+            console.log('User Profile Data:', profileResponse.data);
+            setUserProfile(profileResponse.data);
+          })
+          .catch((profileError) => {
+            console.error('Error fetching user profile data:', profileError);
+            // Handle error fetching user profile
+          });
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+        // Handle error fetching user data
+      });
+  }, []);
+  
+  
+
+  
   return (
     <>
     <Header/>
-    <div class="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
   {/* <!-- User Profile Card --> */}
-  <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+  <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
     {/* <!-- Profile Header with Picture and Basic Info --> */}
-    <div class="p-6">
-      <div class="flex items-center">
+    <div className="p-6">
+      <div className="flex items-center">
         {/* <!-- Profile Picture --> */}
-        <div class="rounded-full overflow-hidden">
-          <img class="h-20 w-20 object-cover" src="path_to_profile_picture.jpg" alt="Profile Picture"/>
+        <div className="rounded-full overflow-hidden">
+          <img className="h-20 w-20 object-cover" src={userProfile.profilePicture} alt="Profile Picture"/>
         </div>
         {/* <!-- Basic Info --> */}
-        <div class="ml-4">
-          <h1 class="text-xl font-bold text-gray-800">User's Name</h1>
-          <p class="text-gray-500">University Name</p>
+        <div className="ml-4">
+          <h1 className="text-xl font-bold text-gray-800">User's Name</h1>
+          <p className="text-gray-500">University Name</p>
           {/* <!-- Other basic info like email, phone, etc. --> */}
         </div>
       </div>
     </div>
 
     {/* <!-- User Information Sections --> */}
-    <div class="border-t border-gray-200">
+    <div className="border-t border-gray-200">
       {/* <!-- Bio Section --> */}
-      <div class="p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">About Me</h2>
-        <p class="text-gray-600">User's bio here...</p>
+      <div className="p-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">About Me</h2>
+        <p className="text-gray-600">User's bio here...</p>
       </div>
 
       {/* <!-- Projects Section --> */}
-      <div class="p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Projects</h2>
+      <div className="p-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Projects</h2>
         {/* <!-- Display user's projects using a list or cards -->
         <!-- Example: --> */}
-        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <li class="bg-white p-4 shadow-md rounded-lg">Project 1</li>
-          <li class="bg-white p-4 shadow-md rounded-lg">Project 2</li>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <li className="bg-white p-4 shadow-md rounded-lg">Project 1</li>
+          <li className="bg-white p-4 shadow-md rounded-lg">Project 2</li>
           {/* <!-- Add more projects here --> */}
         </ul>
       </div>
 
       {/* <!-- Skills Section --> */}
-      <div class="p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Skills</h2>
+      <div className="p-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Skills</h2>
         {/* <!-- Display user's skills using a list or badges -->
         <!-- Example: --> */}
-        <div class="flex flex-wrap gap-2">
-          <span class="bg-blue-200 px-2 py-1 rounded-md">Skill 1</span>
-          <span class="bg-blue-200 px-2 py-1 rounded-md">Skill 2</span>
+        <div className="flex flex-wrap gap-2">
+          <span className="bg-blue-200 px-2 py-1 rounded-md">Skill 1</span>
+          <span className="bg-blue-200 px-2 py-1 rounded-md">Skill 2</span>
           {/* <!-- Add more skills here --> */}
         </div>
       </div>
 
       {/* <!-- Experiences Section --> */}
-      <div class="p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Experiences</h2>
+      <div className="p-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Experiences</h2>
         {/* <!-- Display user's experiences using a list or cards -->
         <!-- Example: --> */}
         <ul>
@@ -93,8 +191,8 @@ export default function Profile() {
       </div>
 
       {/* <!-- Education Section --> */}
-      <div class="p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Education</h2>
+      <div className="p-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Education</h2>
         {/* <!-- Display user's education details using a list or cards -->
         <!-- Example: --> */}
         <ul>

@@ -13,6 +13,7 @@ const companySchema = new mongoose.Schema(
   { versionKey: false }
 );
 
+
 const companyProfileSchema = new mongoose.Schema({
   companyId: { type: String, required: true, unique: true },
   description: String,

@@ -48,5 +48,6 @@ const userProfileSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const UserProfile = mongoose.model('UserProfile', userProfileSchema);
 
+
 // module.exports = { User, UserProfile };
 export {User, UserProfile };
