@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   phone: String,
-  university: String,
+  university: String
 });
 
 const userProfileSchema = new mongoose.Schema({

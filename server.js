@@ -1,10 +1,13 @@
 // const express = require("express");
+
 import express from "express";
 import mongoose from "mongoose";
 // import cors from 'cors'
+
 const port = 5000;
 
 import cors from "cors";
+
 const app = express();
 
 app.use(cors());
@@ -32,15 +35,19 @@ connectDB();
 import userRoutes from "../FYP_Project/routes/userRoutes.js";
 import postRoutes from "../FYP_Project/routes/postRoutes.js";
 import companyRoutes from "../FYP_Project/routes/companyRoutes.js";
+import uroutes from "../FYP_Project/routes/URoutes.js"
+import profileroutes from "../FYP_Project/routes/profileRoutes.js"
 // const cors = require('cors');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cors());
 
-app.use("/user", userRoutes);
+// app.use("/user", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/company", companyRoutes);
+app.use("/user",uroutes);
+app.use("/profile",profileroutes)
 
 app.get("/msg", (req, res) => res.json({ msg: "Hello world" }));
 

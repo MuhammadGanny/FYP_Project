@@ -46,6 +46,7 @@ const loginCompany = async (req, res) => {
     res.status(401).json({ error: "Invalid email or password" });
   }
 };
+
 const createCompanyProfile = async (req, res) => {
   try {
     const { companyId } = req.params;
