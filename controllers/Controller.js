@@ -4,6 +4,7 @@ import User from '../models/User.js';
 import StudentProfile from '../models/StudentProfile.js';
 import CompanyProfile from '../models/CompanyProfile.js';
 import { v4 as uuidv4 } from 'uuid';
+//import  mongoose  from 'mongoose';
 
 // const register = async (req, res) => {
 //     try {
@@ -58,32 +59,63 @@ const register = async (req, res) => {
     }
   };
 
+// const login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     // Check if the user exists
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(401).json({ error: 'Invalid credentials.' });
+//     }
+
+//     // Compare passwords
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(401).json({ error: 'Invalid credentials.' });
+//     }
+//     const expiresIn = 3600;
+//     // Generate JWT token
+//     //const ObjectId = mongoose.Types.ObjectId;
+//     //const token = jwt.sign({ userId: new ObjectId(user.userID), userType: user.userType }, 'your_secret_key');
+//     const token = jwt.sign({ userId: user.userID, userType: user.userType }, 'your_secret_key' , { expiresIn });
+
+//     // Return the token
+//     res.json({ userId: user.userID, token });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error.' });
+//   }
+// };
 const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // Check if the user exists
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials.' });
+    try {
+      const { email, password } = req.body;
+  
+      // Check if the user exists
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({ error: 'Invalid credentials.' });
+      }
+  
+      // Compare passwords
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: 'Invalid credentials.' });
+      }
+  
+      const expiresIn = 3600;
+      
+      // Generate JWT token
+      const token = jwt.sign({ userId: user.userID, userType: user.userType }, 'your_secret_key', { expiresIn });
+  
+      // Return the token
+      res.json({ userId: user.userID, token });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error.' });
     }
-
-    // Compare passwords
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid credentials.' });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign({ userId: user.userID, userType: user.userType }, 'your_secret_key');
-
-    // Return the token
-    res.json({ userId: user.userID, token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
-};
+  };
+  
 const updateUserType = async (req, res) => {
     try {
       const { userId, userType } = req.body;
@@ -107,6 +139,6 @@ const updateUserType = async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Internal server error.' });
     }
-  };
+};
 
 export default { register, login , updateUserType };
