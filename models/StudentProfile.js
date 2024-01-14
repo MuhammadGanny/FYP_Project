@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const studentProfileSchema = new mongoose.Schema({
-  userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true },
+  userID: { type: String , ref: 'UserData', unique: true },
   name: String,
   university: String,
   bio: String,

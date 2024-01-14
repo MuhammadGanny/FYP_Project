@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use(authMiddleware.verifyToken); // Middleware to verify JWT token
 
- router.post('/setup-profile', profileController.setupProfile);
+router.post('/setup-profile', profileController.setupProfile);
 
 // app.post('/profile-setup', async (req, res) => {
 //     const { userId, userType, profileData } = req.body;

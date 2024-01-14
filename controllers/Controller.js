@@ -121,8 +121,9 @@ const updateUserType = async (req, res) => {
       const { userId, userType } = req.body;
   
       // Update the user with the provided userType
-      await User.updateOne({ _id: userId }, { userType });
-  
+    //   await User.updateOne({ _id: userId }, { userType });
+    await User.updateOne({ userID: userId }, { userType });
+      console.log('Received userType:', userType);
       // Create the corresponding profile based on userType
       if (userType === 'student') {
         const newStudentProfile = new StudentProfile({ userId });
@@ -131,7 +132,7 @@ const updateUserType = async (req, res) => {
         const newCompanyProfile = new CompanyProfile({ userId });
         await newCompanyProfile.save();
       } else {
-        return res.status(400).json({ error: 'Invalid user type.' });
+        return res.status(400).json({ error: 'Invalid user type33.' });
       }
   
       res.json({ message: 'User type and profile setup successful.' });

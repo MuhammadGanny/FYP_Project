@@ -10,7 +10,7 @@ const UserTypeSelection = ({ onSelectUserType }) => {
 
   const userId = Cookies.get('userId');
   const userToken = Cookies.get('token');
-  console.log(userId, userToken)
+//   console.log(userId, userToken)
 
   useEffect(() => {
     // If userId or userToken is not available, redirect to the login page
@@ -20,6 +20,12 @@ const UserTypeSelection = ({ onSelectUserType }) => {
   }, [userId, userToken, navigate]);
 
   const handleUserTypeSelection = async () => {
+
+    if (!userType) {
+    console.error('User type not selected.');
+    // Handle this case, e.g., show an error message to the user
+    return;
+  }
     try {
       const response = await axios.post(
         'http://localhost:5000/user/update-user-type',
@@ -30,7 +36,13 @@ const UserTypeSelection = ({ onSelectUserType }) => {
           },
         }
       );
-      onSelectUserType(userType);
+    //   onSelectUserType(userType);
+     // Check if onSelectUserType is a function before calling it
+     if (typeof onSelectUserType === 'function') {
+        onSelectUserType(userType);
+      } else {
+        console.error('onSelectUserType is not a function');
+      }
 
       // Display success message
       setSelectionMessage('User type selected successfully.');

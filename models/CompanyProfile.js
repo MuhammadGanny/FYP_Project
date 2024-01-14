@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const companyProfileSchema = new mongoose.Schema({
-  userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true },
+  userID: { type: String, ref: 'UserData'},
   companyName: String,
   description: String,
   products: [String],

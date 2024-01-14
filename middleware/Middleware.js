@@ -2,11 +2,22 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 const verifyToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized. Token not provided.' });
-    }
+//   try {
+//     const token = req.headers.authorization.split(' ')[1];
+//     if (!token) {
+//       return res.status(401).json({ error: 'Unauthorized. Token not provided.' });
+//     }
+
+    try {
+        const authorizationHeader = req.headers.authorization;
+
+        if (!authorizationHeader) {
+        return res.status(401).json({ error: 'Unauthorized. Token not provided.' });
+        }
+
+        const token = authorizationHeader.split(' ')[1];
+
+        // Rest of your code...
 
     try {
       const decodedToken = jwt.verify(token, 'your_secret_key');
