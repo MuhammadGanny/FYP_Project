@@ -2,229 +2,23 @@ import LOGO from "../Assets/logo.svg";
 import axios from "axios";
 import { useState } from "react";
 import React from "react";
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export default function Signin() {
   const [message, setMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const emailInput = e.target.email.value;
-  //   const passwordInput = e.target.password.value;
-
-  //   try {
-  //     const companyResponse = await axios.post(
-  //       "http://localhost:5000/company/login",
-  //       {
-  //         email: emailInput,
-  //         password: passwordInput,
-  //       }
-  //     );
-
-  //     const userResponse = await axios.post(
-  //       "http://localhost:5000/user/login",
-  //       {
-  //         email: emailInput,
-  //         password: passwordInput,
-  //       }
-  //     );
-
-  //     // Continue with the rest of your code...
-  //     // ...
-
-  //     if (userResponse.status === 200) {
-  //       console.log("User is signed in.");
-  //       setMessage("User is signed in.");
-  //       const token = response.data.token;
-  //       console.log("token:", token); 
-  //       localStorage.setItem('token', token);
-
-  //       const userId = response.data.userId; // Obtain the userId from the response
-  //       console.log("UserId:", userId); 
-  //       localStorage.setItem("userId", userId);
-  //       setErrorMessage("");
-  //       window.location.href = "/homepage";
-  //     }
-  //     if (companyResponse.status === 200) {
-  //       console.log("Company is signed in.");
-  //       setMessage("Company is signed in.");
-  //       setErrorMessage("");
-  //       window.location.href = "/#";
-  //     } else {
-  //       console.error("Login failed.");
-  //       setMessage("");
-
-  //       if (userResponse.status === 401 || companyResponse.status === 401) {
-  //         setErrorMessage("Incorrect Email & Password");
-  //       } else {
-  //         setErrorMessage(
-  //           "Login failed: " + userResponse.data.error ||
-  //             companyResponse.data.error
-  //         );
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error occurred:", error);
-  //     setMessage("");
-  //     setErrorMessage("Error occurred during login");
-  //   }
-  // };
-  
-  
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const emailInput = e.target.email.value;
-  //   const passwordInput = e.target.password.value;
-  
-  //    try {
-  //     const userResponse = await axios.post(
-  //       "http://localhost:5000/user/login",
-  //       {
-  //         email: emailInput,
-  //         password: passwordInput,
-  //       }
-  //     );
-  
-  //     if (userResponse.status === 200) {
-  //       console.log("User is signed in.");
-  //       setMessage("User is signed in.");
-  //       const token = userResponse.data.token;
-  //       console.log("token:", token); 
-  //       localStorage.setItem('token', token);
-  
-  //       const userId = userResponse.data.userId; // Obtain the userId from the response
-  //       console.log("UserId:", userId); 
-  //       localStorage.setItem("userId", userId);
-  //       setErrorMessage("");
-  //        window.location.href = "/homepage";
-  //       return; // Exit the function after successful user login
-  //     }
-  
-  //     const companyResponse = await axios.post(
-  //       "http://localhost:5000/company/login",
-  //       {
-  //         email: emailInput,
-  //         password: passwordInput,
-  //       }
-  //     );
-  
-  //     if (companyResponse.status === 200) {
-  //       console.log("Company is signed in.");
-  //       setMessage("Company is signed in.");
-  //       setErrorMessage("");
-  //       window.location.href = "/#";
-  //       return; // Exit the function after successful company login
-  //     }
-  
-  //     console.error("Login failed.");
-  //     setMessage("");
-  
-  //     if (userResponse.status === 401 || companyResponse.status === 401) {
-  //       setErrorMessage("Incorrect Email & Password");
-  //     } else {
-  //       setErrorMessage(
-  //         "Login failed: " + userResponse.data.error ||
-  //           companyResponse.data.error
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error occurred:", error);
-  //     setMessage("");
-  //     setErrorMessage("Error occurred during login");
-  //   }
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const emailInput = e.target.email.value;
-  //   const passwordInput = e.target.password.value;
-  
-    // try {
-    //   const [companyResponse, userResponse] = await Promise.all([
-    //     axios.post("http://localhost:5000/company/login", { email, password }),
-    //     axios.post("http://localhost:5000/user/login", { email, password }),
-    //   ]);
-    
-    //   if (companyResponse.status === 200) {
-    //     // Company login successful
-    //     // ...
-    //   } else if (userResponse.status === 200) {
-    //     // User login successful
-    //     // ...
-    //   } else {
-    //     if (companyResponse.status === 400) {
-    //       setErrorMessage(companyResponse.data.error); // Handle company validation errors
-    //     } else if (userResponse.status === 400) {
-    //       setErrorMessage(userResponse.data.error); // Handle user validation errors
-    //     } else if (companyResponse.status === 401 || userResponse.status === 401) {
-    //       setErrorMessage("Incorrect Email & Password");
-    //     } else {
-    //       setErrorMessage("Login failed: " + companyResponse.data.error || userResponse.data.error);
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.error("Error occurred:", error);
-    //   setErrorMessage("Error occurred during login");
-    // }
-    
-    // try {
-    //   const userResponse = await axios.post(
-    //     "http://localhost:5000/user/login",
-    //     {
-    //       email: emailInput,
-    //       password: passwordInput,
-    //     }
-    //   );
-  
-    //   if (userResponse.status === 200) {
-    //     console.log("User is signed in.");
-    //     setMessage("User is signed in.");
-    //     const token = userResponse.data.token;
-    //     console.log("token:", token); 
-    //     localStorage.setItem('token', token);
-  
-    //     const userId = userResponse.data.userId; // Obtain the userId from the response
-    //     console.log("UserId:", userId); 
-    //     localStorage.setItem("userId", userId);
-    //     setErrorMessage("");
-    //     window.location.href = "/homepage";
-    //     return; // Exit the function after successful user login
-    //   }
-  
-    //   if (userResponse.status === 401) {
-    //     const companyResponse = await axios.post(
-    //       "http://localhost:5000/company/login",
-    //       {
-    //         email: emailInput,
-    //         password: passwordInput,
-    //       }
-    //     );
-  
-    //     if (companyResponse.status === 200) {
-    //       console.log("Company is signed in.");
-    //       setMessage("Company is signed in.");
-    //       setErrorMessage("");
-    //       window.location.href = "/#";
-    //       return; // Exit the function after successful company login
-    //     }
-    //   }
-  
-    //   console.error("Login failed.");
-    //   setMessage("");
-    //   setErrorMessage("Incorrect Email & Password");
-    // } catch (error) {
-    //   console.error("Error occurred:", error);
-    //   setMessage("");
-    //   setErrorMessage("Error occurred during login");
-    // }
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+ 
     const handleSubmit = async (e) => {
       e.preventDefault();
       const emailInput = e.target.email.value;
       const passwordInput = e.target.password.value;
     
       try {
-        let userResponse, companyResponse;
-    
-        try {
+        let userResponse;
           userResponse = await axios.post(
             "http://localhost:5000/user/login",
             {
@@ -238,43 +32,19 @@ export default function Signin() {
             setMessage("User is signed in.");
             const token = userResponse.data.token;
             console.log("token:", token);
-            localStorage.setItem('token', token);
+            // localStorage.setItem('token', token);
     
-            const userId = userResponse.data.userId; // Obtain the userId from the response
-            console.log("UserId:", userId);
-            localStorage.setItem("userId", userId);
+            // const userId = userResponse.data.userId; // Obtain the userId from the response
+            // console.log("UserId:", userId);
+            console.log(userResponse)
+            // localStorage.setItem("userId", userId);
             setErrorMessage("");
-            window.location.href = "/homepage";
+            //window.location.href = "/homepage";
+            setTimeout(() => {
+              navigate('/homepage');// Use navigate
+            }, 3000);
             return; // Exit the function after successful user login
           }
-        } catch (userError) {
-          console.error("User login error:", userError);
-          // Handle specific error for user login if needed
-          throw userError; // Re-throw the error to continue to the next catch block
-        }
-    
-        try {
-          companyResponse = await axios.post(
-            "http://localhost:5000/company/login",
-            {
-              email: emailInput,
-              password: passwordInput,
-            }
-          );
-    
-          if (companyResponse.status === 200) {
-            console.log("Company is signed in.");
-            setMessage("Company is signed in.");
-            setErrorMessage("");
-            window.location.href = "/#";
-            return; // Exit the function after successful company login
-          }
-        } catch (companyError) {
-          console.error("Company login error:", companyError);
-          // Handle specific error for company login if needed
-          throw companyError; // Re-throw the error to continue to the next catch block
-        }
-    
         console.error("Login failed.");
         setMessage("");
     
@@ -375,18 +145,12 @@ export default function Signin() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not Registered?{" "}
-            <span className="font-semibold leading-6 flex mr-4 flex mt-4">
+            <span className="font-semibold leading-6 mr-4 flex mt-4">
               <a
-                href="/student/register"
-                className="flex mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                href="/register"
+                className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Register as Student
-              </a>
-              <a
-                href="/company/register"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Register as Company
+                Register Your Self First
               </a>
             </span>
           </p>
