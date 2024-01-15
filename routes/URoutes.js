@@ -1,7 +1,7 @@
 import express from 'express';
 import authController from '../controllers/Controller.js';
 import authMiddleware from '../middleware/Middleware.js';
-import User from '../models/User.js';
+import User from '../models/UserData.js';
 import StudentProfile from '../models/StudentProfile.js';
 import CompanyProfile from '../models/CompanyProfile.js'
 
@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.post('/update-user-type', authMiddleware.verifyToken,authController.updateUserType)
+//router.post('/update-user-type', authMiddleware.verifyToken,authController.updateUserType)
 //  async (req, res) => {
 //     try {
 //       const { userId, userType } = req.body;

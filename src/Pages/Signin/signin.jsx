@@ -41,7 +41,7 @@ export default function Signin() {
             setErrorMessage("");
             //window.location.href = "/homepage";
             setTimeout(() => {
-              navigate('/homepage');// Use navigate
+              navigate('/profile');// Use navigate
             }, 3000);
             return; // Exit the function after successful user login
           }
