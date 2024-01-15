@@ -1,24 +1,29 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const UserTypeSelection = ({ onSelectUserType }) => {
-  const [userType, setUserType] = useState('');
-  const [selectionMessage, setSelectionMessage] = useState('');
+  const [userType, setUserType] = useState("");
+  const [selectionMessage, setSelectionMessage] = useState("");
   const navigate = useNavigate();
 
+<<<<<<< Updated upstream
   const userId = Cookies.get('userId');
   const userToken = Cookies.get('token');
 //   console.log(userId, userToken)
+=======
+  const userId = Cookies.get("userId");
+  const userToken = Cookies.get("token");
+  console.log(userId, userToken);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     // If userId or userToken is not available, redirect to the login page
     if (!userId || !userToken) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [userId, userToken, navigate]);
-
   const handleUserTypeSelection = async () => {
 
     if (!userType) {
@@ -27,8 +32,9 @@ const UserTypeSelection = ({ onSelectUserType }) => {
     return;
   }
     try {
+      console.log("The user token is: ", userToken);
       const response = await axios.post(
-        'http://localhost:5000/user/update-user-type',
+        "http://localhost:5000/user/update-user-type",
         { userId, userType },
         {
           headers: {
@@ -36,6 +42,7 @@ const UserTypeSelection = ({ onSelectUserType }) => {
           },
         }
       );
+<<<<<<< Updated upstream
     //   onSelectUserType(userType);
      // Check if onSelectUserType is a function before calling it
      if (typeof onSelectUserType === 'function') {
@@ -43,19 +50,58 @@ const UserTypeSelection = ({ onSelectUserType }) => {
       } else {
         console.error('onSelectUserType is not a function');
       }
+=======
+      
+>>>>>>> Stashed changes
 
-      // Display success message
-      setSelectionMessage('User type selected successfully.');
+      // Check if the server responded with success
+      if (response.data && response.data.success === true) {
+        console.log("it comes here");
+        onSelectUserType(userType);
+        // Display success message
+        setSelectionMessage(response.data.message);
 
-      setTimeout(() => {
-        navigate('/profile-setup'); // Use navigate
-      }, 2000);
+        setTimeout(() => {
+          navigate("/profile-setup"); // Use navigate
+        }, 2000);
+      } else {
+        // Handle the case where the server did not respond with success
+        console.error("Failed to update user type:", response.data.message);
+        setSelectionMessage("Failed to select user type. Please try again.");
+      }
     } catch (error) {
       console.error(error);
       // Handle error
-      setSelectionMessage('Failed to select user type. Please try again.');
+      setSelectionMessage("Failed to select user type. Please try again.");
     }
   };
+
+  // const handleUserTypeSelection = async () => {
+  //   try {
+  //     console.log("The usertoken is: ", userToken);
+  //     const response = await axios.post(
+  //       "http://localhost:5000/user/update-user-type",
+  //       { userId, userType },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${userToken}`,
+  //         },
+  //       }
+  //     );
+  //     onSelectUserType(userType);
+
+  //     // Display success message
+  //     setSelectionMessage("User type selected successfully.");
+
+  //     setTimeout(() => {
+  //       navigate("/profile-setup"); // Use navigate
+  //     }, 2000);
+  //   } catch (error) {
+  //     console.error(error);
+  //     // Handle error
+  //     setSelectionMessage("Failed to select user type. Please try again.");
+  //   }
+  // };
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -65,8 +111,8 @@ const UserTypeSelection = ({ onSelectUserType }) => {
           <input
             type="radio"
             value="student"
-            checked={userType === 'student'}
-            onChange={() => setUserType('student')}
+            checked={userType === "student"}
+            onChange={() => setUserType("student")}
             className="mr-2"
           />
           Student
@@ -75,26 +121,28 @@ const UserTypeSelection = ({ onSelectUserType }) => {
           <input
             type="radio"
             value="company"
-            checked={userType === 'company'}
-            onChange={() => setUserType('company')}
+            checked={userType === "company"}
+            onChange={() => setUserType("company")}
             className="mr-2"
           />
           Company
         </label>
-        <button onClick={handleUserTypeSelection} className="w-full bg-blue-500 text-white p-2 rounded">
+        <button
+          onClick={handleUserTypeSelection}
+          className="w-full bg-blue-500 text-white p-2 rounded"
+        >
           Continue
         </button>
 
-        {selectionMessage && <p className="mt-4 text-green-500">{selectionMessage}</p>}
+        {selectionMessage && (
+          <p className="mt-4 text-green-500">{selectionMessage}</p>
+        )}
       </div>
     </div>
   );
 };
 
 export default UserTypeSelection;
-
-
-
 
 // import { useState, useEffect } from 'react';
 // import axios from 'axios';
@@ -179,10 +227,6 @@ export default UserTypeSelection;
 
 // export default UserTypeSelection;
 
-
-
-
-
 // import { useState } from 'react';
 // import axios from 'axios';
 // // import { useHistory } from 'react-router-dom';
@@ -205,11 +249,11 @@ export default UserTypeSelection;
 
 //       // Display success message
 //       setSelectionMessage('User type selected successfully.');
-         
+
 //       setTimeout(() => {
 //         navigate('/profile-setup'); // Use navigate
 //       }, 2000);
-    
+
 //     } catch (error) {
 //       console.error(error);
 //       // Handle error
@@ -252,9 +296,6 @@ export default UserTypeSelection;
 // };
 
 // export default UserTypeSelection;
-
-
-
 
 // // components/UserTypeSelection.jsx
 // import { useState } from 'react';
@@ -306,5 +347,3 @@ export default UserTypeSelection;
 // };
 
 // export default UserTypeSelection;
-
-
