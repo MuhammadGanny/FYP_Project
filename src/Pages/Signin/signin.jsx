@@ -26,14 +26,25 @@ export default function Signin() {
               password: passwordInput,
             }
           );
+         
+  
     
           if (userResponse.status === 200) {
             console.log("User is signed in.");
             setMessage("User is signed in.");
+            //const token = userResponse.data.token;
+            
+
             const token = userResponse.data.token;
-            console.log("token:", token);
-            // localStorage.setItem('token', token);
+            const userId = userResponse.data.userId;
+            const userType = userResponse.data.userType;
     
+            // Save token, userId, and userType in cookies
+            Cookies.set('token', token);
+            Cookies.set('userId', userId);
+            Cookies.set('userType', userType);
+            // localStorage.setItem('token', token);
+            console.log("token:", token);
             // const userId = userResponse.data.userId; // Obtain the userId from the response
             // console.log("UserId:", userId);
             console.log(userResponse)
@@ -48,12 +59,11 @@ export default function Signin() {
         console.error("Login failed.");
         setMessage("");
     
-        if (userResponse.status === 401 || companyResponse.status === 401) {
+        if (userResponse.status === 401) {
           setErrorMessage("Incorrect Email & Password");
         } else {
           setErrorMessage(
-            "Login failed: " + userResponse.data.error ||
-            companyResponse.data.error
+            "Login failed: " + userResponse.data.error 
           );
         }
       } catch (error) {
@@ -148,7 +158,9 @@ export default function Signin() {
             <span className="font-semibold leading-6 mr-4 flex mt-4">
               <a
                 href="/register"
-                className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className=" mr-4  justify-center rounded-md   text-sm font-semibold leading-6 text-whitetext-gray-500  hover:text-indigo-500 "
+                // className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              
               >
                 Register Your Self First
               </a>

@@ -4,25 +4,28 @@ import authMiddleware from '../middleware/Middleware.js';
 
 const router = express.Router();
 
-router.use(authMiddleware.verifyToken); // Middleware to verify JWT token
 
 router.post('/setup-profile', profileController.setupProfile);
 
 router.get('/profile', profileController.getProfile);
 
-router.put('/update-profile', async (req, res) => {
-  const { userId, updatedProfileData } = req.body;
+router.put('/update-profile',profileController.updateProfile)
 
-  try {
-    // Assuming there is a function in profileController to handle the profile update
-    await profileController.updateProfile(userId, updatedProfileData);
 
-    res.json({ message: 'Profile updated successfully.' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
-});
+router.use(authMiddleware.verifyToken); 
+// , async (req, res) => {
+//   const { userId, updatedProfileData } = req.body;
+
+//   try {
+//     // Assuming there is a function in profileController to handle the profile update
+//     await profileController.updateProfile(userId, updatedProfileData);
+
+//     res.json({ message: 'Profile updated successfully.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error.' });
+//   }
+// });
 
 export default router;
 

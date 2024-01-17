@@ -44,7 +44,14 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
     // Create a new user with the hashed password, generated userID, and userType
-    const newUser = new User({ email, password: hashedPassword, userType });
+    // const newUser = new User({ email, password: hashedPassword, userType });
+    const newUser = new UserData({
+      email,
+      password,
+      userType,
+      Cprofile: null,
+      Sprofile: null,
+    });
     await newUser.save();
 
     // Return the generated userID and userType to the client
