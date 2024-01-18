@@ -32,7 +32,7 @@ connectDB();
 //import db from './dbconnect'
 // const userRoutes = require('./routes/userRoutes');
 // const postRoutes = require('./routes/postRoutes')
-import userRoutes from "../FYP_Project/routes/userRoutes.js";
+// import userRoutes from "../FYP_Project/routes/userRoutes.js";
 import postRoutes from "../FYP_Project/routes/postRoutes.js";
 import companyRoutes from "../FYP_Project/routes/companyRoutes.js";
 import uroutes from "../FYP_Project/routes/URoutes.js"

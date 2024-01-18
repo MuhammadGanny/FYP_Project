@@ -8,12 +8,11 @@ import { useNavigate } from 'react-router-dom';
 export default function Register() {
   // const [userType, setUserType] = useState('university'); // Default to university
   const [formData, setFormData] = useState({
-   // name: "",
+   
     email: "",
     password: "",
     userType:"",
-    //phone: "",
-   // university: "",
+   
   });
 
   const [successMessage, setSuccessMessage] = useState("");

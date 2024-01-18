@@ -1,6 +1,6 @@
 import React from "react";
 
-// if i want to bring back the last old project for now i have commented 
+// if i want to bring back the last old project for now i have commented
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import profilebox from "./Pages/components/profilebox";
@@ -9,10 +9,10 @@ import Welcome from "./Pages/Welcome/welcomepage.jsx";
 import Signin from "./Pages/Signin/signin";
 import Profile from "./Pages/Profile/profile";
 import Register from "./Pages/Signin/register";
-import RegisterCompany from "./Pages/Signin/registercompany";
-// import Profileform from './Pages/Profile/Profileform'
+//import RegisterCompany from "./Pages/Signin/registercompany";
+import Profileform from "./Pages/Profile/Profileform";
 import ProjectPost from "./Pages/ProjectPost/posting";
-
+import Profilesetup from "./Pages/Profile/ProfileSetup";
 function App() {
   return (
     <Router>
@@ -21,10 +21,11 @@ function App() {
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="/company/register" element={<RegisterCompany />} /> */}
+          <Route path="/profilesetup" element={<Profilesetup />} />
 
-          {/* <Route path="/profileform" element={<Profileform />} /> */}
-          <Route path="/profile"
+          <Route path="/profileform" element={<Profileform />} />
+          <Route
+            path="/profile"
             element={
               <>
                 <Profile />
@@ -85,4 +86,3 @@ export default App;
 // };
 
 // export default App;
-
