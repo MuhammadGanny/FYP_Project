@@ -2,8 +2,8 @@ import LOGO from "../Assets/logo.svg";
 import axios from "axios";
 import { useState } from "react";
 import React from "react";
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Signin() {
   const [message, setMessage] = useState(null);
@@ -11,73 +11,60 @@ export default function Signin() {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   const navigate = useNavigate();
- 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const emailInput = e.target.email.value;
-      const passwordInput = e.target.password.value;
-    
-      try {
-        let userResponse;
-          userResponse = await axios.post(
-            "http://localhost:5000/user/login",
-            {
-              email: emailInput,
-              password: passwordInput,
-            }
-          );
-         
-  
-    
-          if (userResponse.status === 200) {
-            console.log("User is signed in.");
-            setMessage("User is signed in.");
-            //const token = userResponse.data.token;
-            
 
-            const token = userResponse.data.token;
-            const userId = userResponse.data.userId;
-            const userType = userResponse.data.userType;
-    
-            // Save token, userId, and userType in cookies
-            Cookies.set('token', token);
-            Cookies.set('userId', userId);
-            Cookies.set('userType', userType);
-            // localStorage.setItem('token', token);
-            console.log("token:", token);
-            // const userId = userResponse.data.userId; // Obtain the userId from the response
-            // console.log("UserId:", userId);
-            console.log(userResponse)
-            // localStorage.setItem("userId", userId);
-            setErrorMessage("");
-            //window.location.href = "/homepage";
-            setTimeout(() => {
-              navigate('/profile');// Use navigate
-            }, 3000);
-            return; // Exit the function after successful user login
-          }
-        console.error("Login failed.");
-        setMessage("");
-    
-        if (userResponse.status === 401) {
-          setErrorMessage("Incorrect Email & Password");
-        } else {
-          setErrorMessage(
-            "Login failed: " + userResponse.data.error 
-          );
-        }
-      } catch (error) {
-        console.error("General error occurred:", error);
-        setMessage("");
-        setErrorMessage("Error occurred during login");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const emailInput = e.target.email.value;
+    const passwordInput = e.target.password.value;
+
+    try {
+      let userResponse;
+      userResponse = await axios.post("http://localhost:5000/user/login", {
+        email: emailInput,
+        password: passwordInput,
+      });
+
+      if (userResponse.status === 200) {
+        console.log("User is signed in.");
+        setMessage("User is signed in.");
+        //const token = userResponse.data.token;
+
+        const token = userResponse.data.token;
+        const userId = userResponse.data.userId;
+        const userType = userResponse.data.userType;
+
+        // Save token, userId, and userType in cookies
+        Cookies.set("token", token);
+        Cookies.set("userId", userId);
+        Cookies.set("userType", userType);
+        // localStorage.setItem('token', token);
+        console.log("token:", token);
+        // const userId = userResponse.data.userId; // Obtain the userId from the response
+        // console.log("UserId:", userId);
+        console.log(userResponse);
+        // localStorage.setItem("userId", userId);
+        setErrorMessage("");
+        //window.location.href = "/homepage";
+        setTimeout(() => {
+          navigate("/homepage");
+          //navigate('/profile');// Use navigate
+        }, 3000);
+        return; // Exit the function after successful user login
       }
-    };
-    
-  
-  
-  
+      console.error("Login failed.");
+      setMessage("");
 
-
+      if (userResponse.status === 401) {
+        setErrorMessage("Incorrect Email & Password");
+      } else {
+        setErrorMessage("Login failed: " + userResponse.data.error);
+      }
+    } catch (error) {
+      console.error("General error occurred:", error);
+      setMessage("");
+      setErrorMessage("Error occurred during login");
+    }
+  };
 
   return (
     <>
@@ -160,7 +147,6 @@ export default function Signin() {
                 href="/register"
                 className=" mr-4  justify-center rounded-md   text-sm font-semibold leading-6 text-whitetext-gray-500  hover:text-indigo-500 "
                 // className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              
               >
                 Register Your Self First
               </a>
