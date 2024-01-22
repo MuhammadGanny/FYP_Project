@@ -2,27 +2,51 @@ import LOGO from "../Assets/logo.svg";
 import React, { useState } from "react";
 import axios from "axios";
 import { Select, Option } from "@material-tailwind/react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 //import { useState } from 'react';
 
 export default function Register() {
   // const [userType, setUserType] = useState('university'); // Default to university
   const [formData, setFormData] = useState({
-   
     email: "",
     password: "",
-    userType:"",
-   
+    userType: "",
   });
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const validatePassword = (password) => {
+    return password.length >= 8;
+  };
+  const validateUserType = (userType) => {
+    return !!userType; // Returns true if userType is not empty, false otherwise
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("formData:", formData);
+    if (!validateEmail(formData.email)) {
+      setErrorMessage(
+        "Invalid email format. Please enter a valid email address ending with .com."
+      );
+      return;
+    }
+    if (!validatePassword(formData.password)) {
+      setErrorMessage("Password must be at least 8 characters.");
+      return;
+    }
+    if (!validateUserType(formData.userType)) {
+      setErrorMessage("Please select a user type");
+      return;
+    } else {
+      setErrorMessage("");
+    }
 
     try {
       const response = await axios.post(
@@ -34,9 +58,9 @@ export default function Register() {
         console.log("Registration successful");
 
         //window.location.href = "/signin";
-        setTimeout(() => {
-          navigate('/signin');// Use navigate
-        }, 3000);
+        //setTimeout(() => {
+        navigate("/signin"); // Use navigate
+        //}, 500);
         setSuccessMessage("Registration successful");
         setErrorMessage("");
       } else {
@@ -52,11 +76,6 @@ export default function Register() {
     }
   };
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
-  //  // console.log("Form Datas:", formData);
-  // };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
@@ -64,21 +83,22 @@ export default function Register() {
       return { ...prevData, [name]: value };
     });
   };
-  
 
   const handleSelect = (selectedUsertype) => {
     // Check if usertype is not empty
     if (!selectedUsertype) {
-      console.error('Usertype cannot be empty');
+      console.error("Usertype cannot be empty");
       return;
     }
-  
+
     // Some other logic...
-  
+
     // Pass the selected value directly to handleInputChange
-    handleInputChange({ target: { name: 'userType', value: selectedUsertype } });
+    handleInputChange({
+      target: { name: "userType", value: selectedUsertype },
+    });
   };
-  
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

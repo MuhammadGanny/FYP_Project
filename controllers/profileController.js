@@ -1,181 +1,13 @@
 import StudentProfile from "../models/StudentProfile.js";
 import CompanyProfile from "../models/CompanyProfile.js";
 import UserData from "../models/UserData.js"; // Import UserData model
-import multer from "../middleware/multerSetup.js";
+import upload from "../middleware/multerSetup.js";
 
-// const storage = multer.memoryStorage();
-// const upload = multer({
-//   storage,
-//   limits: {
-//     fileSize: 1024 * 1024 * 5,
-//   },
-// }).single('profilePicture');
-
-// const setupProfile = async (req, res) => {
-//   try {
-//     const { userId, userType, profileData } = req.body;
-
-//     let profileModel;
-//     let userUpdateField;
-
-//     // Check the user type and save the profile accordingly
-//     if (userType === 'student') {
-//       profileModel = StudentProfile;
-//       userUpdateField = 'Sprofile';
-//     } else if (userType === 'company') {
-//       profileModel = CompanyProfile;
-//       userUpdateField = 'Cprofile';
-//     } else {
-//       return res.status(400).json({ error: 'Invalid user type.' });
-//     }
-
-//     // Create a new profile
-//     const newProfile = new profileModel({ userID: userId, ...profileData });
-//     await newProfile.save();
-
-//     // Update UserData with the new profile ID
-//     const updateQuery = { [userUpdateField]: newProfile._id };
-//     const updatedUser = await UserData.findByIdAndUpdate(userId, updateQuery, { new: true });
-
-//     // Return success message and updated user data
-//     res.status(201).json({ message: 'Profile setup successful.', user: updatedUser });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal server error.' });
-//   }
-// };
-
-//profile picture is must
-// const setupProfile = async (req, res) => {
-//   try {
-//     const { userId, userType, profileData } = req.body;
-
-//     let profileModel;
-//     let userUpdateField;
-
-//     // Check the user type and save the profile accordingly
-//     if (userType === 'student') {
-//       profileModel = StudentProfile;
-//       userUpdateField = 'Sprofile';
-//     } else if (userType === 'company') {
-//       profileModel = CompanyProfile;
-//       userUpdateField = 'Cprofile';
-//     } else {
-//       return res.status(400).json({ error: `Invalid user type: ${userType}. Supported types are 'student' and 'company'.` });
-//       // return res.status(400).json({ error: 'Invalid user type.' });
-//     }
-
-//      // Check if a file is uploaded
-//      multer(req, res, async (err) => {
-//       if (err) {
-//         console.error(err);
-
-//         // Handle file upload error
-//         if (err instanceof multer.MulterError) {
-//           return res.status(400).json({ error: 'File upload error.' });
-//         }
-
-//         return res.status(500).json({ error: 'Internal server error.' });
-//       }
-
-//       // Get the uploaded file data
-//       const file = req.file;
-
-//       // Check if a file is uploaded
-//       if (!file) {
-//         return res.status(400).json({ error: 'No file uploaded.' });
-//       }
-
-//       // Create a new profile with profile picture
-//       const newProfile = new profileModel({ userID: userId, profilePicture: file.buffer, ...profileData });
-//       await newProfile.save();
-
-//       // Update UserData with the new profile ID and profile picture
-//       const updateQuery = { [userUpdateField]: newProfile._id, profilePicture: file.buffer };
-//       const updatedUser = await UserData.findByIdAndUpdate(userId, updateQuery, { new: true });
-
-//       console.log('Setup Profile Data:', {
-//         userId,
-//         userType,
-//         profileData,
-//         newProfile,
-//         updatedUser,
-//       });
-
-//       // Return success message and updated user data
-//       res.status(201).json({ message: 'Profile setup successful.', user: updatedUser });
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal server error.' });
-//   }
-// };
-
-//no data is needed jo bhimile us se bana lega
-// const setupProfile = async (req, res) => {
-//   try {
-//     const { userId, userType, profileData } = req.body;
-
-//     let profileModel;
-//     let userUpdateField;
-
-//     // Check the user type and save the profile accordingly
-//     if (userType === 'student') {
-//       profileModel = StudentProfile;
-//       userUpdateField = 'Sprofile';
-//     } else if (userType === 'company') {
-//       profileModel = CompanyProfile;
-//       userUpdateField = 'Cprofile';
-//     } else {
-//       return res.status(400).json({ error: `Invalid user type: ${userType}. Supported types are 'student' and 'company'.` });
-//     }
-
-//     // Check if a file is uploaded
-//     multer(req, res, async (err) => {
-//       if (err) {
-//         console.error(err);
-
-//         // Handle file upload error
-//         if (err instanceof multer.MulterError) {
-//           return res.status(400).json({ error: 'File upload error.' });
-//         }
-
-//         return res.status(500).json({ error: 'Internal server error.' });
-//       }
-
-//       // Get the uploaded file data
-//       const file = req.file;
-
-//       // If no profileData is provided, create an empty object
-//       const profileDataToSave = profileData || {};
-
-//       // Create a new profile with profile picture
-//       const newProfile = new profileModel({ userID: userId, profilePicture: file.buffer, ...profileDataToSave });
-//       await newProfile.save();
-
-//       // Update UserData with the new profile ID and profile picture
-//       const updateQuery = { [userUpdateField]: newProfile._id, profilePicture: file.buffer };
-//       const updatedUser = await UserData.findByIdAndUpdate(userId, updateQuery, { new: true });
-
-//       console.log('Setup Profile Data:', {
-//         userId,
-//         userType,
-//         profileData,
-//         newProfile,
-//         updatedUser,
-//       });
-
-//       // Return success message and updated user data
-//       res.status(201).json({ message: 'Profile setup successful.', user: updatedUser });
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal server error.' });
-//   }
-// };
 const setupProfile = async (req, res) => {
   try {
     const { userId, userType, profileData } = req.body;
+    console.log("Profile Data:", profileData);
+    const parsedProfileData = JSON.parse(profileData);
 
     let profileModel;
     let userUpdateField;
@@ -194,7 +26,7 @@ const setupProfile = async (req, res) => {
     }
 
     // Check if a file is uploaded
-    multer(req, res, async (err) => {
+    upload(req, res, async (err) => {
       if (err) {
         console.error(err);
 
@@ -206,23 +38,56 @@ const setupProfile = async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
       }
 
+      //console.log(req.file);
       // Get the uploaded file data
       const file = req.file;
 
       // Create a new profile with or without profile picture
-      const newProfile = new profileModel({ userID: userId, ...profileData });
+      //const newProfile = new profileModel({ userID: userId, ...profileData });
+      // Parse the profileData string
+      const parsedProfileData = JSON.parse(profileData);
+
+      const newProfile = new profileModel({
+        userID: userId,
+        ...(userType === "student"
+          ? {
+              name: parsedProfileData.name,
+              university: parsedProfileData.university,
+              bio: parsedProfileData.bio,
+              projects: parsedProfileData.projects,
+              skills: parsedProfileData.skills,
+              experiences: parsedProfileData.experiences,
+              education: parsedProfileData.education,
+            }
+          : userType === "company"
+          ? {
+              companyName: parsedProfileData.companyName,
+              description: parsedProfileData.description,
+              products: parsedProfileData.products,
+              services: parsedProfileData.services,
+            }
+          : {}),
+      });
 
       // If a file is uploaded, set the profile picture
       if (file) {
-        newProfile.profilePicture = file.buffer;
+        // newProfile.profilePicture = file.buffer;
+        newProfile.profilePicture = file.path;
       }
 
       await newProfile.save();
 
+      // If a file is uploaded, set the profile picture
+      // if (file) {
+      //   newProfile.profilePicture = file.buffer;
+      // }
+
+      // await newProfile.save();
+
       // Update UserData with the new profile ID and profile picture
       const updateQuery = {
         [userUpdateField]: newProfile._id,
-        profilePicture: file?.buffer,
+        // profilePicture: file?.buffer,
       };
       const updatedUser = await UserData.findByIdAndUpdate(
         userId,
@@ -233,7 +98,7 @@ const setupProfile = async (req, res) => {
       console.log("Setup Profile Data:", {
         userId,
         userType,
-        profileData,
+        profileData: parsedProfileData,
         newProfile,
         updatedUser,
       });
@@ -283,18 +148,18 @@ const getProfile = async (req, res) => {
       return res.status(404).json({ error: "Profile not found." });
     }
 
-    const updatedProfile = await profileModel.findById(profileId);
+    const userProfile = await profileModel.findById(profileId);
     // const updatedProfile = await profileModel.findOne(
     //   { _id: profileId }
     //   // { $set: updatedProfileData},
     //   // { new: true }
     // );
 
-    if (!updatedProfile) {
+    if (!userProfile) {
       return res.status(404).json({ error: "Profile not found." });
     }
 
-    return res.status(200).json({ updatedProfile });
+    return res.status(200).json({ userProfile });
 
     // Return the user profile
     // res.json({ userProfile });
@@ -304,7 +169,6 @@ const getProfile = async (req, res) => {
   }
 };
 
-// const getProfile = async (req, res) => {
 //   try {
 //     const { userId, userType } = req.body;
 
@@ -522,7 +386,6 @@ const updateProfile = async (req, res) => {
 
 export default { setupProfile, getProfile, updateProfile };
 
-// const setupProfile = async (req, res) => {
 //   try {
 //     const { userId, userType, profileData } = req.body;
 

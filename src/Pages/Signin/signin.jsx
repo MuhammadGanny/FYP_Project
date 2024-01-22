@@ -11,11 +11,29 @@ export default function Signin() {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  // const validatePassword = (password) => {
+  //   return password.length >= 8;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailInput = e.target.email.value;
     const passwordInput = e.target.password.value;
+
+    if (!validateEmail(emailInput)) {
+      setErrorMessage(
+        "Invalid email format. Please enter a valid email address ending with .com."
+      );
+      return;
+    }
+    // if (!validatePassword(passwordInput)) {
+    //   setErrorMessage("Password must be at least 8 characters.");
+    //   return;
+    // }
 
     try {
       let userResponse;
@@ -45,16 +63,19 @@ export default function Signin() {
         // localStorage.setItem("userId", userId);
         setErrorMessage("");
         //window.location.href = "/homepage";
-        setTimeout(() => {
-          navigate("/homepage");
-          //navigate('/profile');// Use navigate
-        }, 3000);
+        //setTimeout(() => {
+        navigate("/homepage");
+        //navigate('/profile');// Use navigate
+        // }, 500);
         return; // Exit the function after successful user login
       }
       console.error("Login failed.");
       setMessage("");
 
-      if (userResponse.status === 401) {
+      if (
+        userResponse.status === 401 &&
+        userResponse.data.error === "Invalid credentials."
+      ) {
         setErrorMessage("Incorrect Email & Password");
       } else {
         setErrorMessage("Login failed: " + userResponse.data.error);
@@ -142,15 +163,15 @@ export default function Signin() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not Registered?{" "}
-            <span className="font-semibold leading-6 mr-4 flex mt-4">
-              <a
-                href="/register"
-                className=" mr-4  justify-center rounded-md   text-sm font-semibold leading-6 text-whitetext-gray-500  hover:text-indigo-500 "
-                // className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Register Your Self First
-              </a>
-            </span>
+            {/* <span className="font-semibold leading-6 mr-6 flex mt-4"> */}
+            <a
+              href="/register"
+              className="mr-4   justify-center rounded-md   text-sm font-semibold leading-6 text-whitetext-gray-500  hover:text-indigo-500 "
+              // className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Register Your Self First
+            </a>
+            {/* </span> */}
           </p>
         </div>
       </div>
