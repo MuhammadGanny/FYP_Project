@@ -47,7 +47,7 @@ export default function Posting() {
   };
 
   return (
-    <div>
+    <div className="bg-[#DEE4EA] ">
       <Header />
       <div className="m-12">
         <Card className="w-[60%] ml-[20%]">

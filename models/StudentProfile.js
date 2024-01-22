@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const studentProfileSchema = new mongoose.Schema({
   name: String,
@@ -7,10 +7,10 @@ const studentProfileSchema = new mongoose.Schema({
   projects: [String],
   skills: [String],
   experiences: [String],
-  education: String,
+  education: [String],
   profilePicture: String,
 });
 
-const StudentProfile = mongoose.model('StudentProfile', studentProfileSchema);
+const StudentProfile = mongoose.model("StudentProfile", studentProfileSchema);
 
 export default StudentProfile;

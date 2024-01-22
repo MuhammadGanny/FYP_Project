@@ -1,443 +1,21 @@
-// // components/ProfileSetup.jsx
-// import { useState } from 'react';
-// import axios from 'axios';
-
-// const ProfileSetup = ({ userId, userType, onProfileSetup }) => {
-//   const [profileData, setProfileData] = useState({
-//     // Initialize with default values or fetched values if needed
-//   });
-
-//   const handleProfileSetup = async () => {
-//     try {
-//       await axios.post('http://your-api/profile-setup', { userId, userType, profileData });
-//       onProfileSetup(userId, userType, profileData);
-//     } catch (error) {
-//       console.error(error);
-//       // Handle error
-//     }
-//   };
-//   return (
-//     <div className="flex items-center justify-center h-screen">
-//       <div className="w-96">
-//         <h1 className="text-3xl mb-4">Profile Setup</h1>
-//         {/* Render profile setup form based on user type */}
-//         {userType === 'student' && (
-//           // Example: Student profile setup form
-//           <div>
-//             <label className="block mb-2">
-//               Name:
-//               <input
-//                 type="text"
-//                 value={profileData.name || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             {/* ... other fields */}
-//           </div>
-//         )}
-//         {userType === 'company' && (
-//           // Example: Company profile setup form
-//           <div>
-//             <label className="block mb-2">
-//               Company Name:
-//               <input
-//                 type="text"
-//                 value={profileData.companyName || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, companyName: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             {/* ... other fields */}
-//           </div>
-//         )}
-//         <button onClick={handleProfileSetup} className="w-full bg-blue-500 text-white p-2 rounded">
-//           Complete Profile Setup
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfileSetup;
-
-// components/ProfileSetup.jsx
-// import { useState } from 'react';
-// import axios from 'axios';
-
-// const ProfileSetup = ({ userId, userType, onProfileSetup }) => {
-//   const [profileData, setProfileData] = useState({
-//     // Initialize with default values or fetched values if needed
-//     name: '',
-//     university: '', // Additional field for student profile
-//     bio: '', // Additional field for student profile
-//     projects: [], // Additional field for student profile
-//     skills: [], // Additional field for student profile
-//     experiences: [], // Additional field for student profile
-//     education: '', // Additional field for student profile
-//     companyName: '', // Additional field for company profile
-//     description: '', // Additional field for company profile
-//     products: [], // Additional field for company profile
-//     services: [], // Additional field for company profile
-//     profilePicture: '', // Additional field for both student and company profiles
-//   });
-
-//   const handleProfileSetup = async () => {
-//     try {
-//       await axios.post('http://localhost:5000/profile/profile-setup', { userId, userType, profileData });
-//       onProfileSetup(userId, userType, profileData);
-//     } catch (error) {
-//       console.error(error);
-//       // Handle error
-//     }
-//   };
-
-//   return (
-//     <div className="flex items-center justify-center h-screen">
-//       <div className="w-96">
-//         <h1 className="text-3xl mb-4">Profile Setup</h1>
-//         {/* Render profile setup form based on user type */}
-//         {userType === 'student' && (
-//           // Example: Student profile setup form
-//           <div>
-//             <label className="block mb-2">
-//               Name:
-//               <input
-//                 type="text"
-//                 value={profileData.name || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             <label className="block mb-2">
-//               University:
-//               <input
-//                 type="text"
-//                 value={profileData.university || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, university: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             <label className="block mb-2">
-//               Bio:
-//               <textarea
-//                 value={profileData.bio || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             {/* ... other fields specific to student profile */}
-//           </div>
-//         )}
-//         {userType === 'company' && (
-//           // Example: Company profile setup form
-//           <div>
-//             <label className="block mb-2">
-//               Company Name:
-//               <input
-//                 type="text"
-//                 value={profileData.companyName || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, companyName: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             <label className="block mb-2">
-//               Description:
-//               <textarea
-//                 value={profileData.description || ''}
-//                 onChange={(e) => setProfileData({ ...profileData, description: e.target.value })}
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             {/* ... other fields specific to company profile */}
-//           </div>
-//         )}
-//         <label className="block mb-2">
-//           Profile Picture URL:
-//           <input
-//             type="text"
-//             value={profileData.profilePicture || ''}
-//             onChange={(e) => setProfileData({ ...profileData, profilePicture: e.target.value })}
-//             className="w-full border border-gray-300 rounded p-2 mb-2"
-//           />
-//         </label>
-//         <button onClick={handleProfileSetup} className="w-full bg-blue-500 text-white p-2 rounded">
-//           Complete Profile Setup
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfileSetup;
-
-// components/ProfileSetup.jsx
-// import { useState } from "react";
-// import axios from "axios";
-// import { Button } from "@material-tailwind/react";
-// import Header from "../components/header";
-
-// const ProfileSetup = ({ userId, userType, onProfileSetup }) => {
-//   const [profileData, setProfileData] = useState({
-//     name: "",
-//     university: "", // Additional field for student profile
-//     bio: "", // Additional field for student profile
-//     projects: [], // Additional field for student profile
-//     skills: [], // Additional field for student profile
-//     experiences: [], // Additional field for student profile
-//     education: "", // Additional field for student profile
-//     companyName: "", // Additional field for company profile
-//     description: "", // Additional field for company profile
-//     products: [], // Additional field for company profile
-//     services: [], // Additional field for company profile
-//     profilePicture: "", // Additional field for both student and company profiles
-//   });
-
-//   const handleProfileSetup = async () => {
-//     try {
-//       await axios.post("http://localhost:5000/profile/setup-profile", {
-//         userId,
-//         userType,
-//         profileData,
-//       });
-//       onProfileSetup(userId, userType, profileData);
-//     } catch (error) {
-//       console.error(error);
-//       // Handle error
-//     }
-//   };
-
-//   return (
-//     <>
-//       <Header />
-//       <div className="flex items-center justify-center h-screen">
-//         <div className="w-96">
-//           <h1 className="text-3xl mb-4">Profile Setup</h1>
-//           {/* Render profile setup form based on user type */}
-//           {/* {(userType === 'student' || userType === 'company') && ( */}
-//           <div>
-//             {/* {userType === 'student' && ( */}
-//             // Student profile setup form
-//             <div>
-//               <label className="block mb-2">
-//                 Name:
-//                 <input
-//                   type="text"
-//                   value={profileData.name || ""}
-//                   onChange={(e) =>
-//                     setProfileData({ ...profileData, name: e.target.value })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//               <label className="block mb-2">
-//                 University:
-//                 <input
-//                   type="text"
-//                   value={profileData.university || ""}
-//                   onChange={(e) =>
-//                     setProfileData({
-//                       ...profileData,
-//                       university: e.target.value,
-//                     })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//               <label className="block mb-2">
-//                 Bio:
-//                 <textarea
-//                   value={profileData.bio || ""}
-//                   onChange={(e) =>
-//                     setProfileData({ ...profileData, bio: e.target.value })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//               <label className="block mb-2">
-//                 Projects (comma-separated):
-//                 <input
-//                   type="text"
-//                   value={profileData.projects.join(", ") || ""}
-//                   onChange={(e) =>
-//                     setProfileData({
-//                       ...profileData,
-//                       projects: e.target.value.split(",").map((s) => s.trim()),
-//                     })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//               <label className="block mb-2">
-//                 Skills (comma-separated):
-//                 <input
-//                   type="text"
-//                   value={profileData.skills.join(", ") || ""}
-//                   onChange={(e) =>
-//                     setProfileData({
-//                       ...profileData,
-//                       skills: e.target.value.split(",").map((s) => s.trim()),
-//                     })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//               <label className="block mb-2">
-//                 Experiences (comma-separated):
-//                 <input
-//                   type="text"
-//                   value={profileData.experiences.join(", ") || ""}
-//                   onChange={(e) =>
-//                     setProfileData({
-//                       ...profileData,
-//                       experiences: e.target.value
-//                         .split(",")
-//                         .map((s) => s.trim()),
-//                     })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//               <label className="block mb-2">
-//                 Education:
-//                 <input
-//                   type="text"
-//                   value={profileData.education || ""}
-//                   onChange={(e) =>
-//                     setProfileData({
-//                       ...profileData,
-//                       education: e.target.value,
-//                     })
-//                   }
-//                   className="w-full border border-gray-300 rounded p-2 mb-2"
-//                 />
-//               </label>
-//             </div>
-//             {/* )} */}
-//             {/* {userType === 'company' && ( */}
-//             // Company profile setup form
-//             {/* <div>
-//             <label className="block mb-2">
-//               Company Name:
-//               <input
-//                 type="text"
-//                 value={profileData.companyName || ""}
-//                 onChange={(e) =>
-//                   setProfileData({
-//                     ...profileData,
-//                     companyName: e.target.value,
-//                   })
-//                 }
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             <label className="block mb-2">
-//               Description:
-//               <textarea
-//                 value={profileData.description || ""}
-//                 onChange={(e) =>
-//                   setProfileData({
-//                     ...profileData,
-//                     description: e.target.value,
-//                   })
-//                 }
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             <label className="block mb-2">
-//               Products (comma-separated):
-//               <input
-//                 type="text"
-//                 value={profileData.products.join(", ") || ""}
-//                 onChange={(e) =>
-//                   setProfileData({
-//                     ...profileData,
-//                     products: e.target.value.split(",").map((s) => s.trim()),
-//                   })
-//                 }
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//             <label className="block mb-2">
-//               Services (comma-separated):
-//               <input
-//                 type="text"
-//                 value={profileData.services.join(", ") || ""}
-//                 onChange={(e) =>
-//                   setProfileData({
-//                     ...profileData,
-//                     services: e.target.value.split(",").map((s) => s.trim()),
-//                   })
-//                 }
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//           </div> */}
-//             {/* )} */}
-//             <label className="block mb-2">
-//               Profile Picture URL:
-//               <input
-//                 id="file-upload"
-//                 name="file-upload"
-//                 type="file"
-//                 value={profileData.profilePicture || ""}
-//                 onChange={(e) =>
-//                   setProfileData({
-//                     ...profileData,
-//                     profilePicture: e.target.value,
-//                   })
-//                 }
-//                 className="w-full border border-gray-300 rounded p-2 mb-2"
-//               />
-//             </label>
-//           </div>
-//           {/* )} */}
-//           <button
-//             onClick={handleProfileSetup}
-//             className="w-full bg-blue-500 text-white p-2 rounded"
-//           >
-//             Complete Profile Setup
-//           </button>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ProfileSetup;
-
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
-import { Button } from "@material-tailwind/react";
 import Header from "../components/header";
 import Cookies from "js-cookie";
 
-// const ProfileSetup = ({ userId, userType, onProfileSetup, token }) => {
-//   const [profileData, setProfileData] = useState({
-//     name: "",
-//     university: "",
-//     bio: "",
-//     projects: [],
-//     skills: [],
-//     experiences: [],
-//     education: "",
-//     companyName: "",
-//     description: "",
-//     products: [],
-//     services: [],
-//     profilePicture: "",
-//   });
-// const ProfileSetup = ({ onProfileSetup }) => {
 export default function ProfileSetup() {
-  const [profileData, setProfileData] = useState({
+  const [studentProfileData, setStudentProfileData] = useState({
     name: "",
     university: "",
     bio: "",
     projects: [],
     skills: [],
     experiences: [],
-    education: "",
+    education: [],
+    profilePicture: "",
+  });
+
+  const [companyProfileData, setCompanyProfileData] = useState({
     companyName: "",
     description: "",
     products: [],
@@ -448,6 +26,7 @@ export default function ProfileSetup() {
   const [userType, setUserType] = useState("");
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
+
   useEffect(() => {
     // Retrieve user type and token from cookies
     const userIdFromCookie = Cookies.get("userId");
@@ -463,7 +42,7 @@ export default function ProfileSetup() {
       console.log("User Type:", userTypeFromCookie);
       console.log("Token:", tokenFromCookie);
     } else {
-      // Handle case where userType or token is not available
+      console.log("ID type and Token Not avauilable in cookies ");
     }
   }, []);
 
@@ -472,13 +51,29 @@ export default function ProfileSetup() {
       const formData = new FormData();
       formData.append("userId", userId);
       formData.append("userType", userType);
-      formData.append("profileData", JSON.stringify(profileData));
 
-      // Append the profile picture file
-      formData.append(
-        "profilePicture",
-        document.getElementById("file-upload").files[0]
-      );
+      if (userType === "student") {
+        formData.append("profileData", JSON.stringify(studentProfileData));
+        formData.append(
+          "profilePicture",
+          studentProfileData.profilePicture
+          //profilePicture
+          //document.getElementById("file-upload").files[0]
+        );
+      } else if (userType === "company") {
+        formData.append("profileData", JSON.stringify(companyProfileData));
+        formData.append(
+          "profilePicture",
+          document.getElementById("file-upload").files[0]
+        );
+      }
+
+      // formData.append(
+      //   "profilePicture",
+      //   document.getElementById("file-upload").files[0]
+      // );
+
+      console.log(formData);
 
       await axios.post(
         "http://localhost:5000/profile/setup-profile",
@@ -486,36 +81,99 @@ export default function ProfileSetup() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // Set the content type
+            "Content-Type": "application/json",
           },
         }
       );
       // onProfileSetup(userId, userType, profileData);
     } catch (error) {
       console.error(error);
-      // Handle error
+      //console.error(error);
+      //res.status(500).json({ error: "Internal server error." });
     }
   };
+
   // const handleProfileSetup = async () => {
   //   try {
+  //     const formData = new FormData();
+  //     formData.append("userId", userId);
+  //     formData.append("userType", userType);
+
+  //     if (userType === "student") {
+  //       // Add student profile data to the form data
+  //       formData.append("profileData", JSON.stringify(studentProfileData));
+
+  //       // Get the file input element
+  //       const fileInput = document.getElementById("file-upload");
+
+  //       // Check if a file is selected
+  //       if (fileInput.files.length > 0) {
+  //         // Append the file to the form data
+  //         formData.append(
+  //           "profilePicture",
+  //           document.getElementById("file-upload")
+  //         );
+  //       }
+  //     } else if (userType === "company") {
+  //       // Add company profile data to the form data
+  //       formData.append("profileData", JSON.stringify(companyProfileData));
+
+  //       // Get the file input element
+  //       const fileInput = document.getElementById("file-upload");
+
+  //       // Check if a file is selected
+  //       if (fileInput.files.length > 0) {
+  //         // Append the file to the form data
+  //         formData.append("profilePicture", fileInput.files[0]);
+  //       }
+  //     }
+
+  //     // Make the API call to save the profile
   //     await axios.post(
   //       "http://localhost:5000/profile/setup-profile",
-  //       { userId, userType, profileData },
-  //       { headers: { Authorization: `Bearer ${token}` } }
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "multipart/form-data", // Update content type to multipart/form-data
+  //         },
+  //       }
   //     );
-  //     // onProfileSetup(userId, userType, profileData);
+
+  //     // Optionally, you can clear the form fields after successful upload
+  //     setStudentProfileData({
+  //       name: "",
+  //       university: "",
+  //       bio: "",
+  //       projects: [],
+  //       skills: [],
+  //       experiences: [],
+  //       education: [],
+  //       profilePicture: "",
+  //     });
+
+  //     setCompanyProfileData({
+  //       companyName: "",
+  //       description: "",
+  //       products: [],
+  //       services: [],
+  //       profilePicture: "",
+  //     });
+
+  //     // Optionally, you can redirect the user or show a success message
+  //     console.log("Profile setup successful!");
   //   } catch (error) {
   //     console.error(error);
-  //     // Handle error
+  //     // Handle errors (e.g., show an error message to the user)
   //   }
   // };
 
   return (
     <>
       <Header />
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-96">
-          <h1 className="text-3xl mb-4">Profile Setup</h1>
+      <div className="flex items-center justify-center h-full bg-gray-100">
+        <div className="w-100 mt-1 p-6 bg-white  rounded-md shadow-md">
+          <h1 className="text-3xl mb-4">Profile Setup </h1>
           <div>
             {userType === "student" && (
               <div>
@@ -523,9 +181,13 @@ export default function ProfileSetup() {
                   Name:
                   <input
                     type="text"
-                    value={profileData.name || ""}
+                    name="name"
+                    value={studentProfileData.name || ""}
                     onChange={(e) =>
-                      setProfileData({ ...profileData, name: e.target.value })
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        name: e.target.value,
+                      })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
@@ -534,10 +196,11 @@ export default function ProfileSetup() {
                   University:
                   <input
                     type="text"
-                    value={profileData.university || ""}
+                    name="university"
+                    value={studentProfileData.university || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
+                      setStudentProfileData({
+                        ...studentProfileData,
                         university: e.target.value,
                       })
                     }
@@ -546,25 +209,29 @@ export default function ProfileSetup() {
                 </label>
                 <label className="block mb-2">
                   Bio:
-                  <textarea
-                    value={profileData.bio || ""}
+                  <input
+                    value={studentProfileData.bio || ""}
+                    name="bio"
                     onChange={(e) =>
-                      setProfileData({ ...profileData, bio: e.target.value })
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        bio: e.target.value,
+                      })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
                 <label className="block mb-2">
                   Projects (comma-separated):
-                  <input
+                  <textarea
                     type="text"
-                    value={profileData.projects.join(", ") || ""}
+                    name="projects"
+                    value={studentProfileData.projects.join(", ") || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        projects: e.target.value
-                          .split(",")
-                          .map((s) => s.trim()),
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        projects: e.target.value.split(","),
+                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -574,11 +241,13 @@ export default function ProfileSetup() {
                   Skills (comma-separated):
                   <input
                     type="text"
-                    value={profileData.skills.join(", ") || ""}
+                    name="skills"
+                    value={studentProfileData.skills.join(", ") || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        skills: e.target.value.split(",").map((s) => s.trim()),
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        skills: e.target.value.split(","),
+                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -586,15 +255,16 @@ export default function ProfileSetup() {
                 </label>
                 <label className="block mb-2">
                   Experiences (comma-separated):
-                  <input
+                  <textarea
                     type="text"
-                    value={profileData.experiences.join(", ") || ""}
+                    name="experiences"
+                    value={studentProfileData.experiences.join(", ") || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        experiences: e.target.value
-                          .split(",")
-                          .map((s) => s.trim()),
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        experiences: e.target.value.split(","),
+
+                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -602,13 +272,30 @@ export default function ProfileSetup() {
                 </label>
                 <label className="block mb-2">
                   Education:
-                  <input
+                  <textarea
                     type="text"
-                    value={profileData.education || ""}
+                    name="education"
+                    value={studentProfileData.education || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        education: e.target.value,
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        education: e.target.value.split(","),
+                      })
+                    }
+                    className="w-full border border-gray-300 rounded p-2 mb-2"
+                  />
+                </label>
+                <label className="block mb-2">
+                  Profile Picture URL:
+                  <input
+                    id="file-upload"
+                    name="profilePicture"
+                    type="file"
+                    value={studentProfileData.profilePicture || ""}
+                    onChange={(e) =>
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        profilePicture: e.target.files[0],
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -622,10 +309,10 @@ export default function ProfileSetup() {
                   Company Name:
                   <input
                     type="text"
-                    value={profileData.companyName || ""}
+                    value={companyProfileData.companyName || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
+                      setCompanyProfileData({
+                        ...companyProfileData,
                         companyName: e.target.value,
                       })
                     }
@@ -635,10 +322,10 @@ export default function ProfileSetup() {
                 <label className="block mb-2">
                   Description:
                   <textarea
-                    value={profileData.description || ""}
+                    value={companyProfileData.description || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
+                      setCompanyProfileData({
+                        ...companyProfileData,
                         description: e.target.value,
                       })
                     }
@@ -647,15 +334,14 @@ export default function ProfileSetup() {
                 </label>
                 <label className="block mb-2">
                   Products (comma-separated):
-                  <input
+                  <textarea
                     type="text"
-                    value={profileData.products.join(", ") || ""}
+                    value={companyProfileData.products.join(", ") || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        products: e.target.value
-                          .split(",")
-                          .map((s) => s.trim()),
+                      setCompanyProfileData({
+                        ...companyProfileData,
+                        products: e.target.value.split(","),
+                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -663,15 +349,30 @@ export default function ProfileSetup() {
                 </label>
                 <label className="block mb-2">
                   Services (comma-separated):
-                  <input
+                  <textarea
                     type="text"
-                    value={profileData.services.join(", ") || ""}
+                    value={companyProfileData.services.join(", ") || ""}
                     onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        services: e.target.value
-                          .split(",")
-                          .map((s) => s.trim()),
+                      setCompanyProfileData({
+                        ...companyProfileData,
+                        services: e.target.value.split(","),
+                        // .map((s) => s.trim()),
+                      })
+                    }
+                    className="w-full border border-gray-300 rounded p-2 mb-2"
+                  />
+                </label>
+                <label className="block mb-2">
+                  Profile Picture URL:
+                  <input
+                    id="file-upload"
+                    name="file-upload"
+                    type="file"
+                    value={companyProfileData.profilePicture || ""}
+                    onChange={(e) =>
+                      setCompanyProfileData({
+                        ...companyProfileData,
+                        profilePicture: e.target.value,
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -679,22 +380,6 @@ export default function ProfileSetup() {
                 </label>
               </div>
             )}
-            <label className="block mb-2">
-              Profile Picture URL:
-              <input
-                id="file-upload"
-                name="file-upload"
-                type="file"
-                value={profileData.profilePicture || ""}
-                onChange={(e) =>
-                  setProfileData({
-                    ...profileData,
-                    profilePicture: e.target.value,
-                  })
-                }
-                className="w-full border border-gray-300 rounded p-2 mb-2"
-              />
-            </label>
           </div>
           <button
             onClick={handleProfileSetup}
@@ -707,5 +392,3 @@ export default function ProfileSetup() {
     </>
   );
 }
-
-// export default ProfileSetup;

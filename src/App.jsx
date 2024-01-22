@@ -22,7 +22,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profilesetup" element={<Profilesetup />} />
-
+          //
           <Route path="/profileform" element={<Profileform />} />
           <Route
             path="/profile"
