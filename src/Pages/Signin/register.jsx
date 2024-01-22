@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 //import { useState } from 'react';
 
 export default function Register() {
-  // const [userType, setUserType] = useState('university'); // Default to university
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,7 +24,7 @@ export default function Register() {
     return password.length >= 8;
   };
   const validateUserType = (userType) => {
-    return !!userType; // Returns true if userType is not empty, false otherwise
+    return !!userType;
   };
 
   const handleSubmit = async (e) => {
@@ -57,10 +56,8 @@ export default function Register() {
       if (response.status === 201) {
         console.log("Registration successful");
 
-        //window.location.href = "/signin";
-        //setTimeout(() => {
-        navigate("/signin"); // Use navigate
-        //}, 500);
+        navigate("/signin");
+
         setSuccessMessage("Registration successful");
         setErrorMessage("");
       } else {
@@ -85,15 +82,11 @@ export default function Register() {
   };
 
   const handleSelect = (selectedUsertype) => {
-    // Check if usertype is not empty
     if (!selectedUsertype) {
       console.error("Usertype cannot be empty");
       return;
     }
 
-    // Some other logic...
-
-    // Pass the selected value directly to handleInputChange
     handleInputChange({
       target: { name: "userType", value: selectedUsertype },
     });
@@ -158,18 +151,7 @@ export default function Register() {
                 />
               </div>
             </div>
-            {/* <div className=" mt-2  ">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Select Type
-              </label>
-              <Select variant="outlined" >
-                <Option>Student</Option>
-                <Option>Company</Option>
-              </Select>
-            </div> */}
+
             <div className=" mt-2  ">
               <label
                 htmlFor="userType"

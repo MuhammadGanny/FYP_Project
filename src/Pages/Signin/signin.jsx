@@ -30,10 +30,6 @@ export default function Signin() {
       );
       return;
     }
-    // if (!validatePassword(passwordInput)) {
-    //   setErrorMessage("Password must be at least 8 characters.");
-    //   return;
-    // }
 
     try {
       let userResponse;
@@ -45,29 +41,24 @@ export default function Signin() {
       if (userResponse.status === 200) {
         console.log("User is signed in.");
         setMessage("User is signed in.");
-        //const token = userResponse.data.token;
 
         const token = userResponse.data.token;
         const userId = userResponse.data.userId;
         const userType = userResponse.data.userType;
 
-        // Save token, userId, and userType in cookies
         Cookies.set("token", token);
         Cookies.set("userId", userId);
         Cookies.set("userType", userType);
-        // localStorage.setItem('token', token);
-        console.log("token:", token);
-        // const userId = userResponse.data.userId; // Obtain the userId from the response
-        // console.log("UserId:", userId);
-        console.log(userResponse);
-        // localStorage.setItem("userId", userId);
+
+        // console.log("token:", token);
+
+        // console.log(userResponse);
+
         setErrorMessage("");
-        //window.location.href = "/homepage";
-        //setTimeout(() => {
+
         navigate("/homepage");
-        //navigate('/profile');// Use navigate
-        // }, 500);
-        return; // Exit the function after successful user login
+
+        return;
       }
       console.error("Login failed.");
       setMessage("");
@@ -163,15 +154,12 @@ export default function Signin() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not Registered?{" "}
-            {/* <span className="font-semibold leading-6 mr-6 flex mt-4"> */}
             <a
               href="/register"
               className="mr-4   justify-center rounded-md   text-sm font-semibold leading-6 text-whitetext-gray-500  hover:text-indigo-500 "
-              // className=" mr-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Register Your Self First
             </a>
-            {/* </span> */}
           </p>
         </div>
       </div>
