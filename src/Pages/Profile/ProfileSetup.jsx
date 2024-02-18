@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/header";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileSetup() {
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [redirectToProfile, setRedirectToProfile] = useState(false);
+  const navigate = useNavigate();
   const [studentProfileData, setStudentProfileData] = useState({
     name: "",
     university: "",
@@ -28,7 +33,6 @@ export default function ProfileSetup() {
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    // Retrieve user type and token from cookies
     const userIdFromCookie = Cookies.get("userId");
     const userTypeFromCookie = Cookies.get("userType");
     const tokenFromCookie = Cookies.get("token");
@@ -45,9 +49,62 @@ export default function ProfileSetup() {
       console.log("ID type and Token Not avauilable in cookies ");
     }
   }, []);
+  useEffect(() => {
+    if (redirectToProfile) {
+      // setTimeout(() => {
+      navigate("/profile");
+
+      //}, 3000);
+    }
+  }, [redirectToProfile]);
 
   const handleProfileSetup = async () => {
     try {
+      if (userType === "student") {
+        const requiredFields = [
+          "name",
+          "university",
+          "bio",
+          "projects",
+          "skills",
+          "experiences",
+          "education",
+        ];
+        const missingFields = requiredFields.filter(
+          (field) => !studentProfileData[field]
+        );
+
+        if (missingFields.length > 0) {
+          const missingFieldsMessage = `Missing required fields: ${missingFields.join(
+            ", "
+          )}`;
+          console.error(missingFieldsMessage);
+          setErrorMessage(missingFieldsMessage);
+          setSuccessMessage("");
+          return;
+        }
+      } else if (userType === "company") {
+        const requiredFields = [
+          "companyName",
+          "description",
+          "products",
+          "services",
+        ];
+        const missingFields = requiredFields.filter(
+          (field) => !companyProfileData[field]
+        );
+
+        if (missingFields.length > 0) {
+          const missingFieldsMessage = `Missing required fields: ${missingFields.join(
+            ", "
+          )}`;
+          console.error(missingFieldsMessage);
+          setErrorMessage(missingFieldsMessage);
+          setSuccessMessage("");
+          return;
+        }
+      }
+
       const formData = new FormData();
       formData.append("userId", userId);
       formData.append("userType", userType);
@@ -57,7 +114,7 @@ export default function ProfileSetup() {
         formData.append(
           "profilePicture",
           studentProfileData.profilePicture
-          //profilePicture
+
           //document.getElementById("file-upload").files[0]
         );
       } else if (userType === "company") {
@@ -67,11 +124,6 @@ export default function ProfileSetup() {
           document.getElementById("file-upload").files[0]
         );
       }
-
-      // formData.append(
-      //   "profilePicture",
-      //   document.getElementById("file-upload").files[0]
-      // );
 
       console.log(formData);
 
@@ -85,88 +137,15 @@ export default function ProfileSetup() {
           },
         }
       );
-      // onProfileSetup(userId, userType, profileData);
+      setSuccessMessage("Profile successfully set up!");
+      setErrorMessage("");
+      setRedirectToProfile(true);
     } catch (error) {
       console.error(error);
-      //console.error(error);
-      //res.status(500).json({ error: "Internal server error." });
+      setSuccessMessage(""); // Clear any previous success messages
+      setErrorMessage("Error setting up the profile. Please try again.");
     }
   };
-
-  // const handleProfileSetup = async () => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("userId", userId);
-  //     formData.append("userType", userType);
-
-  //     if (userType === "student") {
-  //       // Add student profile data to the form data
-  //       formData.append("profileData", JSON.stringify(studentProfileData));
-
-  //       // Get the file input element
-  //       const fileInput = document.getElementById("file-upload");
-
-  //       // Check if a file is selected
-  //       if (fileInput.files.length > 0) {
-  //         // Append the file to the form data
-  //         formData.append(
-  //           "profilePicture",
-  //           document.getElementById("file-upload")
-  //         );
-  //       }
-  //     } else if (userType === "company") {
-  //       // Add company profile data to the form data
-  //       formData.append("profileData", JSON.stringify(companyProfileData));
-
-  //       // Get the file input element
-  //       const fileInput = document.getElementById("file-upload");
-
-  //       // Check if a file is selected
-  //       if (fileInput.files.length > 0) {
-  //         // Append the file to the form data
-  //         formData.append("profilePicture", fileInput.files[0]);
-  //       }
-  //     }
-
-  //     // Make the API call to save the profile
-  //     await axios.post(
-  //       "http://localhost:5000/profile/setup-profile",
-  //       formData,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "multipart/form-data", // Update content type to multipart/form-data
-  //         },
-  //       }
-  //     );
-
-  //     // Optionally, you can clear the form fields after successful upload
-  //     setStudentProfileData({
-  //       name: "",
-  //       university: "",
-  //       bio: "",
-  //       projects: [],
-  //       skills: [],
-  //       experiences: [],
-  //       education: [],
-  //       profilePicture: "",
-  //     });
-
-  //     setCompanyProfileData({
-  //       companyName: "",
-  //       description: "",
-  //       products: [],
-  //       services: [],
-  //       profilePicture: "",
-  //     });
-
-  //     // Optionally, you can redirect the user or show a success message
-  //     console.log("Profile setup successful!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     // Handle errors (e.g., show an error message to the user)
-  //   }
-  // };
 
   return (
     <>
@@ -231,7 +210,6 @@ export default function ProfileSetup() {
                       setStudentProfileData({
                         ...studentProfileData,
                         projects: e.target.value.split(","),
-                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -247,7 +225,6 @@ export default function ProfileSetup() {
                       setStudentProfileData({
                         ...studentProfileData,
                         skills: e.target.value.split(","),
-                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -263,8 +240,6 @@ export default function ProfileSetup() {
                       setStudentProfileData({
                         ...studentProfileData,
                         experiences: e.target.value.split(","),
-
-                        // .map((s) => s.trim()),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -285,7 +260,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   Profile Picture URL:
                   <input
                     id="file-upload"
@@ -300,7 +275,7 @@ export default function ProfileSetup() {
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
-                </label>
+                </label> */}
               </div>
             )}
             {userType === "company" && (
@@ -362,7 +337,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   Profile Picture URL:
                   <input
                     id="file-upload"
@@ -377,7 +352,7 @@ export default function ProfileSetup() {
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
-                </label>
+                </label> */}
               </div>
             )}
           </div>
@@ -387,6 +362,8 @@ export default function ProfileSetup() {
           >
             Complete Profile Setup
           </button>
+          {successMessage && <p className="text-green-500">{successMessage}</p>}
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
       </div>
     </>

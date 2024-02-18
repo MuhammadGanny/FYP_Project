@@ -16,16 +16,6 @@ import {
 export default function Home() {
   const [projectPosts, setProjectPosts] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:5000/posts")
-  //     .then((response) => {
-  //       setProjectPosts(response.data.posts);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching project posts:", error);
-  //     });
-  // }, []);
   useEffect(() => {
     axios
       .get("http://localhost:5000/posts")

@@ -40,6 +40,7 @@ export default function Profile() {
   return (
     <>
       <Header />
+      {/* <Header userProfile={userProfile} /> */}
       <div className="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <div className="p-6">
@@ -129,7 +130,6 @@ export default function Profile() {
               </div>
             )}
 
-            {/* Additional fields based on user type */}
             {userProfile.education && (
               <div className="p-6">
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">
@@ -152,158 +152,3 @@ export default function Profile() {
     </>
   );
 }
-
-// export default function Profile() {
-//   const [userData, setUserData] = useState({});
-//   const [userProfile, setUserProfile] = useState({});
-
-//   useEffect(() => {
-//     const token = Cookies.get("token");
-//     const userId = Cookies.get("userId");
-//     const userType = Cookies.get("userType");
-
-//     axios
-//       .get(
-//         `http://localhost:5000/profile/profile?userId=${userId}&userType=${userType}`,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       )
-//       .then((response) => {
-//         setUserProfile(response.data.userProfile);
-//         console.log("User Profile Data:", response.data.userProfile);
-//       })
-//       .catch((error) => {
-//         console.error("Error fetching user profile data:", error);
-//       });
-//   }, []);
-
-//   useEffect(() => {
-//     console.log("Updated User Profile Data:", userProfile);
-//   }, [userProfile]);
-
-//   return (
-//     <>
-//       <Header />
-//       <div className="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
-//         <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-//           <div className="p-6">
-//             <div className="flex items-center">
-//               <div className="rounded-full overflow-hidden">
-//                 <img
-//                   className="h-40 w-40 object-cover"
-//                   //src={userProfile.profilePicture}
-//                   src={LOGO}
-//                   alt="Profile Picture"
-//                 />
-//               </div>
-//               <div className="ml-4">
-//                 <h1 className="text-xl font-bold text-gray-800">
-//                   {userProfile.name}
-//                 </h1>
-//                 <p className="text-gray-500">{userProfile.university}</p>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="border-t border-gray-200">
-//             <div className="p-6">
-//               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-//                 About Me
-//               </h2>
-//               <p className="text-gray-600">{userProfile.bio}</p>
-//             </div>
-
-//             <div className="p-6">
-//               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-//                 Projects
-//               </h2>
-//               {/* <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 {userProfile.projects &&
-//                   userProfile.projects.map((project, index) => (
-//                     <li
-//                       key={index}
-//                       className="bg-white p-4 shadow-md rounded-lg"
-//                     >
-//                       {project.name}
-//                     </li>
-//                   ))}
-//               </ul> */}
-//               <ul>
-//                 {Array.isArray(userProfile.projects) ? (
-//                   userProfile.projects.map((projectsDetail, index) => (
-//                     <li key={index}>{projectsDetail}</li>
-//                   ))
-//                 ) : (
-//                   <li>No projects data available</li>
-//                 )}
-//               </ul>
-//             </div>
-
-//             <div className="p-6">
-//               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-//                 Skills
-//               </h2>
-//               <div className="flex flex-wrap gap-2">
-//                 {userProfile.skills &&
-//                   userProfile.skills.map((skill, index) => (
-//                     <span
-//                       key={index}
-//                       className="bg-blue-200 px-2 py-1 rounded-md"
-//                     >
-//                       {skill}
-//                     </span>
-//                   ))}
-//               </div>
-//             </div>
-
-//             <div className="p-6">
-//               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-//                 Experiences
-//               </h2>
-//               {/* <ul>
-//                 {userProfile.experiences &&
-//                   userProfile.experiences.map((experience, index) => (
-//                     <li key={index}>{experience}</li>
-//                   ))}
-//               </ul> */}
-//               <ul>
-//                 {Array.isArray(userProfile.experiences) ? (
-//                   userProfile.experiences.map((experiencesDetail, index) => (
-//                     <li key={index}>{experiencesDetail}</li>
-//                   ))
-//                 ) : (
-//                   <li>No experiences data available</li>
-//                 )}
-//               </ul>
-//             </div>
-
-//             <div className="p-6">
-//               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-//                 Education
-//               </h2>
-//               {/* <ul>
-//                 {userProfile.education &&
-//                   userProfile.education.map((educationDetail, index) => (
-//                     <li key={index}>{educationDetail}</li>
-//                   ))}
-//               </ul> */}
-//               <ul>
-//                 {Array.isArray(userProfile.education) ? (
-//                   userProfile.education.map((educationDetail, index) => (
-//                     <li key={index}>{educationDetail}</li>
-//                   ))
-//                 ) : (
-//                   <li>No education data available</li>
-//                 )}
-//               </ul>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }

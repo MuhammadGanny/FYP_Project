@@ -1,16 +1,12 @@
 import React from "react";
 
-// if i want to bring back the last old project for now i have commented
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import profilebox from "./Pages/components/profilebox";
 import Homepage from "./Pages/Home/homepage.jsx";
 import Welcome from "./Pages/Welcome/welcomepage.jsx";
 import Signin from "./Pages/Signin/signin";
 import Profile from "./Pages/Profile/profile";
 import Register from "./Pages/Signin/register";
-//import RegisterCompany from "./Pages/Signin/registercompany";
-import Profileform from "./Pages/Profile/Profileform";
+
 import ProjectPost from "./Pages/ProjectPost/posting";
 import Profilesetup from "./Pages/Profile/ProfileSetup";
 function App() {
@@ -22,8 +18,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profilesetup" element={<Profilesetup />} />
-          //
-          <Route path="/profileform" element={<Profileform />} />
+
           <Route
             path="/profile"
             element={
@@ -41,48 +36,3 @@ function App() {
 }
 
 export default App;
-
-// App.jsx
-// import React, { useState } from 'react';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Register from './Pages/Signin/URegister.jsx';
-// import Login from './Pages/Signin/Login.jsx';  // Add this line if you have a Login component
-// import ProfileSetup from './Pages/Profile/ProfileSetup.jsx';
-// import UserProfile from './Pages/Profile/UProfile.jsx';
-// import UserTypeSelection from './Pages/components/UserTypeSelection.jsx';
-
-// const App = () => {
-//   const [user, setUser] = useState(null);
-
-//   const handleRegistration = (userData) => {
-//     setUser(userData);
-//   };
-
-//   const handleProfileSetup = (userId, userType, profileData) => {
-//     setUser({ userId, userType, profileData });
-//   };
-
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/register" element={<Register onRegister={handleRegistration} />} />
-//         <Route path="/login" element={<Login />} />  // Add this line if you have a Login component
-//         <Route path="/userselect" element={<UserTypeSelection/>} />
-//         <Route
-//           path="/profile-setup"
-//           element={
-//             <ProfileSetup
-//               userId={user?.userId}
-//               userType={user?.userType}
-//               onProfileSetup={handleProfileSetup}
-//             />
-//           }
-//         />
-//         <Route path="/user-profile" element={<UserProfile user={user} />} />
-//         {/* Add additional routes as needed */}
-//       </Routes>
-//     </Router>
-//   );
-// };
-
-// export default App;
