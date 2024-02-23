@@ -6,6 +6,7 @@ import Welcome from "./Pages/Welcome/welcomepage.jsx";
 import Signin from "./Pages/Signin/signin";
 import Profile from "./Pages/Profile/profile";
 import Register from "./Pages/Signin/register";
+import Project from "./Pages/Project/project.jsx";
 
 import ProjectPost from "./Pages/ProjectPost/posting";
 import Profilesetup from "./Pages/Profile/ProfileSetup";
@@ -18,7 +19,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profilesetup" element={<Profilesetup />} />
-
+          <Route path="/projectpage" element={<Project />} />
           <Route
             path="/profile"
             element={

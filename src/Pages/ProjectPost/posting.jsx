@@ -49,7 +49,7 @@ export default function Posting() {
   return (
     <div className="bg-[#DEE4EA] ">
       <Header />
-      <div className="m-12">
+      <div className=" p-12">
         <Card className="w-[60%] ml-[20%]">
           <CardBody className="flex flex-col gap-4">
             <Typography

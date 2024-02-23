@@ -121,7 +121,8 @@ export default function ProfileSetup() {
         formData.append("profileData", JSON.stringify(companyProfileData));
         formData.append(
           "profilePicture",
-          document.getElementById("file-upload").files[0]
+          companyProfileData.profilePicture
+          // document.getElementById("file-upload").files[0]
         );
       }
 
