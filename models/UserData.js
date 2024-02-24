@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   userType: { type: String, enum: ['student', 'company'], default: null },
   Sprofile: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'StudentProfile', // Dynamic reference based on userType
+    ref: 'StudentProfile', 
   },
   Cprofile: {
     type: mongoose.Schema.Types.ObjectId,

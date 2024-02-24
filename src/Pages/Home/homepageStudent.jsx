@@ -1,0 +1,69 @@
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import LOGO from "../Assets/logo.svg";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Header from "../components/headerStudent";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
+
+export default function Home() {
+  const [projectPosts, setProjectPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/posts")
+      .then((response) => {
+        const reversedPosts = response.data.posts.reverse();
+        setProjectPosts(reversedPosts);
+      })
+      .catch((error) => {
+        console.error("Error fetching project posts:", error);
+      });
+  }, []);
+
+  return (
+    <>
+      <div className="min-h-full">
+        <Header />
+
+        <header className="bg-[#DEE4EA] shadow">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Project Listing
+            </h1>
+          </div>
+        </header>
+        <main className="bg-gray-100">
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {projectPosts.map((post) => (
+              <Card key={post._id} className="mt-6 w-[60%] ml-[20%]">
+                <CardBody>
+                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                    {post.projectHeading}
+                  </Typography>
+                  <Typography>{post.projectDescription}</Typography>
+                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                    Skills
+                  </Typography>
+                  <Typography>{post.skills}</Typography>
+                </CardBody>
+                <CardFooter className="pt-0">
+                  <Button className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Connect
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </main>
+      </div>
+    </>
+  );
+}

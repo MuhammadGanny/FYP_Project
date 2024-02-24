@@ -23,6 +23,7 @@ export default function Signin() {
     e.preventDefault();
     const emailInput = e.target.email.value;
     const passwordInput = e.target.password.value;
+    const userTypeInput = e.target.userType ? e.target.userType.value : null;
 
     if (!validateEmail(emailInput)) {
       setErrorMessage(
@@ -36,28 +37,31 @@ export default function Signin() {
       userResponse = await axios.post("http://localhost:5000/user/login", {
         email: emailInput,
         password: passwordInput,
+        userType: userTypeInput,
       });
 
       if (userResponse.status === 200) {
         console.log("User is signed in.");
         setMessage("User is signed in.");
 
-        const token = userResponse.data.token;
-        const userId = userResponse.data.userId;
+        // Extract userType from response data
         const userType = userResponse.data.userType;
 
+        // Set cookies
+        const token = userResponse.data.token;
+        const userId = userResponse.data.userId;
         Cookies.set("token", token);
         Cookies.set("userId", userId);
         Cookies.set("userType", userType);
 
-        // console.log("token:", token);
-
-        // console.log(userResponse);
+        // Redirect based on userType
+        if (userType === "student") {
+          navigate("/homepageStudent");
+        } else if (userType === "company") {
+          navigate("/homepage");
+        }
 
         setErrorMessage("");
-
-        navigate("/homepage");
-
         return;
       }
       console.error("Login failed.");
