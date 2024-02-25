@@ -12,7 +12,8 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
   const [projectPosts, setProjectPosts] = useState([]);
 
@@ -35,8 +36,10 @@ export default function Home() {
         studentId, //student will be only shown the button
       });
       // Show success message or update UI accordingly
+      toast.success("Connected successfully!"); // Display success toast
     } catch (error) {
       console.error("Error connecting with project:", error);
+      toast.error("Error connecting with project.");
       // Show error message or handle error case
     }
   };
@@ -80,6 +83,7 @@ export default function Home() {
           </div>
         </main>
       </div>
+      <ToastContainer />
     </>
   );
 }

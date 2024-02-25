@@ -14,7 +14,7 @@ const user = {
   //email: "tom@example.com",
   //src: {LOGO},
   imageUrl: "https://docs.material-tailwind.com/img/face-2.jpg",
-};
+}; 
 
 const userNavigation = [
   { name: "Your Profile", href: "/profile" },
