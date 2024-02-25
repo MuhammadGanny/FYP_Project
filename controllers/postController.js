@@ -1,8 +1,37 @@
 import Post from "../models/post.js";
 
+// const createPost = async (req, res) => {
+//   try {
+//     const { projectHeading, projectDescription, skills, author } = req.body;
+
+//     const newPost = new Post({
+//       projectHeading,
+//       projectDescription,
+//       skills,
+//       author,
+//     });
+
+//     const savedPost = await newPost.save();
+
+//     if (savedPost) {
+//       res
+//         .status(201)
+//         .json({ message: "Post created successfully", post: savedPost });
+//     } else {
+//       res.status(500).json({ error: "Failed to save the post" });
+//     }
+//   } catch (error) {
+//     console.error("Error creating post:", error);
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while creating the post" });
+//   }
+// };
 const createPost = async (req, res) => {
   try {
     const { projectHeading, projectDescription, skills, author } = req.body;
+    //const author = req.userId; // Assuming you have middleware to extract user ID from the request
+    //const author = req.cookies.userId;
 
     const newPost = new Post({
       projectHeading,
@@ -25,6 +54,20 @@ const createPost = async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occurred while creating the post" });
+  }
+};
+
+const getPostsByAuthor = async (req, res) => {
+  const authorId = req.params.authorId;
+
+  try {
+    const posts = await Post.find({ author: authorId });
+    res.status(200).json({ posts });
+  } catch (error) {
+    console.error("Error fetching posts by author:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching posts by author" });
   }
 };
 
@@ -60,8 +103,6 @@ const postConnect = async (req, res) => {
   }
 };
 
-// Route to get applicants for a specific project
-// router.get("/posts/:postId/applicants",
 const getApplicants = async (req, res) => {
   const { postId } = req.params;
 
@@ -83,4 +124,5 @@ export default {
   getAllPosts,
   postConnect,
   getApplicants,
+  getPostsByAuthor,
 };

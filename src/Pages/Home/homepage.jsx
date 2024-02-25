@@ -18,16 +18,35 @@ export default function Home() {
   const [projectPosts, setProjectPosts] = useState([]);
   const [userIdFromCookie, setUserIdFromCookie] = useState("");
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5000/posts")
+  //     .then((response) => {
+  //       const reversedPosts = response.data.posts.reverse();
+  //       setProjectPosts(reversedPosts);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching project posts:", error);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/posts")
-      .then((response) => {
+    // Fetch posts by author (user ID from cookies)
+    const fetchPostsByAuthor = async () => {
+      try {
+        const userIdFromCookie = Cookies.get("userId");
+        setUserIdFromCookie(userIdFromCookie);
+
+        const response = await axios.get(
+          `http://localhost:5000/posts/author/${userIdFromCookie}`
+        );
         const reversedPosts = response.data.posts.reverse();
         setProjectPosts(reversedPosts);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching project posts:", error);
-      });
+      }
+    };
+    fetchPostsByAuthor();
   }, []);
 
   const handleConnect = async (postId, studentId) => {
