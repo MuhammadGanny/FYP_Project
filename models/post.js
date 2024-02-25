@@ -16,6 +16,11 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserData", // Assuming you have a User model
+    required: true,
+  },
   applicants: [
     {
       type: mongoose.Schema.Types.ObjectId,
