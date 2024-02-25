@@ -1,10 +1,11 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import LOGO from "../Assets/logo.svg";
+// import { Fragment } from "react";
+// import { Disclosure, Menu, Transition } from "@headlessui/react";
+// import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+// import LOGO from "../Assets/logo.svg";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/headerStudent";
+import Cookies from "js-cookie";
 import {
   Card,
   CardBody,
@@ -16,6 +17,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
   const [projectPosts, setProjectPosts] = useState([]);
+  const [userIdFromCookie, setUserIdFromCookie] = useState("");
 
   useEffect(() => {
     axios
@@ -43,6 +45,21 @@ export default function Home() {
       // Show error message or handle error case
     }
   };
+  useEffect(() => {
+    // const setUserIdFromCookie = Cookies.get("userId");
+    // setUserIdFromCookie(userIdFromCookie);
+    const userIdFromCookie = Cookies.get("userId");
+    setUserIdFromCookie(userIdFromCookie);
+    const userTypeFromCookie = Cookies.get("userType");
+    const tokenFromCookie = Cookies.get("token");
+
+    console.log("User ID: in post area ", userIdFromCookie);
+    // console.log("User Type: in post area ", userTypeFromCookie);
+    // console.log("Token: in post area ", tokenFromCookie);
+    // } else {
+    //   console.log("ID type and Token Not avauilable in cookies ");
+    // }
+  }, []);
 
   return (
     <>
