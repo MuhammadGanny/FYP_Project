@@ -28,6 +28,19 @@ export default function Home() {
       });
   }, []);
 
+  const handleConnect = async (postId, studentId) => {
+    try {
+      await axios.post("http://localhost:5000/posts/connect", {
+        postId,
+        studentId, //student will be only shown the button
+      });
+      // Show success message or update UI accordingly
+    } catch (error) {
+      console.error("Error connecting with project:", error);
+      // Show error message or handle error case
+    }
+  };
+
   return (
     <>
       <div className="min-h-full">
@@ -55,7 +68,10 @@ export default function Home() {
                   <Typography>{post.skills}</Typography>
                 </CardBody>
                 <CardFooter className="pt-0">
-                  <Button className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  <Button
+                    className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={() => handleConnect(post._id, userIdFromCookie)} // Assuming you have access to studentId>
+                  >
                     Connect
                   </Button>
                 </CardFooter>
