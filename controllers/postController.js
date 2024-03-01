@@ -86,21 +86,26 @@ const getAllPosts = async (req, res) => {
 const postConnect = async (req, res) => {
   const { postId, studentId } = req.body;
 
-  try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
+try {
+  const post = await Post.findById(postId);
+  if (!post) {
+    return res.status(404).json({ error: "Post not found" });
+  }
 
+  // Ensure uniqueness of studentId in applicants array
+  if (!post.applicants.includes(studentId)) {
     // Add the student to the list of applicants
     post.applicants.push(studentId);
     await post.save();
-
     res.status(200).json({ message: "Connected successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+  } else {
+    res.status(400).json({ error: "Student already applied" });
   }
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ error: "Internal server error" });
+}
+
 };
 
 const getApplicants = async (req, res) => {
