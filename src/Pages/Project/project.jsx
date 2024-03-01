@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -17,7 +17,26 @@ import {
 } from "@material-tailwind/react";
 
 export default function Project() {
+  const [applicants, setApplicants] = useState([]);
+
+  useEffect(() => {
+    // Fetch applicants when the component mounts
+    const fetchApplicants = async () => {
+      try {
+        const postId = "65dba2d3b708254c13daea1c"; // Replace with your post ID
+        const response = await axios.get(
+          `http://localhost:5000/posts/${postId}/applicants`
+        );
+        setApplicants(response.data.applicants);
+      } catch (error) {
+        console.error("Error fetching applicants:", error);
+      }
+    };
+
+    fetchApplicants();
+  }, []);
   const [activeTab, setActiveTab] = React.useState("html");
+
   const data = [
     {
       label: "Project Details",
@@ -41,6 +60,26 @@ export default function Project() {
     },
   ];
   return (
+    // <div className="bg-[#DEE4EA] ">
+    //   <Header />
+    //   <div className="p-10">
+    //     <Card className="">
+    //       <CardBody>
+    //         <Typography variant="h5" color="blue-gray" className="mb-2">
+    //           Applicants
+    //         </Typography>
+    //         {applicants.map((applicant) => (
+    //           <div key={applicant._id}>
+    //             {/* Render applicant details here */}
+    //             <Typography>{applicant.name}</Typography>
+    //             {/* Include other applicant details as needed */}
+    //           </div>
+    //         ))}
+    //       </CardBody>
+    //     </Card>
+    //   </div>
+    // </div>
+
     <div className="bg-[#DEE4EA] ">
       <Header />
       <div className=" p-10">
