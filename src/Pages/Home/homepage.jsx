@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/header";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -92,29 +93,31 @@ export default function Home() {
         <main className="bg-gray-100">
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             {projectPosts.map((post) => (
-              <Card key={post._id} className="mt-6 w-[60%] ml-[20%]">
-                <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
-                    {post.projectHeading}
-                  </Typography>
-                  <Typography>{post.projectDescription}</Typography>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
-                    Skills
-                  </Typography>
-                  <Typography>{post.skills}</Typography>
-                </CardBody>
-                <CardFooter className="pt-0">
-                  {/* <Button className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <Link to={`/projectpage/${post._id}`} key={post._id}>
+                <Card key={post._id} className="mt-6 w-[60%] ml-[20%]">
+                  <CardBody>
+                    <Typography variant="h5" color="blue-gray" className="mb-2">
+                      {post.projectHeading}
+                    </Typography>
+                    <Typography>{post.projectDescription}</Typography>
+                    <Typography variant="h5" color="blue-gray" className="mb-2">
+                      Skills
+                    </Typography>
+                    <Typography>{post.skills}</Typography>
+                  </CardBody>
+                  <CardFooter className="pt-0">
+                    {/* <Button className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Connect
                   </Button> */}
-                  <Button
-                    className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={() => handleConnect(post._id, userIdFromCookie)} // Assuming you have access to studentId
-                  >
-                    Connect
-                  </Button>
-                </CardFooter>
-              </Card>
+                    <Button
+                      className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      onClick={() => handleConnect(post._id, userIdFromCookie)} // Assuming you have access to studentId
+                    >
+                      Connect
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
         </main>
