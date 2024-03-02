@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Tabs,
   TabsHeader,
@@ -18,12 +19,12 @@ import {
 
 export default function Project() {
   const [applicants, setApplicants] = useState([]);
+  const [postId, setPostId] = useState("65dba2d3b708254c13daea1c");
 
   useEffect(() => {
     // Fetch applicants when the component mounts
     const fetchApplicants = async () => {
       try {
-        const postId = "65dba2d3b708254c13daea1c"; // Replace with your post ID
         const response = await axios.get(
           `http://localhost:5000/posts/${postId}/applicants`
         );
@@ -35,6 +36,7 @@ export default function Project() {
 
     fetchApplicants();
   }, []);
+
   const [activeTab, setActiveTab] = React.useState("html");
 
   const data = [
@@ -46,10 +48,20 @@ export default function Project() {
       who are like offended by it, it doesn't matter.`,
     },
     {
-      label: "Applicants ",
-      value: "react",
-      desc: `Because it's about motivating the doers. Because I'm here
-      to follow my dreams and inspire other people to follow their dreams, too.`,
+      label: "Applicants",
+      value: "Applicants",
+      desc: (
+        <div>
+          {/* {applicants &&
+            applicants.map((applicant) => (
+              <div key={applicant._id}>
+                console.log(applicant._id)
+                <p>Name: {applicant.name}</p>
+                Include other applicant details as needed
+              </div>
+            ))} */}
+        </div>
+      ),
     },
     {
       label: "Dashboard",

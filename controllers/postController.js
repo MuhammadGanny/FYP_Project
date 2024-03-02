@@ -109,17 +109,15 @@ try {
 };
 
 const getApplicants = async (req, res) => {
-  const { postId } = req.params;
-
+  const postId = req.params.postId;
   try {
-    const post = await Post.findById(postId).populate("applicants");
+    const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-
     res.status(200).json({ applicants: post.applicants });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching applicants:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

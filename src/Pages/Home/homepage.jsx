@@ -50,19 +50,19 @@ export default function Home() {
     fetchPostsByAuthor();
   }, []);
 
-  const handleConnect = async (postId, studentId) => {
-    try {
-      await axios.post("http://localhost:5000/posts/connect", {
-        postId,
-        studentId, //student will be only shown the button
-      });
-      // Show success message or update UI accordingly
-    } catch (error) {
-      console.error("Error connecting with project:", error);
-      // Show error message or handle error case
-    }
-  };
   useEffect(() => {
+    const handleConnect = async (postId, studentId) => {
+      try {
+        await axios.post("http://localhost:5000/posts/connect", {
+          postId,
+          studentId, //student will be only shown the button
+        });
+        // Show success message or update UI accordingly
+      } catch (error) {
+        console.error("Error connecting with project:", error);
+        // Show error message or handle error case
+      }
+    };
     // const setUserIdFromCookie = Cookies.get("userId");
     // setUserIdFromCookie(userIdFromCookie);
     const userIdFromCookie = Cookies.get("userId");
