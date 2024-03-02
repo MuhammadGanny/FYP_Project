@@ -29,7 +29,25 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     console.log("formData:", formData);
+    if (!validateEmail(formData.email)) {
+      setErrorMessage(
+        "Invalid email format. Please enter a valid email address ending with .com."
+      );
+      return;
+    }
+    if (!validatePassword(formData.password)) {
+      setErrorMessage("Password must be at least 8 characters.");
+      return;
+    }
+    if (!validateUserType(formData.userType)) {
+      setErrorMessage("Please select a user type");
+      return;
+    } else {
+      setErrorMessage("");
+    }
+
     if (!validateEmail(formData.email)) {
       setErrorMessage(
         "Invalid email format. Please enter a valid email address ending with .com."
