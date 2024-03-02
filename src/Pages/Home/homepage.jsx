@@ -109,12 +109,12 @@ export default function Home() {
                     {/* <Button className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Connect
                   </Button> */}
-                    <Button
+                    {/* <Button
                       className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       onClick={() => handleConnect(post._id, userIdFromCookie)} // Assuming you have access to studentId
                     >
                       Connect
-                    </Button>
+                    </Button> */}
                   </CardFooter>
                 </Card>
               </Link>
