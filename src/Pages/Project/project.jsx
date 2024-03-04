@@ -140,6 +140,7 @@ import {
 } from "@material-tailwind/react";
 import Header from "../components/header";
 import { Card } from "@material-tailwind/react";
+import { Key } from "lucide-react";
 
 export default function Project() {
   const [applicants, setApplicants] = useState([]);
@@ -154,13 +155,14 @@ export default function Project() {
         );
         console.log("applicantsss", response.data.applicants);
         setApplicants(response.data.applicants);
-        console.log("applicants ", applicants);
+        // console.log("applicants ", applicants);
         // Fetch user data for each applicant
         const applicantsWithUserData = await Promise.all(
           response.data.applicants.map(async (applicant) => {
             const userDataResponse = await axios.get(
               `http://localhost:5000/profile/profile?userId=${applicant}&userType=student`
             );
+
             return {
               ...applicant,
               userData: userDataResponse.data.userProfile,
@@ -168,6 +170,7 @@ export default function Project() {
           })
         );
         setApplicants(applicantsWithUserData);
+        
       } catch (error) {
         console.error("Error fetching applicants:", error);
       }
