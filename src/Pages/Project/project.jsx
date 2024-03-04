@@ -238,6 +238,7 @@
 // }
 
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Tabs,
@@ -251,9 +252,15 @@ import { Card } from "@material-tailwind/react";
 
 export default function Project() {
   const [applicantsData, setApplicantsData] = useState([]);
-  const [postId, setPostId] = useState("65e60d9b74a4cfd12a596ea3");
+  //const [postId, setPostId] = useState("65e60d9b74a4cfd12a596ea3");
   //"65dba2d3b708254c13daea1c";
   const [activeTab, setActiveTab] = useState("html");
+
+  const { id: postId } = useParams();
+
+  // const { postId } = useParams("id");
+  // const postId = queryParams.get("id");
+  console.log(postId);
 
   useEffect(() => {
     const fetchApplicants = async () => {
