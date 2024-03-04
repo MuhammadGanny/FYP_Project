@@ -129,6 +129,114 @@
 //   );
 // }
 
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import {
+//   Tabs,
+//   TabsHeader,
+//   TabsBody,
+//   Tab,
+//   TabPanel,
+// } from "@material-tailwind/react";
+// import Header from "../components/header";
+// import { Card } from "@material-tailwind/react";
+
+// export default function Project() {
+//   const [applicants, setApplicants] = useState([]);
+//   const [postId, setPostId] = useState("65dba2d3b708254c13daea1c");
+//   const [activeTab, setActiveTab] = useState("html");
+
+//   useEffect(() => {
+//     const fetchApplicants = async () => {
+//       try {
+//         const response = await axios.get(
+//           `http://localhost:5000/posts/${postId}/applicants`
+//         );
+//         console.log("applicantsss", response.data.applicants);
+//         setApplicants(response.data.applicants);
+//         console.log("applicants ", applicants);
+
+//         // Fetch user data for each applicant
+//         const applicantsWithUserData = await Promise.all(
+//           response.data.applicants.map(async (applicant) => {
+//             const userDataResponse = await axios.get(
+//               `http://localhost:5000/profile/profile?userId=${applicant}&userType=student`
+//             );
+//             return {
+//               ...applicant,
+//               userData: userDataResponse.data.userProfile,
+//             };
+//           })
+//         );
+//         setApplicants(applicantsWithUserData);
+//       } catch (error) {
+//         console.error("Error fetching applicants:", error);
+//       }
+//     };
+
+//     fetchApplicants();
+//   }, [postId]);
+
+//   return (
+//     <div className="bg-[#DEE4EA]">
+//       <Header />
+//       <div className="p-10">
+//         <Card className="">
+//           <Tabs value={activeTab} className="m-5">
+//             <TabsHeader
+//               className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+//               indicatorProps={{
+//                 className:
+//                   "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+//               }}
+//             >
+//               <Tab
+//                 value="html"
+//                 onClick={() => setActiveTab("html")}
+//                 className={activeTab === "html" ? "text-gray-900" : ""}
+//               >
+//                 Project Details
+//               </Tab>
+//               <Tab
+//                 value="Applicants"
+//                 onClick={() => setActiveTab("Applicants")}
+//                 className={activeTab === "Applicants" ? "text-gray-900" : ""}
+//               >
+//                 Applicants
+//               </Tab>
+//               <Tab
+//                 value="vue"
+//                 onClick={() => setActiveTab("vue")}
+//                 className={activeTab === "vue" ? "text-gray-900" : ""}
+//               >
+//                 Dashboard
+//               </Tab>
+//             </TabsHeader>
+//             <TabsBody>
+//               <TabPanel value="html">
+//                 <div>Project Details Tab Content</div>
+//               </TabPanel>
+//               <TabPanel value="Applicants">
+//                 <div className="p-4">
+//                   <h2 className="text-xl font-semibold mb-4">Applicants</h2>
+//                   <ul>
+//                     {applicants.map((applicant) => (
+//                       <li key={applicant._id}>{applicant.userData.name}</li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               </TabPanel>
+//               <TabPanel value="vue">
+//                 <div>Dashboard Tab Content</div>
+//               </TabPanel>
+//             </TabsBody>
+//           </Tabs>
+//         </Card>
+//       </div>
+//     </div>
+//   );
+// }
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -142,8 +250,9 @@ import Header from "../components/header";
 import { Card } from "@material-tailwind/react";
 
 export default function Project() {
-  const [applicants, setApplicants] = useState([]);
-  const [postId, setPostId] = useState("65dba2d3b708254c13daea1c");
+  const [applicantsData, setApplicantsData] = useState([]);
+  const [postId, setPostId] = useState("65e60d9b74a4cfd12a596ea3");
+  //"65dba2d3b708254c13daea1c";
   const [activeTab, setActiveTab] = useState("html");
 
   useEffect(() => {
@@ -152,22 +261,40 @@ export default function Project() {
         const response = await axios.get(
           `http://localhost:5000/posts/${postId}/applicants`
         );
-        console.log("applicantsss", response.data.applicants);
-        setApplicants(response.data.applicants);
-        console.log("applicants ", applicants);
-        // Fetch user data for each applicant
+        const applicantsWithoutNull = response.data.applicants.filter(
+          (applicant) => applicant !== null
+        );
+
         const applicantsWithUserData = await Promise.all(
-          response.data.applicants.map(async (applicant) => {
+          applicantsWithoutNull.map(async (applicant) => {
             const userDataResponse = await axios.get(
               `http://localhost:5000/profile/profile?userId=${applicant}&userType=student`
             );
             return {
-              ...applicant,
+              //...applicant,
+              id: applicant,
               userData: userDataResponse.data.userProfile,
             };
           })
         );
-        setApplicants(applicantsWithUserData);
+
+        // const applicants = response.data.applicants;
+        // console.log(applicants);
+
+        // // Fetch user data for each applicant
+        // const applicantsWithUserData = await Promise.all(
+        //   applicants.map(async (applicantId) => {
+        //     const userDataResponse = await axios.get(
+        //       `http://localhost:5000/profile/profile?userId=${applicantId}&userType=student`
+        //     );
+        //     return {
+        //       id: applicantId,
+        //       userData: userDataResponse.data.userProfile,
+        //     };
+        //   })
+        // );
+        setApplicantsData(applicantsWithUserData);
+        console.log("userdata", applicantsWithUserData);
       } catch (error) {
         console.error("Error fetching applicants:", error);
       }
@@ -219,8 +346,8 @@ export default function Project() {
                 <div className="p-4">
                   <h2 className="text-xl font-semibold mb-4">Applicants</h2>
                   <ul>
-                    {applicants.map((applicant) => (
-                      <li key={applicant._id}>{applicant.userData.name}</li>
+                    {applicantsData.map((applicant) => (
+                      <li key={applicant.id}>{applicant.userData.name}</li>
                     ))}
                   </ul>
                 </div>
