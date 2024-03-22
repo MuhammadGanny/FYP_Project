@@ -201,7 +201,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   Projects (comma-separated):
                   <textarea
                     type="text"
@@ -211,6 +211,24 @@ export default function ProfileSetup() {
                       setStudentProfileData({
                         ...studentProfileData,
                         projects: e.target.value.split(","),
+                      })
+                    }
+                    className="w-full border border-gray-300 rounded p-2 mb-2"
+                  />
+                </label> */}
+                <label className="block mb-2">
+                  Projects (comma-separated):
+                  <textarea
+                    type="text"
+                    name="projects"
+                    value={studentProfileData.projects.join(", ") || ""}
+                    onChange={(e) =>
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        projects: e.target.value
+                          .split(",")
+                          .map((project) => project.trim())
+                          .filter((project) => project !== ""), // Remove empty strings
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -263,6 +281,7 @@ export default function ProfileSetup() {
                 </label>
                 {/* <label className="block mb-2">
                   Profile Picture URL:
+                  Profile Picture:
                   <input
                     id="file-upload"
                     name="profilePicture"
@@ -277,6 +296,20 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
+                <label className="block mb-2">
+                  Profile Picture:
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        profilePicture: e.target.files[0],
+                      })
+                    }
+                    className="w-full border border-gray-300 rounded p-2 mb-2"
+                  />
+                </label>
               </div>
             )}
             {userType === "company" && (
@@ -354,6 +387,20 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
+                <label className="block mb-2">
+                  Profile Picture:
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setCompanyProfileData({
+                        ...companyProfileData,
+                        profilePicture: e.target.files[0],
+                      })
+                    }
+                    className="w-full border border-gray-300 rounded p-2 mb-2"
+                  />
+                </label>
               </div>
             )}
           </div>

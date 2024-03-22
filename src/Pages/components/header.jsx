@@ -1,8 +1,10 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 import LOGO from "../Assets/logo.svg";
+import React, { useState, useEffect } from "react";
 
 const navigation = [
   { name: "Projects", href: "/homepage", current: false },
@@ -29,6 +31,35 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const [userProfile, setUserProfile] = useState({});
+  useEffect(() => {
+    const token = Cookies.get("token");
+    const userId = Cookies.get("userId");
+    const userType = Cookies.get("userType");
+
+    axios
+      .get(
+        `http://localhost:5000/profile/profile?userId=${userId}&userType=${userType}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        setUserProfile(response.data.userProfile);
+        console.log("User Profile Data:", response.data.userProfile);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile data:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated User Profile Data:", userProfile);
+  }, [userProfile]);
+
   return (
     <Disclosure as="nav" className="bg-[#ffffff]">
       {({ open }) => (
@@ -43,7 +74,9 @@ export default function Header() {
                     src={LOGO}
                     alt="Your Company"
                   />
+                  {/* <h3> {userProfile.name || userProfile.companyName}</h3> */}
                 </div>
+
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
                     {navigation.map((item) => (
@@ -76,17 +109,67 @@ export default function Header() {
                   </button>
 
                   {/* Profile dropdown */}
-                  <Menu as="div" className="relative ml-3">
+                  {/* <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={user.imageUrl}
+                          src={userProfile.profilePicture || user.imageUrl}
                           alt=""
                         />
                       </Menu.Button>
+                      <div className="ml-2 flex flex-col">
+                        <h3 className="text-lg font-semibold text-gray-900 truncate w-20">
+                          {userProfile.name || userProfile.companyName}
+                        </h3>
+                      </div>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        {userNavigation.map((item) => (
+                          <Menu.Item key={item.name}>
+                            {({ active }) => (
+                              <a
+                                href={item.href}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                {item.name}
+                              </a>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </Menu.Items>
+                    </Transition>
+                  </Menu> */}
+                  <Menu as="div" className="relative ml-3">
+                    <div className="flex items-center">
+                      <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span className="absolute -inset-1.5" />
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src={userProfile.profilePicture || user.imageUrl}
+                          alt=""
+                        />
+                      </Menu.Button>
+                      <div className="ml-2 flex flex-col">
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          {userProfile.name || userProfile.companyName}
+                        </h3>
+                      </div>
                     </div>
                     <Transition
                       as={Fragment}
@@ -162,8 +245,8 @@ export default function Header() {
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium leading-none text-gray-400">
-                    {user.name}
+                  <div className="text-base font-semibold text-gray-500  leading-none">
+                    {userProfile.name || userProfile.companyName}
                   </div>
                   <div className="text-sm font-medium leading-none text-gray-400">
                     {user.email}
