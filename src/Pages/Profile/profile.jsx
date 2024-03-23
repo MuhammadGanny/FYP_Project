@@ -46,10 +46,15 @@ export default function Profile() {
           <div className="p-6">
             <div className="flex items-center">
               <div className="rounded-full overflow-hidden">
-                <img
+                {/* <img
                   className="h-40 w-40 object-cover"
                   src={LOGO} // Change this to userProfile.profilePicture when available
                   //src={userProfile.profilePicture}
+                  alt="Profile Picture"
+                /> */}
+                <img
+                  className="h-40 w-40 object-cover"
+                  src={userProfile.profilePicture || LOGO}
                   alt="Profile Picture"
                 />
               </div>
@@ -57,9 +62,7 @@ export default function Profile() {
                 <h1 className="text-xl font-bold text-gray-800">
                   {userProfile.name || userProfile.companyName}
                 </h1>
-                <p className="text-gray-500">
-                  {userProfile.university || "Company"}
-                </p>
+                <p className="text-gray-500">{userProfile.university}</p>
               </div>
             </div>
           </div>
