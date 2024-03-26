@@ -1,13 +1,18 @@
-import Header from "../components/header";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import LOGO from "../Assets/logo.svg";
+import HeaderStudent from "../components/HeaderStudent";
+
+import Header from "../components/header";
+
 // ... (imports)
 
 export default function Profile() {
   const [userData, setUserData] = useState({});
   const [userProfile, setUserProfile] = useState({});
+
+  const [userType, setUserType] = useState("");
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -35,26 +40,27 @@ export default function Profile() {
 
   useEffect(() => {
     console.log("Updated User Profile Data:", userProfile);
+    const userTypeFromCookie = Cookies.get("userType");
+    if (userTypeFromCookie) {
+      setUserType(userTypeFromCookie);
+
+      console.log("User Type:", userTypeFromCookie);
+    }
   }, [userProfile]);
 
   return (
     <>
-      <Header />
-      {/* <Header userProfile={userProfile} /> */}
+      {userType === "student" ? <HeaderStudent /> : <Header />}
+
       <div className="bg-gray-100 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <div className="p-6">
             <div className="flex items-center">
               <div className="rounded-full overflow-hidden">
-                {/* <img
+                <img
                   className="h-40 w-40 object-cover"
                   src={LOGO} // Change this to userProfile.profilePicture when available
                   //src={userProfile.profilePicture}
-                  alt="Profile Picture"
-                /> */}
-                <img
-                  className="h-40 w-40 object-cover"
-                  src={userProfile.profilePicture || LOGO}
                   alt="Profile Picture"
                 />
               </div>

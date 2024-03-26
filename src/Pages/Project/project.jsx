@@ -499,54 +499,57 @@ export default function Project() {
 // }
 //las updatedd
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
-import Header from "../components/header";
-import { Card } from "@material-tailwind/react";
-import { Key } from "lucide-react";
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import {
+//   Tabs,
+//   TabsHeader,
+//   TabsBody,
+//   Tab,
+//   TabPanel,
+// } from "@material-tailwind/react";
+// import Header from "../components/header";
+// import { Card } from "@material-tailwind/react";
+// import { Key } from "lucide-react";
 
-// export default function Project() {
-//   const [applicantsData, setApplicantsData] = useState([]);
-//   //const [postId, setPostId] = useState("65e60d9b74a4cfd12a596ea3");
-//   //"65dba2d3b708254c13daea1c";
-//   const [activeTab, setActiveTab] = useState("html");
+// // export default function Project() {
+// //   const [applicantsData, setApplicantsData] = useState([]);
+// //   //const [postId, setPostId] = useState("65e60d9b74a4cfd12a596ea3");
+// //   //"65dba2d3b708254c13daea1c";
+// //   const [activeTab, setActiveTab] = useState("html");
 
-  useEffect(() => {
-    const fetchApplicants = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/posts/${postId}/applicants`
-        );
-        console.log("applicantsss", response.data.applicants);
-        setApplicants(response.data.applicants);
-        // console.log("applicants ", applicants);
-        // Fetch user data for each applicant
-        const applicantsWithUserData = await Promise.all(
-          applicantsWithoutNull.map(async (applicant) => {
-            const userDataResponse = await axios.get(
-              `http://localhost:5000/profile/profile?userId=${applicant}&userType=student`
-            );
+// useEffect(() => {
+//   const fetchApplicants = async () => {
+//     try {
+//       const response = await axios.get(
+//         `http://localhost:5000/posts/${postId}/applicants`
+//       );
 
-            return {
-              //...applicant,
-              id: applicant,
-              userData: userDataResponse.data.userProfile,
-            };
-          })
-        );
-        setApplicants(applicantsWithUserData);
-        
-      } catch (error) {
-        console.error("Error fetching applicants:", error);
-      }
-    };
+//       console.log("applicantsss", response.data.applicants);
+//       setApplicants(response.data.applicants);
+//       // console.log("applicants ", applicants);
+//       // Fetch user data for each applicant
+//       const applicantsWithUserData = await Promise.all(
+//         applicantsWithoutNull.map(async (applicant) => {
+//           const userDataResponse = await axios.get(
+//             `http://localhost:5000/profile/profile?userId=${applicant}&userType=student`
+//           );
+
+//           return {
+//             //...applicant,
+//             id: applicant,
+//             userData: userDataResponse.data.userProfile,
+//           };
+//         })
+//       );
+//       setApplicants(applicantsWithUserData);
+//     } catch (error) {
+//       console.error("Error fetching applicants:", error);
+//     }
+//   };
+
+//   fetchApplicants();
+// }, [postId]);
 
 //     fetchApplicants();
 //   }, [postId]);
@@ -608,5 +611,3 @@ import { Key } from "lucide-react";
 //         </Card>
 //       </div>
 //     </div>
-//   );
-// }

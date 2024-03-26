@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "../components/header";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import HeaderStudent from "../components/HeaderStudent";
 
 export default function ProfileSetup() {
   const [successMessage, setSuccessMessage] = useState("");
@@ -150,7 +151,7 @@ export default function ProfileSetup() {
 
   return (
     <>
-      <Header />
+     {userType === "student" ? <HeaderStudent /> : <Header />}
       <div className="flex items-center justify-center h-full bg-gray-100">
         <div className="w-100 mt-1 p-6 bg-white  rounded-md shadow-md">
           <h1 className="text-3xl mb-4">Profile Setup </h1>
