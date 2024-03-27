@@ -148,6 +148,41 @@ export default function Posting() {
     console.log("User ID: in post maing ", userIdFromCookie);
   }, []);
 
+  // const handleSubmit = async () => {
+  //   if (
+  //     !projectHeading ||
+  //     !projectDescription ||
+  //     !skills ||
+  //     !userIdFromCookie
+  //   ) {
+  //     setErrorMessage("Please fill in all fields.");
+  //     setSuccessMessage("");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/posts", {
+  //       projectHeading,
+  //       projectDescription,
+  //       skills: skillsArray,
+  //       author: userIdFromCookie,
+  //     });
+
+  //     if (response.status === 201) {
+  //       setSuccessMessage("Post created successfully");
+  //       setErrorMessage("");
+  //       setProjectHeading("");
+  //       setProjectDescription("");
+  //       setSkills("");
+  //     } else {
+  //       setErrorMessage("Failed to save the post: " + response.data.error);
+  //       setSuccessMessage("");
+  //     }
+  //   } catch (error) {
+  //     setErrorMessage("Error creating post: " + error.message);
+  //     setSuccessMessage("");
+  //   }
+  // };
   const handleSubmit = async () => {
     if (
       !projectHeading ||
@@ -164,7 +199,7 @@ export default function Posting() {
       const response = await axios.post("http://localhost:5000/posts", {
         projectHeading,
         projectDescription,
-        skills,
+        skills: skills.split("\n").map((skill) => skill.trim()),
         author: userIdFromCookie,
       });
 
@@ -214,12 +249,23 @@ export default function Posting() {
               className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2  focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
             <label className="block text-sm  font-bold leading-6 text-gray-900">
-              SKILLS
+              SKILLS (one per line):
             </label>
 
+            {/* <textarea
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+              className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2  focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            /> */}
             <textarea
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
+              onBlur={(e) => {
+                const skillsArray = e.target.value
+                  .split("\n")
+                  .map((skill) => skill.trim());
+                setSkills(skillsArray.join("\n"));
+              }}
               className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2  focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
 

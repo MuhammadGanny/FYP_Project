@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 
 import React, { useState, useEffect } from "react";
 const navigation = [
-  { name: "Projects", href: "/homepage", current: false },
+  { name: "Projects", href: "/homepagestudent", current: false },
   //   { name: "Post Project ", href: "/post", current: false },
 ];
 

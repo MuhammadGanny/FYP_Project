@@ -58,7 +58,8 @@ export default function Profile() {
             <div className="flex items-center">
               <div className="rounded-full overflow-hidden">
                 <img
-                  className="h-40 w-40 object-cover"
+                  className="h-40 w-40 "
+                  //object-cover
                   src={LOGO} // Change this to userProfile.profilePicture when available
                   //src={userProfile.profilePicture}
                   alt="Profile Picture"

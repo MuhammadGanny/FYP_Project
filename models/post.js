@@ -12,8 +12,12 @@ const postSchema = new mongoose.Schema({
   },
   // skills: String,
   // author: String,
+  // skills: {
+  //   type: String,
+  //   required: true,
+  // },
   skills: {
-    type: String,
+    type: [String],
     required: true,
   },
   author: {

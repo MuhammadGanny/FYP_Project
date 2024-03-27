@@ -4,7 +4,7 @@
 // import LOGO from "../Assets/logo.svg";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../components/headerStudent";
+import HeaderStudent from "../components/HeaderStudent";
 import Cookies from "js-cookie";
 import {
   Card,
@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <>
       <div className="min-h-full">
-        <Header />
+        <HeaderStudent />
 
         <header className="bg-[#DEE4EA] shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -82,10 +82,41 @@ export default function Home() {
                     {post.projectHeading}
                   </Typography>
                   <Typography>{post.projectDescription}</Typography>
+
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     Skills
                   </Typography>
-                  <Typography>{post.skills}</Typography>
+                  <div className="flex flex-wrap gap-2">
+                    {post.skills.map(
+                      (
+                        skill,
+                        index // Mapping over the skills array
+                      ) => (
+                        <span
+                          key={index}
+                          className="bg-blue-200 px-2 py-1 rounded-md"
+                        >
+                          {skill}
+                        </span>
+                      )
+                    )}
+                  </div>
+                  {/* <Typography>{post.skills}</Typography>
+                  <div className="p-6">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                      Skills
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {userProfile.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="bg-blue-200 px-2 py-1 rounded-md"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div> */}
                 </CardBody>
                 <CardFooter className="pt-0">
                   <Button

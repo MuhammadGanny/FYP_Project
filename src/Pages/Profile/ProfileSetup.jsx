@@ -151,7 +151,7 @@ export default function ProfileSetup() {
 
   return (
     <>
-     {userType === "student" ? <HeaderStudent /> : <Header />}
+      {userType === "student" ? <HeaderStudent /> : <Header />}
       <div className="flex items-center justify-center h-full bg-gray-100">
         <div className="w-100 mt-1 p-6 bg-white  rounded-md shadow-md">
           <h1 className="text-3xl mb-4">Profile Setup </h1>
@@ -217,7 +217,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   Projects (comma-separated):
                   <textarea
                     type="text"
@@ -234,47 +234,64 @@ export default function ProfileSetup() {
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
+                </label> */}
+                <label className="block mb-2">
+                  Projects (one per line):
+                  <textarea
+                    type="text"
+                    name="projects"
+                    value={studentProfileData.projects.join("\n") || ""}
+                    onChange={(e) =>
+                      setStudentProfileData({
+                        ...studentProfileData,
+                        projects: e.target.value.split("\n"),
+                        // .map((project) => project.trim())
+                        // .filter((project) => project !== ""), // Remove empty strings
+                      })
+                    }
+                    className="w-full border border-gray-300 rounded p-2 mb-2"
+                  />
                 </label>
                 <label className="block mb-2">
-                  Skills (comma-separated):
+                  Skills (one per line):
                   <input
                     type="text"
                     name="skills"
-                    value={studentProfileData.skills.join(", ") || ""}
+                    value={studentProfileData.skills.join("\n") || ""}
                     onChange={(e) =>
                       setStudentProfileData({
                         ...studentProfileData,
-                        skills: e.target.value.split(","),
+                        skills: e.target.value.split("\n"),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
                 <label className="block mb-2">
-                  Experiences (comma-separated):
+                  Experiences(one per line):
                   <textarea
                     type="text"
                     name="experiences"
-                    value={studentProfileData.experiences.join(", ") || ""}
+                    value={studentProfileData.experiences.join("\n") || ""}
                     onChange={(e) =>
                       setStudentProfileData({
                         ...studentProfileData,
-                        experiences: e.target.value.split(","),
+                        experiences: e.target.value.split("\n"),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
                 <label className="block mb-2">
-                  Education:
+                  Education:(one per line):
                   <textarea
                     type="text"
                     name="education"
-                    value={studentProfileData.education || ""}
+                    value={studentProfileData.education.join("\n") || ""}
                     onChange={(e) =>
                       setStudentProfileData({
                         ...studentProfileData,
-                        education: e.target.value.split(","),
+                        education: e.target.value.split("\n"),
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -343,14 +360,15 @@ export default function ProfileSetup() {
                   />
                 </label>
                 <label className="block mb-2">
-                  Products (comma-separated):
+                  Products (One per line):
                   <textarea
                     type="text"
-                    value={companyProfileData.products.join(", ") || ""}
+                    value={companyProfileData.products.join("\n") || ""}
+                    //value={companyProfileData.products.join(", ") || ""}
                     onChange={(e) =>
                       setCompanyProfileData({
                         ...companyProfileData,
-                        products: e.target.value.split(","),
+                        products: e.target.value.split("\n"),
                         // .map((s) => s.trim()),
                       })
                     }
@@ -358,14 +376,14 @@ export default function ProfileSetup() {
                   />
                 </label>
                 <label className="block mb-2">
-                  Services (comma-separated):
+                  Services (One per line):
                   <textarea
                     type="text"
-                    value={companyProfileData.services.join(", ") || ""}
+                    value={companyProfileData.services.join("\n") || ""}
                     onChange={(e) =>
                       setCompanyProfileData({
                         ...companyProfileData,
-                        services: e.target.value.split(","),
+                        services: e.target.value.split("\n"),
                         // .map((s) => s.trim()),
                       })
                     }

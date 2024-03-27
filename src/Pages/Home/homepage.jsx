@@ -103,7 +103,22 @@ export default function Home() {
                     <Typography variant="h5" color="blue-gray" className="mb-2">
                       Skills
                     </Typography>
-                    <Typography>{post.skills}</Typography>
+                    <div className="flex flex-wrap gap-2">
+                      {post.skills.map(
+                        (
+                          skill,
+                          index // Mapping over the skills array
+                        ) => (
+                          <span
+                            key={index}
+                            className="bg-blue-200 px-2 py-1 rounded-md"
+                          >
+                            {skill}
+                          </span>
+                        )
+                      )}
+                    </div>
+                    {/* <Typography>{post.skills}</Typography> */}
                   </CardBody>
                   <CardFooter className="pt-0">
                     {/* <Button className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
