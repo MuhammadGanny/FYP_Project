@@ -9,8 +9,8 @@ import React, { useState, useEffect } from "react";
 const navigation = [
   { name: "Projects", href: "/homepage", current: false },
   { name: "Post Project ", href: "/post", current: false },
-  { name: "Manage Applicants", href: "/", current: false },
-  { name: "Ongoing Project", href: "/", current: false },
+  // { name: "Manage Applicants", href: "/", current: false },
+  // { name: "Ongoing Project", href: "/", current: false },
 ];
 
 const user = {

@@ -254,7 +254,7 @@ export default function ProfileSetup() {
                 </label>
                 <label className="block mb-2">
                   Skills (one per line):
-                  <input
+                  <textarea
                     type="text"
                     name="skills"
                     value={studentProfileData.skills.join("\n") || ""}
@@ -314,7 +314,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   Profile Picture:
                   <input
                     type="file"
@@ -327,7 +327,7 @@ export default function ProfileSetup() {
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
-                </label>
+                </label> */}
               </div>
             )}
             {userType === "company" && (
@@ -406,7 +406,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   Profile Picture:
                   <input
                     type="file"
@@ -419,7 +419,7 @@ export default function ProfileSetup() {
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
-                </label>
+                </label> */}
               </div>
             )}
           </div>

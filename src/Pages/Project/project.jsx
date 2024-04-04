@@ -120,134 +120,130 @@ export default function Project() {
       </div>
       {/* Dialog for displaying additional information */}
       <Dialog open={!!selectedApplicant} onClickBackdrop={closeDialog}>
-        {/* <DialogHeader>
-          <h5 className="text-xl font-semibold">
-            {selectedApplicant?.userData.name}
-          </h5>
-        </DialogHeader>
-        <DialogBody>
-         
-          <p>Bio: {selectedApplicant?.userData.bio}</p>
-          <p>Education: {selectedApplicant?.userData.education}</p>
-         
-        </DialogBody> */}
-        {/* <div className=" mx-auto bg-white shadow-md rounded-lg overflow-hidden"> */}
-        <div className="p-6">
-          <div className="flex items-center">
-            <div className="rounded-full overflow-hidden">
-              <img
-                className="h-40 w-40 object-cover"
-                //src={LOGO} // Change this to userProfile.profilePicture when available
-                //src={userProfile.profilePicture}
-                alt="Profile Picture"
-              />
-            </div>
-            <div className="ml-4">
-              <h1 className="text-xl font-bold text-gray-800">
-                {selectedApplicant?.userData.name ||
-                  selectedApplicant?.userData.companyName}
-              </h1>
-              <p className="text-gray-500">
-                {selectedApplicant?.userData.university || "Company"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-200">
-          <div className="p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              About Me
-            </h2>
-            <p className="text-gray-600">
-              {selectedApplicant?.userData.bio ||
-                selectedApplicant?.userData.description}
-            </p>
-          </div>
-
-          {(selectedApplicant?.userData.projects ||
-            selectedApplicant?.userData.products) && (
-            <div className="p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                {selectedApplicant?.userData.projects ? "Projects" : "Products"}
-              </h2>
-              <ul>
-                {Array.isArray(
-                  selectedApplicant?.userData.projects ||
-                    selectedApplicant?.userData.products
-                ) ? (
-                  (
-                    selectedApplicant?.userData.projects ||
-                    selectedApplicant?.userData.products
-                  ).map((detail, index) => <li key={index}>{detail}</li>)
-                ) : (
-                  <li>No data available</li>
-                )}
-              </ul>
-            </div>
-          )}
-
-          {selectedApplicant?.userData.skills && (
-            <div className="p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Skills
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {selectedApplicant?.userData.skills.map((skill, index) => (
-                  <span
-                    key={index}
-                    className="bg-blue-200 px-2 py-1 rounded-md"
-                  >
-                    {skill}
-                  </span>
-                ))}
+        <DialogBody className="flex justify-center items-center">
+          <div className="max-h-[80vh] overflow-y-auto w-[1000px] ">
+            <div className=" h-full overflow-auto p-6">
+              <div className="flex items-center">
+                <div className="rounded-full overflow-hidden">
+                  <img
+                    className="h-40 w-40 object-cover"
+                    //src={LOGO} // Change this to userProfile.profilePicture when available
+                    //src={userProfile.profilePicture}
+                    alt="Profile Picture"
+                  />
+                </div>
+                <div className="ml-4">
+                  <h1 className="text-xl font-bold text-gray-800">
+                    {selectedApplicant?.userData.name ||
+                      selectedApplicant?.userData.companyName}
+                  </h1>
+                  <p className="text-gray-500">
+                    {selectedApplicant?.userData.university || "Company"}
+                  </p>
+                </div>
               </div>
             </div>
-          )}
 
-          {(selectedApplicant?.userData.experiences ||
-            selectedApplicant?.userData.services) && (
-            <div className="p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                {selectedApplicant?.userData.experiences
-                  ? "Experiences"
-                  : "Services"}
-              </h2>
-              <ul>
-                {Array.isArray(
-                  selectedApplicant?.userData.experiences ||
-                    selectedApplicant?.userData.services
-                ) ? (
-                  (
-                    selectedApplicant?.userData.experiences ||
-                    selectedApplicant?.userData.services
-                  ).map((detail, index) => <li key={index}>{detail}</li>)
-                ) : (
-                  <li>No data available</li>
-                )}
-              </ul>
-            </div>
-          )}
+            <div className="border-t border-gray-200">
+              <div className="p-6">
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                  About Me
+                </h2>
+                <p className="text-gray-600">
+                  {selectedApplicant?.userData.bio ||
+                    selectedApplicant?.userData.description}
+                </p>
+              </div>
 
-          {selectedApplicant?.userData.education && (
-            <div className="p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Education
-              </h2>
-              <ul>
-                {Array.isArray(selectedApplicant?.userData.education) ? (
-                  selectedApplicant?.userData.education.map(
-                    (educationDetail, index) => (
-                      <li key={index}>{educationDetail}</li>
-                    )
-                  )
-                ) : (
-                  <li>No education data available</li>
-                )}
-              </ul>
+              {(selectedApplicant?.userData.projects ||
+                selectedApplicant?.userData.products) && (
+                <div className="p-6">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                    {selectedApplicant?.userData.projects
+                      ? "Projects"
+                      : "Products"}
+                  </h2>
+                  <ul>
+                    {Array.isArray(
+                      selectedApplicant?.userData.projects ||
+                        selectedApplicant?.userData.products
+                    ) ? (
+                      (
+                        selectedApplicant?.userData.projects ||
+                        selectedApplicant?.userData.products
+                      ).map((detail, index) => <li key={index}>{detail}</li>)
+                    ) : (
+                      <li>No data available</li>
+                    )}
+                  </ul>
+                </div>
+              )}
+
+              {selectedApplicant?.userData.skills && (
+                <div className="p-6">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                    Skills
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedApplicant?.userData.skills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="bg-blue-200 px-2 py-1 rounded-md"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {(selectedApplicant?.userData.experiences ||
+                selectedApplicant?.userData.services) && (
+                <div className="p-6">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                    {selectedApplicant?.userData.experiences
+                      ? "Experiences"
+                      : "Services"}
+                  </h2>
+                  <ul>
+                    {Array.isArray(
+                      selectedApplicant?.userData.experiences ||
+                        selectedApplicant?.userData.services
+                    ) ? (
+                      (
+                        selectedApplicant?.userData.experiences ||
+                        selectedApplicant?.userData.services
+                      ).map((detail, index) => <li key={index}>{detail}</li>)
+                    ) : (
+                      <li>No data available</li>
+                    )}
+                  </ul>
+                </div>
+              )}
+
+              {selectedApplicant?.userData.education && (
+                <div className="p-6">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                    Education
+                  </h2>
+                  <ul>
+                    {Array.isArray(selectedApplicant?.userData.education) ? (
+                      selectedApplicant?.userData.education.map(
+                        (educationDetail, index) => (
+                          <li key={index}>{educationDetail}</li>
+                        )
+                      )
+                    ) : (
+                      <li>No education data available</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        </DialogBody>
+        {/* <div className=" mx-auto bg-white shadow-md rounded-lg overflow-hidden"> */}
+
         {/* // </div> */}
         <DialogFooter>
           <Button color="blue" onClick={closeDialog}>
