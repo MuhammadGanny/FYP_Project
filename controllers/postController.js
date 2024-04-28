@@ -135,6 +135,51 @@ const getApplicants = async (req, res) => {
 //     res.status(500).json({ error: "Internal server error" });
 //   }
 // };
+// Inside postController.js
+
+const deletePost = async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const deletedPost = await Post.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the post" });
+  }
+};
+const updatePost = async (req, res) => {
+  const postId = req.params.postId;
+  const { projectHeading, projectDescription, skills } = req.body;
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { projectHeading, projectDescription, skills },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Post updated successfully", post: updatedPost });
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the post" });
+  }
+};
 
 export default {
   createPost,
@@ -142,4 +187,6 @@ export default {
   postConnect,
   getApplicants,
   getPostsByAuthor,
+  updatePost,
+  deletePost, // Add deletePost function to exports
 };
