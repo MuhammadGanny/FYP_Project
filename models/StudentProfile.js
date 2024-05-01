@@ -8,7 +8,13 @@ const studentProfileSchema = new mongoose.Schema({
   skills: [String],
   experiences: [String],
   education: [String],
-  profilePicture: String,
+  profilePicture: {
+    data: Buffer,
+    contentType: {
+      type: String,
+      default: "image/png",
+    },
+  },
 });
 
 const StudentProfile = mongoose.model("StudentProfile", studentProfileSchema);
