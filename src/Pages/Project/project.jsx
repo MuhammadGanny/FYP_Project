@@ -37,12 +37,19 @@ export default function Project() {
             const userDataResponse = await axios.get(
               `http://localhost:5000/profile/profile?userId=${applicant}&userType=student`
             );
+
+            const { userProfile, email } = userDataResponse.data; // Extract email from the API response
             return {
+              // id: applicant,
+              // userData: userDataResponse.data.userProfile,
+              // // email: email,
               id: applicant,
-              userData: userDataResponse.data.userProfile,
+              userData: userProfile,
+              email: email, // Include email in the object
             };
           })
         );
+
         setApplicantsData(applicantsWithUserData);
       } catch (error) {
         console.error("Error fetching applicants:", error);
@@ -107,6 +114,8 @@ export default function Project() {
                       <li key={applicant.id}>
                         <button onClick={() => openDialog(applicant)}>
                           {applicant.userData.name}
+                          {"  "}
+                          {applicant.email}
                         </button>
                       </li>
                     ))}

@@ -49,7 +49,7 @@ export default function Header() {
       )
       .then((response) => {
         setUserProfile(response.data.userProfile);
-        console.log("User Profile Data:", response.data.userProfile);
+        // console.log("User Profile Data:", response.data.userProfile);
       })
       .catch((error) => {
         console.error("Error fetching user profile data:", error);
@@ -57,7 +57,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    console.log("Updated User Profile Data:", userProfile);
+    // console.log("Updated User Profile Data:", userProfile);
   }, [userProfile]);
 
   return (

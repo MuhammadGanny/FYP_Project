@@ -1,32 +1,5 @@
 import Post from "../models/post.js";
 
-// const createPost = async (req, res) => {
-//   try {
-//     const { projectHeading, projectDescription, skills, author } = req.body;
-
-//     const newPost = new Post({
-//       projectHeading,
-//       projectDescription,
-//       skills,
-//       author,
-//     });
-
-//     const savedPost = await newPost.save();
-
-//     if (savedPost) {
-//       res
-//         .status(201)
-//         .json({ message: "Post created successfully", post: savedPost });
-//     } else {
-//       res.status(500).json({ error: "Failed to save the post" });
-//     }
-//   } catch (error) {
-//     console.error("Error creating post:", error);
-//     res
-//       .status(500)
-//       .json({ error: "An error occurred while creating the post" });
-//   }
-// };
 const createPost = async (req, res) => {
   try {
     const { projectHeading, projectDescription, skills, author } = req.body;
@@ -120,22 +93,6 @@ const getApplicants = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-// const getApplicants = async (req, res) => {
-//   const { postId } = req.params;
-
-//   try {
-//     const post = await Post.findById(postId).populate("applicants");
-//     if (!post) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-
-//     res.status(200).json({ applicants: post.applicants });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-// Inside postController.js
 
 const deletePost = async (req, res) => {
   const postId = req.params.postId;
@@ -180,6 +137,20 @@ const updatePost = async (req, res) => {
       .json({ error: "An error occurred while updating the post" });
   }
 };
+const getPostById = async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    res.status(200).json({ post });
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 export default {
   createPost,
@@ -189,4 +160,5 @@ export default {
   getPostsByAuthor,
   updatePost,
   deletePost, // Add deletePost function to exports
+  getPostById,
 };

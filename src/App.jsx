@@ -10,6 +10,7 @@ import Register from "./Pages/Signin/register";
 import ProjectPost from "./Pages/ProjectPost/posting";
 import Profilesetup from "./Pages/Profile/ProfileSetup";
 import Projectpage from "./Pages/Project/project.jsx";
+import UpdatePost from "./Pages/ProjectPost/updatepost.jsx";
 function App() {
   return (
     <Router>
@@ -32,6 +33,7 @@ function App() {
             }
           />
           <Route path="/post" element={<ProjectPost />} />
+          <Route path="/updatepost/:postId" element={<UpdatePost />} />
           <Route path="/" element={<Welcome />} />
         </Routes>
       </>

@@ -314,7 +314,10 @@ const getProfile = async (req, res) => {
       return res.status(404).json({ error: "Profile not found." });
     }
 
-    return res.status(200).json({ userProfile });
+    const { email } = userData;
+    // console.log(email);
+
+    return res.status(200).json({ userProfile, email });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });

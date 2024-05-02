@@ -10,4 +10,6 @@ router.get("/:postId/applicants", postController.getApplicants);
 router.get("/author/:authorId", postController.getPostsByAuthor);
 router.put("/:postId", postController.updatePost);
 router.delete("/:postId", postController.deletePost);
+router.get("/:postId", postController.getPostById);
+
 export default router;
