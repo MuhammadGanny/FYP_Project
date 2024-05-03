@@ -191,83 +191,82 @@ const setupProfile = async (req, res) => {
     const { userId, userType, profileData } = req.body;
 
     // Handle file upload
-    upload(req, res, async (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: "File upload error." });
-      }
+    // upload(req, res, async (err) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return res.status(500).json({ error: "File upload error." });
+    //   }
 
-      const file = req.file;
 
-      // Construct profile model based on user type
-      let profileModel;
-      let userUpdateField;
-      if (userType === "student") {
-        profileModel = StudentProfile;
-        userUpdateField = "Sprofile";
-      } else if (userType === "company") {
-        profileModel = CompanyProfile;
-        userUpdateField = "Cprofile";
-      } else {
-        return res.status(400).json({
-          error: `Invalid user type: ${userType}. Supported types are 'student' and 'company'.`,
-        });
-      }
+    const file = req.file;
 
-      // Parse profile data
-      const parsedProfileData = JSON.parse(profileData);
-
-      // Create new profile document
-      const newProfile = new profileModel({
-        userID: userId,
-        ...(userType === "student"
-          ? {
-              name: parsedProfileData.name,
-              university: parsedProfileData.university,
-              bio: parsedProfileData.bio,
-              projects: parsedProfileData.projects,
-              skills: parsedProfileData.skills,
-              experiences: parsedProfileData.experiences,
-              education: parsedProfileData.education,
-              profilePicture: file ? file.path : "", // Set profile picture path if uploaded
-            }
-          : userType === "company"
-          ? {
-              companyName: parsedProfileData.companyName,
-              description: parsedProfileData.description,
-              products: parsedProfileData.products,
-              services: parsedProfileData.services,
-              profilePicture: file ? file.path : "", // Set profile picture path if uploaded
-            }
-          : {}),
+    // Construct profile model based on user type
+    let profileModel;
+    let userUpdateField;
+    if (userType === "student") {
+      profileModel = StudentProfile;
+      userUpdateField = "Sprofile";
+    } else if (userType === "company") {
+      profileModel = CompanyProfile;
+      userUpdateField = "Cprofile";
+    } else {
+      return res.status(400).json({
+        error: `Invalid user type: ${userType}. Supported types are 'student' and 'company'.`,
       });
+    }
 
-      // Save profile document
-      await newProfile.save();
+    // Parse profile data
+    const parsedProfileData = JSON.parse(profileData);
 
-      // Update user document with profile ID
-      const updateQuery = {
-        [userUpdateField]: newProfile._id,
-      };
-      const updatedUser = await UserData.findByIdAndUpdate(
-        userId,
-        updateQuery,
-        { new: true }
-      );
-
-      console.log("Setup Profile Data:", {
-        userId,
-        userType,
-        profileData: parsedProfileData,
-        newProfile,
-        updatedUser,
-      });
-
-      // Send response
-      res
-        .status(201)
-        .json({ message: "Profile setup successful.", user: updatedUser });
+    // Create new profile document
+    const newProfile = new profileModel({
+      userID: userId,
+      ...(userType === "student"
+        ? {
+            name: parsedProfileData.name,
+            university: parsedProfileData.university,
+            bio: parsedProfileData.bio,
+            projects: parsedProfileData.projects,
+            skills: parsedProfileData.skills,
+            experiences: parsedProfileData.experiences,
+            education: parsedProfileData.education,
+            profilePicture: file ? file.path : "", // Set profile picture path if uploaded
+          }
+        : userType === "company"
+        ? {
+            companyName: parsedProfileData.companyName,
+            description: parsedProfileData.description,
+            products: parsedProfileData.products,
+            services: parsedProfileData.services,
+            profilePicture: file ? file.path : "", // Set profile picture path if uploaded
+          }
+        : {}),
     });
+
+    // Save profile document
+    await newProfile.save();
+
+    // Update user document with profile ID
+    const updateQuery = {
+      [userUpdateField]: newProfile._id,
+    };
+    const updatedUser = await UserData.findByIdAndUpdate(userId, updateQuery, {
+      new: true,
+    });
+
+    console.log("Setup Profile Data:", {
+      userId,
+      userType,
+      profileData: parsedProfileData,
+      newProfile,
+      updatedUser,
+    });
+
+    // Send response
+    res
+      .status(201)
+      .json({ message: "Profile setup successful.", user: updatedUser });
+    // });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error." });

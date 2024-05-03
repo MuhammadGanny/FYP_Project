@@ -48,6 +48,7 @@ export default function Header() {
         }
       )
       .then((response) => {
+        console.log("response data of profile ", response);
         setUserProfile(response.data.userProfile);
         // console.log("User Profile Data:", response.data.userProfile);
       })
@@ -161,7 +162,8 @@ export default function Header() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={userProfile.profilePicture || user.imageUrl}
+                          src={userProfile.profilePicture}
+                          // src={userProfile.profilePicture}
                           alt=""
                         />
                       </Menu.Button>

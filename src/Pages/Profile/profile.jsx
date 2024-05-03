@@ -60,8 +60,8 @@ export default function Profile() {
                 <img
                   className="h-40 w-40 "
                   //object-cover
-                  src={LOGO} // Change this to userProfile.profilePicture when available
-                  //src={userProfile.profilePicture}
+                  //src={LOGO} // Change this to userProfile.profilePicture when available
+                  src={userProfile.profilePicture}
                   alt="Profile Picture"
                 />
               </div>

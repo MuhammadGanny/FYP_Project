@@ -5,7 +5,7 @@ import upload from "../middleware/multerSetup.js";
 
 const router = express.Router();
 
-router.post("/setup-profile", profileController.setupProfile);
+router.post("/setup-profile", upload, profileController.setupProfile);
 
 router.get("/profile", profileController.getProfile);
 

@@ -119,15 +119,12 @@ export default function ProfileSetup() {
           //document.getElementById("file-upload").files[0]
         );
       } else if (userType === "company") {
+        console.log("company profile picture ", companyProfileData);
         formData.append("profileData", JSON.stringify(companyProfileData));
-        formData.append(
-          "profilePicture",
-          companyProfileData.profilePicture
-          // document.getElementById("file-upload").files[0]
-        );
+        formData.append("profilePicture", companyProfileData.profilePicture);
       }
 
-      console.log(formData);
+      console.log("append form data", formData);
 
       await axios.post(
         "http://localhost:5000/profile/setup-profile",
@@ -135,7 +132,7 @@ export default function ProfileSetup() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -314,7 +311,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
-                {/* <label className="block mb-2">
+                <label className="block mb-2">
                   Profile Picture:
                   <input
                     type="file"
@@ -327,7 +324,7 @@ export default function ProfileSetup() {
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
-                </label> */}
+                </label>
               </div>
             )}
             {userType === "company" && (
@@ -406,20 +403,21 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label> */}
-                {/* <label className="block mb-2">
+                <label className="block mb-2">
                   Profile Picture:
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log("on selection file ", e.target.files);
                       setCompanyProfileData({
                         ...companyProfileData,
                         profilePicture: e.target.files[0],
-                      })
-                    }
+                      });
+                    }}
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
-                </label> */}
+                </label>
               </div>
             )}
           </div>
