@@ -13,6 +13,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import Header from "../components/header";
+import { Link } from "react-router-dom";
 import { Card, Button } from "@material-tailwind/react";
 
 export default function Project() {
@@ -82,7 +83,7 @@ export default function Project() {
               }}
             >
               <Tab
-                value="html"
+                value="projectdetails"
                 onClick={() => setActiveTab("html")}
                 className={activeTab === "html" ? "text-gray-900" : ""}
               >
@@ -96,7 +97,7 @@ export default function Project() {
                 Applicants
               </Tab>
               <Tab
-                value="vue"
+                value="dashboard"
                 onClick={() => setActiveTab("vue")}
                 className={activeTab === "vue" ? "text-gray-900" : ""}
               >
@@ -123,6 +124,29 @@ export default function Project() {
                 </div>
               </TabPanel>
               {/* Other TabPanels omitted for brevity */}
+
+              <TabPanel value="projectdetails">
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold mb-4">
+                    Project Details
+                  </h2>
+                  {/* Project details content */}
+                  <Link to={`/milestone/${postId}`}>
+                    <Button
+                      //color="indigo"
+                      //className="mt-4"
+                      className="flex ml-[25%] w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      onClick={() => {
+                        // Redirect to the milestone page when "Start Project" button is clicked
+                        // Replace '/milestone' with the actual route to the milestone page
+                        // history.push(`/milestone/${postId}`);
+                      }}
+                    >
+                      Start Project
+                    </Button>
+                  </Link>
+                </div>
+              </TabPanel>
             </TabsBody>
           </Tabs>
         </Card>

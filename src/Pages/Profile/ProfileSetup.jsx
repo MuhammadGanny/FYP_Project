@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "../components/header";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import HeaderStudent from "../components/HeaderStudent";
+import HeaderStudent from "../components/headerStudent.jsx";
 
 export default function ProfileSetup() {
   const [successMessage, setSuccessMessage] = useState("");

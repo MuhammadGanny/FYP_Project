@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import LOGO from "../Assets/logo.svg";
-import HeaderStudent from "../components/HeaderStudent";
+import HeaderStudent from "../components/headerStudent.jsx";
 
 import Header from "../components/header";
 

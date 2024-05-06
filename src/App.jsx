@@ -11,6 +11,7 @@ import ProjectPost from "./Pages/ProjectPost/posting";
 import Profilesetup from "./Pages/Profile/ProfileSetup";
 import Projectpage from "./Pages/Project/project.jsx";
 import UpdatePost from "./Pages/ProjectPost/updatepost.jsx";
+import Milestone from "./Pages/Project/milestone.jsx";
 function App() {
   return (
     <Router>
@@ -33,6 +34,7 @@ function App() {
             }
           />
           <Route path="/post" element={<ProjectPost />} />
+          <Route path="/milestone/:postId" element={<Milestone />} />
           <Route path="/updatepost/:postId" element={<UpdatePost />} />
           <Route path="/" element={<Welcome />} />
         </Routes>

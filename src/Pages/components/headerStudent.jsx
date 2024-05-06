@@ -16,7 +16,7 @@ const user = {
   // name: "Tom Cook",
   //email: "tom@example.com",
   //src: {LOGO},
-  imageUrl: "https://docs.material-tailwind.com/img/face-2.jpg",
+  //imageUrl: "https://docs.material-tailwind.com/img/face-2.jpg",
 };
 
 const userNavigation = [
@@ -152,7 +152,8 @@ export default function Header() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={userProfile.profilePicture || user.imageUrl}
+                          // src={userProfile.profilePicture || user.imageUrl}
+                          src={userProfile.profilePicture}
                           alt=""
                         />
                       </Menu.Button>
