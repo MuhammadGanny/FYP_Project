@@ -26,6 +26,18 @@ const postSchema = new mongoose.Schema({
       ref: "UserData", // Assuming you have a Student model
     },
   ],
+  selectedApplicants: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserData", // Selected students for the project
+    },
+  ],
+  milestones: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Milestone",
+    },
+  ],
 });
 
 // module.exports = mongoose.model('Post', postSchema);

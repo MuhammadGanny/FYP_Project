@@ -11,5 +11,6 @@ router.get("/author/:authorId", postController.getPostsByAuthor);
 router.put("/:postId", postController.updatePost);
 router.delete("/:postId", postController.deletePost);
 router.get("/:postId", postController.getPostById);
+router.post("/select-applicants", postController.selectApplicants);
 
 export default router;

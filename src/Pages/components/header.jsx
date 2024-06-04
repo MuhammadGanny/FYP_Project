@@ -164,7 +164,7 @@ export default function Header() {
                           className="h-8 w-8 rounded-full"
                           src={userProfile.profilePicture}
                           // src={userProfile.profilePicture}
-                          alt=""
+                          alt={user.imageUrl}
                         />
                       </Menu.Button>
                       <div className="ml-2 flex flex-col">
@@ -242,7 +242,8 @@ export default function Header() {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={user.imageUrl}
+                    // src={user.imageUrl}
+                    src={userProfile.profilePicture}
                     alt=""
                   />
                 </div>

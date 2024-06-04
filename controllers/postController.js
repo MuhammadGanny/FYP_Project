@@ -152,6 +152,23 @@ const getPostById = async (req, res) => {
   }
 };
 
+// Add this method to your postController.js
+const selectApplicants = async (req, res) => {
+  try {
+    const { postId, applicantIds } = req.body;
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    post.selectedApplicants = applicantIds;
+    await post.save();
+    res.status(200).json({ message: "Applicants selected successfully", post });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export default {
   createPost,
   getAllPosts,
@@ -161,4 +178,5 @@ export default {
   updatePost,
   deletePost, // Add deletePost function to exports
   getPostById,
+  selectApplicants,
 };

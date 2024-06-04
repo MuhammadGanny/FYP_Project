@@ -259,7 +259,7 @@
 // }
 import { useState, useEffect } from "react";
 import axios from "axios";
-import HeaderStudent from "../components/HeaderStudent";
+import HeaderStudent from "../components/headerStudent";
 import Cookies from "js-cookie";
 import {
   Card,
