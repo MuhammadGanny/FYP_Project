@@ -15,4 +15,5 @@ router.get("/:postId", MilestoneController.getMilestones);
 router.put("/update-milestone", MilestoneController.updateMilestoneStatus);
 router.post("/add-comment", MilestoneController.addMilestoneComment);
 
+router.put("/:milestoneId", MilestoneController.updateMilestone);
 export default router;
