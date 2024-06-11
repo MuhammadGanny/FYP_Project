@@ -13,10 +13,23 @@ const milestoneSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["pending", "in progress", "completed"],
-    default: "pending",
+    default: "in progress",
   },
-  submissionLink: { type: String },
-  comments: [{ comment: String, date: Date }],
+
+  submissionLinks: {
+    type: [String],
+    default: [],
+  },
+
+  comments: [
+    {
+      comment: String,
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 const Milestone = mongoose.model("Milestone", milestoneSchema);

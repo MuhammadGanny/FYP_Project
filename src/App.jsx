@@ -12,6 +12,9 @@ import Profilesetup from "./Pages/Profile/ProfileSetup";
 import Projectpage from "./Pages/Project/project.jsx";
 import UpdatePost from "./Pages/ProjectPost/updatepost.jsx";
 import Milestone from "./Pages/Project/milestone.jsx";
+import StudentMilestones from "./Pages/Project/StudentMilestones.jsx"; // Import the new component
+import OngoingProjects from "./Pages/Project/OngoingProjects.jsx"; // New import
+
 function App() {
   return (
     <Router>
@@ -24,7 +27,6 @@ function App() {
           <Route path="/profilesetup" element={<Profilesetup />} />
           {/* <Route path="/projectpage" element={<Projectpage />} /> */}
           <Route path="/projectpage/:id" element={<Projectpage />} />
-
           <Route
             path="/profile"
             element={
@@ -37,6 +39,13 @@ function App() {
           <Route path="/milestone/:postId" element={<Milestone />} />
           <Route path="/updatepost/:postId" element={<UpdatePost />} />
           <Route path="/" element={<Welcome />} />
+          <Route
+            path="/student-milestones/:postId"
+            element={<StudentMilestones />}
+          />
+          {/* Add new route */}
+          <Route path="/ongoing-projects" element={<OngoingProjects />} />
+          {/* New route */}
         </Routes>
       </>
     </Router>

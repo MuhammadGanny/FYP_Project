@@ -169,6 +169,21 @@ const selectApplicants = async (req, res) => {
   }
 };
 
+const getProjectsForStudent = async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const posts = await Post.find({ selectedApplicants: userId });
+    res.status(200).json({ posts });
+    console.log(`Posts found for userId ${userId}:`, posts);
+  } catch (error) {
+    console.error("Error fetching posts by author:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching posts by author" });
+  }
+};
+
 export default {
   createPost,
   getAllPosts,
@@ -176,7 +191,9 @@ export default {
   getApplicants,
   getPostsByAuthor,
   updatePost,
-  deletePost, // Add deletePost function to exports
+  deletePost,
   getPostById,
   selectApplicants,
+  //isSelectedForProject,
+  getProjectsForStudent,
 };

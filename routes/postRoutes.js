@@ -12,5 +12,10 @@ router.put("/:postId", postController.updatePost);
 router.delete("/:postId", postController.deletePost);
 router.get("/:postId", postController.getPostById);
 router.post("/select-applicants", postController.selectApplicants);
-
+// router.get("/selected-for-project", postController.isSelectedForProject);
+//router.get("/selected-for-project", postController.isSelectedForProject);
+router.get(
+  "/projects-for-student/:userId",
+  postController.getProjectsForStudent
+);
 export default router;

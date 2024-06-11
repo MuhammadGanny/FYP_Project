@@ -12,8 +12,15 @@ const router = express.Router();
 
 router.post("/", MilestoneController.createMilestone);
 router.get("/:postId", MilestoneController.getMilestones);
-router.put("/update-milestone", MilestoneController.updateMilestoneStatus);
-router.post("/add-comment", MilestoneController.addMilestoneComment);
-
+//router.put("/update-milestone", MilestoneController.updateMilestoneStatus);
+//router.post("/add-comment", MilestoneController.addMilestoneComment);
 router.put("/:milestoneId", MilestoneController.updateMilestone);
+//router.put("/:milestoneId/link", MilestoneController.addSubmissionLink);
+router.get("/milestones", MilestoneController.getStudentMilestones);
+router.put("/:milestoneId/status", MilestoneController.updateMilestoneStatus);
+router.put("/:milestoneId/link", MilestoneController.addSubmissionLink);
+
+router.put("/:milestoneId/comment", MilestoneController.addMilestoneComment);
+// router.get("/selected-for-project", MilestoneController.isSelectedForProject);
+
 export default router;
