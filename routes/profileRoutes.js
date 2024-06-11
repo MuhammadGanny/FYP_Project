@@ -9,8 +9,6 @@ router.post("/setup-profile", upload, profileController.setupProfile);
 
 router.get("/profile", profileController.getProfile);
 
-//router.put("/update-profile", profileController.updateProfile);
-
 router.use(authMiddleware.verifyToken);
 
 export default router;
