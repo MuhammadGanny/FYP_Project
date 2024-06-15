@@ -199,39 +199,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
-                {/* <label className="block mb-2">
-                  Projects (comma-separated):
-                  <textarea
-                    type="text"
-                    name="projects"
-                    value={studentProfileData.projects.join(", ") || ""}
-                    onChange={(e) =>
-                      setStudentProfileData({
-                        ...studentProfileData,
-                        projects: e.target.value.split(","),
-                      })
-                    }
-                    className="w-full border border-gray-300 rounded p-2 mb-2"
-                  />
-                </label> */}
-                {/* <label className="block mb-2">
-                  Projects (comma-separated):
-                  <textarea
-                    type="text"
-                    name="projects"
-                    value={studentProfileData.projects.join(", ") || ""}
-                    onChange={(e) =>
-                      setStudentProfileData({
-                        ...studentProfileData,
-                        projects: e.target.value
-                          .split(",")
-                          .map((project) => project.trim())
-                          .filter((project) => project !== ""), // Remove empty strings
-                      })
-                    }
-                    className="w-full border border-gray-300 rounded p-2 mb-2"
-                  />
-                </label> */}
+
                 <label className="block mb-2">
                   Projects (one per line):
                   <textarea
@@ -242,8 +210,6 @@ export default function ProfileSetup() {
                       setStudentProfileData({
                         ...studentProfileData,
                         projects: e.target.value.split("\n"),
-                        // .map((project) => project.trim())
-                        // .filter((project) => project !== ""), // Remove empty strings
                       })
                     }
                     className="w-full border border-gray-300 rounded p-2 mb-2"
@@ -294,23 +260,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
-                {/* <label className="block mb-2">
-                  Profile Picture URL:
-                  Profile Picture:
-                  <input
-                    id="file-upload"
-                    name="profilePicture"
-                    type="file"
-                    value={studentProfileData.profilePicture || ""}
-                    onChange={(e) =>
-                      setStudentProfileData({
-                        ...studentProfileData,
-                        profilePicture: e.target.files[0],
-                      })
-                    }
-                    className="w-full border border-gray-300 rounded p-2 mb-2"
-                  />
-                </label> */}
+
                 <label className="block mb-2">
                   Profile Picture:
                   <input
@@ -387,22 +337,7 @@ export default function ProfileSetup() {
                     className="w-full border border-gray-300 rounded p-2 mb-2"
                   />
                 </label>
-                {/* <label className="block mb-2">
-                  Profile Picture URL:
-                  <input
-                    id="file-upload"
-                    name="file-upload"
-                    type="file"
-                    value={companyProfileData.profilePicture || ""}
-                    onChange={(e) =>
-                      setCompanyProfileData({
-                        ...companyProfileData,
-                        profilePicture: e.target.value,
-                      })
-                    }
-                    className="w-full border border-gray-300 rounded p-2 mb-2"
-                  />
-                </label> */}
+
                 <label className="block mb-2">
                   Profile Picture:
                   <input

@@ -17,19 +17,19 @@ const postSchema = new mongoose.Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserData", // Assuming you have a User model
+    ref: "UserData",
     required: true,
   },
   applicants: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserData", // Assuming you have a Student model
+      ref: "UserData",
     },
   ],
   selectedApplicants: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserData", // Selected students for the project
+      ref: "UserData",
     },
   ],
   milestones: [
@@ -40,6 +40,5 @@ const postSchema = new mongoose.Schema({
   ],
 });
 
-// module.exports = mongoose.model('Post', postSchema);
 const Post = mongoose.model("Post", postSchema);
 export default Post;

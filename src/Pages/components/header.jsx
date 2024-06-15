@@ -9,14 +9,9 @@ import React, { useState, useEffect } from "react";
 const navigation = [
   { name: "Projects", href: "/homepage", current: false },
   { name: "Post Project ", href: "/post", current: false },
-  // { name: "Manage Applicants", href: "/", current: false },
-  // { name: "Ongoing Project", href: "/", current: false },
 ];
 
 const user = {
-  // name: "Tom Cook",
-  //email: "tom@example.com",
-  //src: {LOGO},
   imageUrl: "https://docs.material-tailwind.com/img/face-2.jpg",
 };
 
@@ -50,16 +45,13 @@ export default function Header() {
       .then((response) => {
         console.log("response data of profile ", response);
         setUserProfile(response.data.userProfile);
-        // console.log("User Profile Data:", response.data.userProfile);
       })
       .catch((error) => {
         console.error("Error fetching user profile data:", error);
       });
   }, []);
 
-  useEffect(() => {
-    // console.log("Updated User Profile Data:", userProfile);
-  }, [userProfile]);
+  useEffect(() => {}, [userProfile]);
 
   return (
     <Disclosure as="nav" className="bg-[#ffffff]">
@@ -69,13 +61,8 @@ export default function Header() {
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <img
-                    className="h-14 w-25"
-                    //src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    src={LOGO}
-                    alt="Your Company"
-                  />
-                  {/* <h3> {userProfile.name || userProfile.companyName}</h3> */}
+                  <img className="h-14 w-25" src={LOGO} alt="Your Company" />
+                  {}
                 </div>
 
                 <div className="hidden md:block">
@@ -109,52 +96,6 @@ export default function Header() {
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
 
-                  {/* Profile dropdown */}
-                  {/* <Menu as="div" className="relative ml-3">
-                    <div>
-                      <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src={userProfile.profilePicture || user.imageUrl}
-                          alt=""
-                        />
-                      </Menu.Button>
-                      <div className="ml-2 flex flex-col">
-                        <h3 className="text-lg font-semibold text-gray-900 truncate w-20">
-                          {userProfile.name || userProfile.companyName}
-                        </h3>
-                      </div>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {userNavigation.map((item) => (
-                          <Menu.Item key={item.name}>
-                            {({ active }) => (
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
-                                )}
-                              >
-                                {item.name}
-                              </a>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </Menu.Items>
-                    </Transition>
-                  </Menu> */}
                   <Menu as="div" className="relative ml-3">
                     <div className="flex items-center">
                       <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -163,7 +104,6 @@ export default function Header() {
                         <img
                           className="h-8 w-8 rounded-full"
                           src={userProfile.profilePicture}
-                          // src={userProfile.profilePicture}
                           alt={user.imageUrl}
                         />
                       </Menu.Button>
@@ -204,7 +144,6 @@ export default function Header() {
                 </div>
               </div>
               <div className="-mr-2 flex md:hidden">
-                {/* Mobile menu button */}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -242,7 +181,6 @@ export default function Header() {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    // src={user.imageUrl}
                     src={userProfile.profilePicture}
                     alt=""
                   />

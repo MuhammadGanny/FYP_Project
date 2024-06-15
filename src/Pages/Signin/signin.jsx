@@ -8,16 +8,12 @@ import Cookies from "js-cookie";
 export default function Signin() {
   const [message, setMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  // const validatePassword = (password) => {
-  //   return password.length >= 8;
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,35 +22,28 @@ export default function Signin() {
     const userTypeInput = e.target.userType ? e.target.userType.value : null;
 
     if (!validateEmail(emailInput)) {
-      setErrorMessage(
-        "Invalid email format. Please enter a valid email address ending with .com."
-      );
+      setErrorMessage("Invalid email format.");
       return;
     }
 
     try {
-      let userResponse;
-      userResponse = await axios.post("http://localhost:5000/user/login", {
-        email: emailInput,
-        password: passwordInput,
-        userType: userTypeInput,
-      });
+      const userResponse = await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          email: emailInput,
+          password: passwordInput,
+          userType: userTypeInput,
+        }
+      );
 
       if (userResponse.status === 200) {
-        console.log("User is signed in.");
         setMessage("User is signed in.");
 
-        // Extract userType from response data
-        const userType = userResponse.data.userType;
-
-        // Set cookies
-        const token = userResponse.data.token;
-        const userId = userResponse.data.userId;
+        const { token, userId, userType } = userResponse.data;
         Cookies.set("token", token);
         Cookies.set("userId", userId);
         Cookies.set("userType", userType);
 
-        // Redirect based on userType
         if (userType === "student") {
           navigate("/homepageStudent");
         } else if (userType === "company") {
@@ -64,21 +53,22 @@ export default function Signin() {
         setErrorMessage("");
         return;
       }
-      console.error("Login failed.");
-      setMessage("");
-
-      if (
-        userResponse.status === 401 &&
-        userResponse.data.error === "Invalid credentials."
-      ) {
-        setErrorMessage("Incorrect Email & Password");
-      } else {
-        setErrorMessage("Login failed: " + userResponse.data.error);
-      }
     } catch (error) {
       console.error("General error occurred:", error);
       setMessage("");
-      setErrorMessage("Error occurred during login");
+
+      if (error.response) {
+        if (
+          error.response.status === 401 &&
+          error.response.data.error === "Invalid credentials."
+        ) {
+          setErrorMessage("Incorrect Email & Password");
+        } else {
+          setErrorMessage("Login failed: " + error.response.data.error);
+        }
+      } else {
+        setErrorMessage("Error occurred during login");
+      }
     }
   };
 
