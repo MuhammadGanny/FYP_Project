@@ -58,6 +58,7 @@ export default function Header() {
   useEffect(() => {
     console.log("Updated User Profile Data:", userProfile);
   }, [userProfile]);
+export default function HeaderStudent() {
   return (
     <Disclosure as="nav" className="bg-[#ffffff]">
       {({ open }) => (
