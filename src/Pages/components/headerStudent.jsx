@@ -55,6 +55,10 @@ export default function HeaderStudent() {
     navigate("/signin");
   };
 
+  const profilePictureUrl = userProfile.profilePicture
+    ? `/${userProfile.profilePicture.split("/").pop()}`
+    : "/default-profile.jpeg";
+
   return (
     <Disclosure as="nav" className="bg-[#ffffff]">
       {({ open }) => (
@@ -101,7 +105,8 @@ export default function HeaderStudent() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={userProfile.profilePicture}
+                          // src={userProfile.profilePicture}
+                          src={profilePictureUrl}
                           alt=""
                         />
                       </Menu.Button>

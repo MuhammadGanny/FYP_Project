@@ -72,11 +72,11 @@ export default function Home() {
                     <Typography variant="h5" color="blue-gray" className="mb-2">
                       Skills
                     </Typography>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap  gap-2">
                       {post.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="bg-blue-200 px-2 py-1 rounded-md"
+                          className="bg-blue-200  px-2 py-1 rounded-md "
                         >
                           {skill}
                         </span>

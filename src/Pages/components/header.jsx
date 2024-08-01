@@ -11,9 +11,9 @@ const navigation = [
   { name: "Post Project ", href: "/post", current: false },
 ];
 
-const user = {
-  imageUrl: "https://docs.material-tailwind.com/img/face-2.jpg",
-};
+// const user = {
+//   imageUrl: "https://docs.material-tailwind.com/img/face-2.jpg",
+// };
 
 const userNavigation = [
   { name: "Your Profile", href: "/profile" },
@@ -51,7 +51,10 @@ export default function Header() {
       });
   }, []);
 
-  useEffect(() => {}, [userProfile]);
+  // useEffect(() => {}, [userProfile]);
+  const profilePictureUrl = userProfile.profilePicture
+    ? `/${userProfile.profilePicture.split("/").pop()}`
+    : "/public/logo.jpeg";
 
   return (
     <Disclosure as="nav" className="bg-[#ffffff]">
@@ -62,7 +65,7 @@ export default function Header() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <img className="h-14 w-25" src={LOGO} alt="Your Company" />
-                  {}
+                  {/* {} */}
                 </div>
 
                 <div className="hidden md:block">
@@ -103,8 +106,10 @@ export default function Header() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={userProfile.profilePicture}
-                          alt={user.imageUrl}
+                          // src={userProfile.profilePicture}
+                          src={profilePictureUrl}
+                          // alt={user.imageUrl}
+                          alt="Your Profile Picture"
                         />
                       </Menu.Button>
                       <div className="ml-2 flex flex-col">
@@ -190,7 +195,7 @@ export default function Header() {
                     {userProfile.name || userProfile.companyName}
                   </div>
                   <div className="text-sm font-medium leading-none text-gray-400">
-                    {user.email}
+                    {/* {user.email} */}
                   </div>
                 </div>
                 <button
