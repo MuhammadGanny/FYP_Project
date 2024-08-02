@@ -59,6 +59,11 @@ export default function HeaderStudent() {
     ? `/${userProfile.profilePicture.split("/").pop()}`
     : "/default-profile.jpeg";
 
+  // useEffect(() => {
+  //   console.log("Updated User Profile Data:", userProfile);
+  // }, [userProfile]);
+
+  // export default function HeaderStudent() {
   return (
     <Disclosure as="nav" className="bg-[#ffffff]">
       {({ open }) => (

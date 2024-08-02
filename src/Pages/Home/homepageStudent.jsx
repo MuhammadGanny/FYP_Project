@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import HeaderStudent from "../components/headerStudent";
+import Header from "../components/HeaderStudent";
 import Cookies from "js-cookie";
 import {
   Card,

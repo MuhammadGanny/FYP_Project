@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import LOGO from "../Assets/logo.svg";
 import HeaderStudent from "../components/headerStudent.jsx";
+import HeaderStudent from "../components/HeaderStudent";
 
 import Header from "../components/header";
 
