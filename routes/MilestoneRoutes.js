@@ -10,6 +10,6 @@ router.get("/milestones", MilestoneController.getStudentMilestones);
 router.put("/:milestoneId/status", MilestoneController.updateMilestoneStatus);
 router.put("/:milestoneId/link", MilestoneController.addSubmissionLink);
 
-router.put("/:milestoneId/comment", MilestoneController.addMilestoneComment);
+router.post("/:milestoneId/comment", MilestoneController.addMilestoneComment);
 
 export default router;

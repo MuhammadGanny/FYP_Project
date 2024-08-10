@@ -125,7 +125,8 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { userId, userType, updatedProfileData } = req.body;
+    const { userId, userType } = req.body;
+    const updatedProfileData = JSON.parse(req.body.profileData); // Extract the profile data from the request body
 
     let profileModel;
     let userUpdateField;
@@ -152,9 +153,9 @@ const updateProfile = async (req, res) => {
       return res.status(404).json({ error: "Profile not found." });
     }
 
-    const updatedProfile = await profileModel.findOneAndUpdate(
-      { _id: profileId },
-
+    const updatedProfile = await profileModel.findByIdAndUpdate(
+      profileId,
+      { ...updatedProfileData },
       { new: true }
     );
 
@@ -165,13 +166,258 @@ const updateProfile = async (req, res) => {
     return res.status(200).json({ updatedProfile });
   } catch (error) {
     console.error(error);
-
-    if (error.status) {
-      return res.status(error.status).json({ error: error.error });
-    } else {
-      return res.status(500).json({ error: "Internal server error." });
-    }
+    return res.status(500).json({ error: "Internal server error." });
   }
 };
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { userId, userType, updatedProfileData } = req.body;
+
+//     let profileModel;
+//     let userUpdateField;
+
+//     if (userType === "student") {
+//       profileModel = StudentProfile;
+//       userUpdateField = "Sprofile";
+//     } else if (userType === "company") {
+//       profileModel = CompanyProfile;
+//       userUpdateField = "Cprofile";
+//     } else {
+//       return res.status(400).json({ error: "Invalid user type." });
+//     }
+
+//     const userData = await UserData.findById(userId);
+
+//     if (!userData) {
+//       return res.status(404).json({ error: "User not found." });
+//     }
+
+//     const profileId = userData[userUpdateField];
+
+//     if (!profileId) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     const updatedProfile = await profileModel.findOneAndUpdate(
+//       { _id: profileId },
+
+//       { new: true }
+//     );
+
+//     if (!updatedProfile) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     return res.status(200).json({ updatedProfile });
+//   } catch (error) {
+//     console.error(error);
+
+//     if (error.status) {
+//       return res.status(error.status).json({ error: error.error });
+//     } else {
+//       return res.status(500).json({ error: "Internal server error." });
+//     }
+//   }
+// };
+
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { userId, userType } = req.body;
+//     const updatedProfileData = JSON.parse(req.body.updatedProfileData);
+
+//     let profileModel;
+//     let userUpdateField;
+
+//     if (userType === "student") {
+//       profileModel = StudentProfile;
+//       userUpdateField = "Sprofile";
+//     } else if (userType === "company") {
+//       profileModel = CompanyProfile;
+//       userUpdateField = "Cprofile";
+//     } else {
+//       return res.status(400).json({ error: "Invalid user type." });
+//     }
+
+//     const userData = await UserData.findById(userId);
+
+//     if (!userData) {
+//       return res.status(404).json({ error: "User not found." });
+//     }
+
+//     const profileId = userData[userUpdateField];
+
+//     if (!profileId) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     const updateFields = {
+//       ...(userType === "student"
+//         ? {
+//             name: updatedProfileData.name,
+//             university: updatedProfileData.university,
+//             bio: updatedProfileData.bio,
+//             projects: updatedProfileData.projects,
+//             skills: updatedProfileData.skills,
+//             experiences: updatedProfileData.experiences,
+//             education: updatedProfileData.education,
+//           }
+//         : {
+//             companyName: updatedProfileData.companyName,
+//             description: updatedProfileData.description,
+//             products: updatedProfileData.products,
+//             services: updatedProfileData.services,
+//           }),
+//     };
+
+//     if (req.file) {
+//       updateFields.profilePicture = req.file.path;
+//     }
+
+//     const updatedProfile = await profileModel.findByIdAndUpdate(
+//       profileId,
+//       updateFields,
+//       { new: true }
+//     );
+
+//     if (!updatedProfile) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     return res
+//       .status(200)
+//       .json({ message: "Profile updated successfully", updatedProfile });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error." });
+//   }
+// };
+
+// const updateProfile = async (req, res) => {
+//   try {
+//     console.log("Request body:", req.body);
+//     console.log("Request file:", req.file);
+
+//     const { userId, userType } = req.body;
+//     const updatedProfileData = JSON.parse(req.body.updatedProfileData);
+
+//     let profileModel;
+//     let userUpdateField;
+
+//     if (userType === "student") {
+//       profileModel = StudentProfile;
+//       userUpdateField = "Sprofile";
+//     } else if (userType === "company") {
+//       profileModel = CompanyProfile;
+//       userUpdateField = "Cprofile";
+//     } else {
+//       return res.status(400).json({ error: "Invalid user type." });
+//     }
+
+//     const userData = await UserData.findById(userId);
+
+//     if (!userData) {
+//       return res.status(404).json({ error: "User not found." });
+//     }
+
+//     const profileId = userData[userUpdateField];
+
+//     if (!profileId) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     const updateFields = {
+//       ...(userType === "student"
+//         ? {
+//             name: updatedProfileData.name,
+//             university: updatedProfileData.university,
+//             bio: updatedProfileData.bio,
+//             projects: updatedProfileData.projects,
+//             skills: updatedProfileData.skills,
+//             experiences: updatedProfileData.experiences,
+//             education: updatedProfileData.education,
+//           }
+//         : {
+//             companyName: updatedProfileData.companyName,
+//             description: updatedProfileData.description,
+//             products: updatedProfileData.products,
+//             services: updatedProfileData.services,
+//           }),
+//     };
+
+//     if (req.file) {
+//       updateFields.profilePicture = req.file.path;
+//     }
+
+//     console.log("Update fields:", updateFields);
+
+//     const updatedProfile = await profileModel.findByIdAndUpdate(
+//       profileId,
+//       updateFields,
+//       { new: true }
+//     );
+
+//     if (!updatedProfile) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     return res
+//       .status(200)
+//       .json({ message: "Profile updated successfully", updatedProfile });
+//   } catch (error) {
+//     console.error("Error in updateProfile:", error);
+//     res.status(500).json({ error: "Internal server error." });
+//   }
+// };
+// const updateProfile = async (req, res) => {
+//   try {
+//     const { userId, userType, updatedProfileData } = req.body;
+//     const file = req.file;
+
+//     let profileModel;
+//     let userUpdateField;
+
+//     if (userType === "student") {
+//       profileModel = StudentProfile;
+//       userUpdateField = "Sprofile";
+//     } else if (userType === "company") {
+//       profileModel = CompanyProfile;
+//       userUpdateField = "Cprofile";
+//     } else {
+//       return res.status(400).json({ error: "Invalid user type." });
+//     }
+
+//     const userData = await UserData.findById(userId);
+//     if (!userData) {
+//       return res.status(404).json({ error: "User not found." });
+//     }
+
+//     const profileId = userData[userUpdateField];
+//     if (!profileId) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     const parsedProfileData = JSON.parse(updatedProfileData);
+//     const updateFields = { ...parsedProfileData };
+
+//     if (file) {
+//       updateFields.profilePicture = file.path;
+//     }
+
+//     const updatedProfile = await profileModel.findOneAndUpdate(
+//       { _id: profileId },
+//       updateFields,
+//       { new: true }
+//     );
+
+//     if (!updatedProfile) {
+//       return res.status(404).json({ error: "Profile not found." });
+//     }
+
+//     return res.status(200).json({ updatedProfile });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error." });
+//   }
+// };
 
 export default { setupProfile, getProfile, updateProfile };

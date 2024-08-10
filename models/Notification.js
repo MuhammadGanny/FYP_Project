@@ -22,15 +22,6 @@ const notificationSchema = new mongoose.Schema();
 // },
 // { timestamps: true }
 
-// selected applicantsid max 2
-// postid
-// name
-// discription
-// start
-// end
-// status
-// crated by
-
 const Notification = mongoose.model("Notification", notificationSchema);
 
 module.exports = Notification;
