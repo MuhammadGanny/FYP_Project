@@ -1,3 +1,118 @@
+import Notification from "../models/Notification.js";
+import { io } from "../server.js"; // Ensure your server exports io
+import UserData from "../models/UserData.js";
+import StudentProfile from "../models/StudentProfile.js";
+import CompanyProfileData from "../models/CompanyProfile.js";
+
+// export async function sendNotification(
+//   senderId,
+//   recipientIds,
+//   message,
+//   type,
+//   relatedId = null
+// ) {
+//   try {
+//     const notification = new Notification({
+//       senderId,
+//       recipientIds,
+//       message,
+//       type,
+//       relatedId,
+//     });
+//     await notification.save();
+
+//     recipientIds.forEach((recipientId) => {
+//       io.to(recipientId.toString()).emit("newNotification", {
+//         senderId,
+//         message,
+//         type,
+//         relatedId,
+//         createdAt: notification.createdAt,
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Error sending notification:", error);
+//   }
+// }
+const sendNotification = async (
+  senderId,
+  recipientIds,
+  message,
+  type,
+  relatedId = null
+) => {
+  try {
+    const notification = new Notification({
+      senderId,
+      recipientIds,
+      message,
+      type,
+      relatedId,
+    });
+    await notification.save();
+
+    recipientIds.forEach((recipientId) => {
+      // Emit the notification to the recipient via their socket ID
+      io.to(recipientId.toString()).emit("newNotification", {
+        senderId,
+        message,
+        type,
+        relatedId,
+        createdAt: notification.createdAt,
+      });
+    });
+  } catch (error) {
+    console.error("Error sending notification:", error);
+  }
+};
+
+const getNotifications = async (req, res) => {
+  const { userId } = req.query;
+
+  try {
+    // Find notifications where the user is a recipient
+    const notifications = await Notification.find({ recipientIds: userId })
+      .populate({
+        path: "senderId",
+        model: UserData,
+        select: "userType Sprofile Cprofile",
+        populate: [
+          {
+            path: "Sprofile",
+            model: StudentProfile,
+            select: "name profilePicture",
+          },
+          {
+            path: "Cprofile",
+            model: CompanyProfileData,
+            select: "companyName profilePicture",
+          },
+        ],
+      })
+      .exec();
+
+    res.status(200).json({ notifications });
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+    res.status(500).json({ error: "Failed to fetch notifications" });
+  }
+};
+const markAsRead = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    await Notification.updateMany(
+      { recipientIds: userId, isRead: false },
+      { $set: { isRead: true } }
+    );
+
+    res.status(200).json({ message: "Notifications marked as read" });
+  } catch (error) {
+    console.error("Error marking notifications as read:", error);
+    res.status(500).json({ error: "Failed to mark notifications as read" });
+  }
+};
+
 // import Notification from "../models/Notification.js";
 
 // // After adding the notification schema, you can create a new notification when a student connects with a project
@@ -25,6 +140,8 @@
 //   }
 // };
 
-// export default {
-//   connectNotification,
-// };
+export default {
+  getNotifications,
+  sendNotification,
+  markAsRead,
+};

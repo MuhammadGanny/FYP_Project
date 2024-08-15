@@ -1,6 +1,9 @@
 import React from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import socket from "./socket"; // Import your socket instance
+// import Cookies from "js-cookie";
+
 import Homepage from "./Pages/Home/homepage.jsx";
 import HomepageStudent from "./Pages/Home/homepageStudent.jsx";
 import Welcome from "./Pages/Welcome/welcomepage.jsx";
@@ -17,6 +20,12 @@ import OngoingProjects from "./Pages/Project/OngoingProjects.jsx"; // New import
 import UpdateProfile from "./Pages/Profile/UpdateProfile.jsx";
 
 function App() {
+  // useEffect(() => {
+  //   const userId = Cookies.get("userId");
+  //   if (userId) {
+  //     socket.emit("join", userId);
+  //   }
+  // }, []);
   return (
     <Router>
       <>

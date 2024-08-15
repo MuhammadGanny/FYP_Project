@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Header from "../components/header";
+import Header from "../components/header.jsx";
 import {
   Card,
   CardBody,

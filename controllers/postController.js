@@ -1,4 +1,11 @@
 import Post from "../models/post.js";
+// import Notification from "../models/Notification.js";
+// import UserData from "../models/UserData.js";
+//import { io } from "../src/Pages/socket.js"; // Import the io instance
+// import { io } from "socket.io-client";
+// import socket from "../src/Pages/socket.js"; // Import the socket instance
+import { io } from "../server.js";
+import Notification from "../models/Notification.js";
 
 const createPost = async (req, res) => {
   try {
@@ -55,7 +62,103 @@ const getAllPosts = async (req, res) => {
   }
 };
 
-// router.post("/posts/connect",
+// router.post("/posts/connect", orignal post Connect
+// const postConnect = async (req, res) => {
+//   const { postId, studentId } = req.body;
+
+//   try {
+//     const post = await Post.findById(postId);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
+
+//     // Ensure uniqueness of studentId in applicants array
+//     if (!post.applicants.includes(studentId)) {
+//       // Add the student to the list of applicants
+//       post.applicants.push(studentId);
+//       await post.save();
+
+//       res.status(200).json({ message: "Connected successfully" });
+//     } else {
+//       res.status(400).json({ error: "Student already applied" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+//ye sab notifications ke liye
+// const postConnect = async (req, res) => {
+//   const { postId, studentId } = req.body;
+
+//   try {
+//     const post = await Post.findById(postId);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
+
+//     // Ensure uniqueness of studentId in applicants array
+//     if (!post.applicants.includes(studentId)) {
+//       post.applicants.push(studentId);
+//       await post.save();
+
+//       // Fetch the company's profile ID using the author (user) ID
+//       const user = await UserData.findById(post.author); // Assuming post.author is userId
+//       const companyProfileId = user.Cprofile; // Assuming Cprofile is the reference to the company profile
+
+//       if (companyProfileId) {
+//         io.to(companyProfileId.toString()).emit("notification", {
+//           message: `A student has connected to your post: ${post.projectHeading}`,
+//         });
+//         console.log(`Notification sent to company with ID ${companyProfileId}`);
+//       } else {
+//         console.error("Company profile not found for the user");
+//       }
+
+//       res.status(200).json({ message: "Connected successfully" });
+//     } else {
+//       res.status(400).json({ error: "Student already applied" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
+// const postConnect = async (req, res) => {
+//   const { postId, studentId } = req.body;
+
+//   try {
+//     const post = await Post.findById(postId);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
+
+//     if (!post.applicants.includes(studentId)) {
+//       post.applicants.push(studentId);
+//       await post.save();
+
+//       const companyId = post.author;
+
+//       // Emit the notification
+//       io.to(companyId).emit("notification", {
+//         message: "A student has connected to your post!",
+//         postId,
+//         studentId,
+//       });
+
+//       console.log(`Notification sent to company with ID ${companyId}`);
+
+//       res.status(200).json({ message: "Connected successfully" });
+//     } else {
+//       res.status(400).json({ error: "Student already applied" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+//ye newgpt ne diya hai
 const postConnect = async (req, res) => {
   const { postId, studentId } = req.body;
 
@@ -70,6 +173,30 @@ const postConnect = async (req, res) => {
       // Add the student to the list of applicants
       post.applicants.push(studentId);
       await post.save();
+
+      // Send notification to the company
+      const companyId = post.author; // Assuming the author is the company
+      const message = `A student has connected to your project: ${post.projectHeading}`;
+
+      // Create and save the notification
+      const notification = new Notification({
+        senderId: studentId,
+        recipientIds: [companyId],
+        message,
+        type: "project",
+        relatedId: postId,
+      });
+      await notification.save();
+
+      // Emit notification via Socket.io
+      io.to(companyId.toString()).emit("newNotification", {
+        senderId: studentId,
+        message,
+        type: "project",
+        relatedId: postId,
+        createdAt: notification.createdAt,
+      });
+
       res.status(200).json({ message: "Connected successfully" });
     } else {
       res.status(400).json({ error: "Student already applied" });
@@ -79,6 +206,40 @@ const postConnect = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+//ye wala porana wale ne diya
+// const postConnect = async (req, res) => {
+//   const { postId, studentId } = req.body;
+
+//   try {
+//     const post = await Post.findById(postId);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
+
+//     // Ensure uniqueness of studentId in applicants array
+//     if (!post.applicants.includes(studentId)) {
+//       post.applicants.push(studentId);
+//       await post.save();
+
+//       // Fetch the company's user ID
+//       const companyId = post.author;
+
+//       // Emit a notification to the company
+//       io.to(companyId).emit("notification", {
+//         message: "A student has connected to your post!",
+//         postId,
+//         studentId,
+//       });
+
+//       res.status(200).json({ message: "Connected successfully" });
+//     } else {
+//       res.status(400).json({ error: "Student already applied" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 
 const getApplicants = async (req, res) => {
   const postId = req.params.postId;
