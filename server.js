@@ -47,6 +47,7 @@ import http from "http"; // New: Import http module
 import { Server as SocketIoServer } from "socket.io";
 import mongoose from "mongoose";
 import cors from "cors";
+// import cookieParser from "cookie-parser";
 import postRoutes from "./routes/postRoutes.js";
 import uroutes from "./routes/URoutes.js";
 import profileroutes from "./routes/profileRoutes.js";
@@ -56,7 +57,7 @@ import notificationsRoutes from "./routes/NotificationRoutes.js";
 const app = express();
 const server = http.createServer(app); // New: Create an HTTP server
 // export const io = new SocketIoServer(server);
-
+// app.use(cookieParser());
 const io = new SocketIoServer(server, {
   cors: {
     origin: "*", // Allow all origins, configure as per your need

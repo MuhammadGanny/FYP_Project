@@ -34,6 +34,37 @@ import CompanyProfileData from "../models/CompanyProfile.js";
 //     console.error("Error sending notification:", error);
 //   }
 // }
+// const sendNotification = async (
+//   senderId,
+//   recipientIds,
+//   message,
+//   type,
+//   relatedId = null
+// ) => {
+//   try {
+//     const notification = new Notification({
+//       senderId,
+//       recipientIds: [recipientId],
+//       message,
+//       type,
+//       relatedId,
+//     });
+//     await notification.save();
+
+//     recipientIds.forEach((recipientId) => {
+//       // Emit the notification to the recipient via their socket ID
+//       io.to(recipientId.toString()).emit("newNotification", {
+//         senderId,
+//         message,
+//         type,
+//         relatedId,
+//         createdAt: notification.createdAt,
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Error sending notification:", error);
+//   }
+// };
 const sendNotification = async (
   senderId,
   recipientIds,
@@ -42,16 +73,17 @@ const sendNotification = async (
   relatedId = null
 ) => {
   try {
-    const notification = new Notification({
-      senderId,
-      recipientIds,
-      message,
-      type,
-      relatedId,
-    });
-    await notification.save();
+    // Create notifications for each recipient
+    for (const recipientId of recipientIds) {
+      const notification = new Notification({
+        senderId,
+        recipientIds: [recipientId],
+        message,
+        type,
+        relatedId,
+      });
+      await notification.save();
 
-    recipientIds.forEach((recipientId) => {
       // Emit the notification to the recipient via their socket ID
       io.to(recipientId.toString()).emit("newNotification", {
         senderId,
@@ -60,7 +92,7 @@ const sendNotification = async (
         relatedId,
         createdAt: notification.createdAt,
       });
-    });
+    }
   } catch (error) {
     console.error("Error sending notification:", error);
   }

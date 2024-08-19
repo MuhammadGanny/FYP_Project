@@ -17,6 +17,7 @@ import { Card, Button } from "@material-tailwind/react";
 import { Copy } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 export default function Project() {
   const [applicantsData, setApplicantsData] = useState([]);
@@ -96,16 +97,39 @@ export default function Project() {
     }
   };
 
+  // const submitSelectedApplicants = async () => {
+  //   try {
+  //     await axios.post("http://localhost:5000/posts/select-applicants", {
+  //       postId,
+  //       applicantIds: selectedApplicantsIds,
+  //     });
+
+  //     if (selectedApplicantsIds.length === 2)
+  //       toast.success("Applicants selected successfully!");
+  //     else toast.error("Minimum 2 applicants");
+
+  //     closeSelectionDialog();
+  //   } catch (error) {
+  //     console.error("Error submitting selected applicants:", error);
+  //     toast.error("Failed to select applicants.");
+  //   }
+  // };
+
   const submitSelectedApplicants = async () => {
     try {
+      const userId = Cookies.get("userId"); // Retrieve the userId from cookies
+
       await axios.post("http://localhost:5000/posts/select-applicants", {
         postId,
         applicantIds: selectedApplicantsIds,
+        userId, // Include the userId in the request body
       });
 
-      if (selectedApplicantsIds.length === 2)
+      if (selectedApplicantsIds.length === 2) {
         toast.success("Applicants selected successfully!");
-      else toast.error("Minimum 2 applicants");
+      } else {
+        toast.error("Minimum 2 applicants required");
+      }
 
       closeSelectionDialog();
     } catch (error) {
@@ -113,6 +137,37 @@ export default function Project() {
       toast.error("Failed to select applicants.");
     }
   };
+  // const submitSelectedApplicants = async () => {
+  //   try {
+  //     const token = Cookies.get("token");
+  //     const userId = Cookies.get("userId"); // If required
+
+  //     await axios.post(
+  //       "http://localhost:5000/posts/select-applicants",
+  //       {
+  //         postId,
+  //         applicantIds: selectedApplicantsIds,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, // Include the token in the headers
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (selectedApplicantsIds.length === 2) {
+  //       toast.success("Applicants selected successfully!");
+  //     } else {
+  //       toast.error("Minimum 2 applicants required");
+  //     }
+
+  //     closeSelectionDialog();
+  //   } catch (error) {
+  //     console.error("Error submitting selected applicants:", error);
+  //     toast.error("Failed to select applicants.");
+  //   }
+  // };
 
   const openDialog = (applicant) => {
     setSelectedApplicant(applicant);

@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-
+import authMiddleware from "../middleware/authMiddleware.js";
 import postController from "../controllers/postController.js";
 
 router.post("/", postController.createPost);
@@ -12,6 +12,11 @@ router.put("/:postId", postController.updatePost);
 router.delete("/:postId", postController.deletePost);
 router.get("/:postId", postController.getPostById);
 router.post("/select-applicants", postController.selectApplicants);
+// router.post(
+//   "/select-applicants",
+//   authMiddleware,
+//   postController.selectApplicants
+// );
 router.get(
   "/projects-for-student/:userId",
   postController.getProjectsForStudent

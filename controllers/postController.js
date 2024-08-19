@@ -6,7 +6,8 @@ import Post from "../models/post.js";
 // import socket from "../src/Pages/socket.js"; // Import the socket instance
 import { io } from "../server.js";
 import Notification from "../models/Notification.js";
-
+// import sendNotification from "./NotificationController.js";
+// import Cookies from "js-cookie";
 const createPost = async (req, res) => {
   try {
     const { projectHeading, projectDescription, skills, author } = req.body;
@@ -313,23 +314,136 @@ const getPostById = async (req, res) => {
   }
 };
 
-// Add this method to your postController.js
+// Add this method to your postController.js the og orignal
+// const selectApplicants = async (req, res) => {
+//   try {
+//     const { postId, applicantIds } = req.body;
+//     const post = await Post.findById(postId);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
+//     post.selectedApplicants = applicantIds;
+//     await post.save();
+//     res.status(200).json({ message: "Applicants selected successfully", post });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+///given by new gpts
+
+// const selectApplicants = async (req, res) => {
+//   try {
+//     const { postId, applicantIds, userId } = req.body;
+
+//     if (!userId) {
+//       return res.status(400).json({ error: "User ID is required" });
+//     }
+
+//     const post = await Post.findById(postId);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
+
+//     if (applicantIds.length !== 2) {
+//       return res
+//         .status(400)
+//         .json({ error: "Exactly 2 applicants must be selected" });
+//     }
+
+//     post.selectedApplicants = applicantIds;
+//     await post.save();
+
+//     const message = `You have been selected for the project: ${post.title}`;
+
+//     // Iterate over applicantIds to create and emit notifications for each selected student
+//     for (const applicantId of applicantIds) {
+//       // Create and save the notification
+//       const notification = new Notification({
+//         senderId: userId, // The company selecting the applicants
+//         recipientIds: [applicantId],
+//         message,
+//         type: "project",
+//         relatedId: postId,
+//       });
+//       await notification.save();
+
+//       // Emit notification via Socket.io
+//       io.to(applicantId.toString()).emit("newNotification", {
+//         senderId: userId,
+//         message,
+//         type: "project",
+//         relatedId: postId,
+//         createdAt: notification.createdAt,
+//       });
+//     }
+
+//     res
+//       .status(200)
+//       .json({ message: "Applicants selected and notified successfully", post });
+//   } catch (error) {
+//     console.error("Error selecting applicants:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 const selectApplicants = async (req, res) => {
   try {
-    const { postId, applicantIds } = req.body;
+    const { postId, applicantIds, userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    // Find the post by its ID and ensure that it exists
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
+
+    // Ensure exactly 2 applicants are selected
+    if (applicantIds.length !== 2) {
+      return res
+        .status(400)
+        .json({ error: "Exactly 2 applicants must be selected" });
+    }
+
+    // Update the post with the selected applicants
     post.selectedApplicants = applicantIds;
     await post.save();
-    res.status(200).json({ message: "Applicants selected successfully", post });
+
+    // Construct the notification message with the actual project title
+    const message = `You have been selected for the project: ${post.projectHeading}`;
+
+    // Iterate over applicantIds to create and emit notifications for each selected student
+    for (const applicantId of applicantIds) {
+      // Create and save the notification
+      const notification = new Notification({
+        senderId: userId, // The company selecting the applicants
+        recipientIds: [applicantId],
+        message,
+        type: "project",
+        relatedId: postId,
+      });
+      await notification.save();
+
+      // Emit notification via Socket.io
+      io.to(applicantId.toString()).emit("newNotification", {
+        senderId: userId,
+        message,
+        type: "project",
+        relatedId: postId,
+        createdAt: notification.createdAt,
+      });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Applicants selected and notified successfully", post });
   } catch (error) {
-    console.error(error);
+    console.error("Error selecting applicants:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 const getProjectsForStudent = async (req, res) => {
   const { userId } = req.params;
   console.log(userId);

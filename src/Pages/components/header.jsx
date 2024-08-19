@@ -651,6 +651,7 @@ export default function Header() {
       })
       .then((response) => {
         setNotifications(response.data.notifications);
+        checkUnreadNotifications(response.data.notifications);
       })
       .catch((error) => {
         console.error("Error fetching notifications:", error);
@@ -659,9 +660,10 @@ export default function Header() {
     socket.emit("joinRoom", { userId });
     socket.on("newNotification", (notification) => {
       setNotifications((prevNotifications) => [
-        ...prevNotifications,
         notification,
+        ...prevNotifications,
       ]);
+      setHasUnreadNotifications(true);
     });
     return () => {
       socket.off("newNotification");
@@ -748,7 +750,8 @@ export default function Header() {
                         <span className="sr-only">View notifications</span>
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                         {/* Show number of unread notifications */}
-                        {notifications.length > 0 && (
+                        {/* {notifications.length > 0 && ( */}
+                        {hasUnreadNotifications && (
                           <span className="absolute top-0 right-0 block h-2 w-2 transform translate-x-2 -translate-y-1/2 bg-red-600 rounded-full" />
                         )}
                       </Menu.Button>
@@ -810,15 +813,23 @@ export default function Header() {
                                     <div className="flex items-center">
                                       <img
                                         className="h-6 w-6 rounded-full"
-                                        src={senderProfile.profilePicture}
+                                        src={
+                                          senderProfile?.profilePicture || LOGO
+                                        }
                                         alt=""
                                       />
                                       <span className="ml-2">
-                                        {senderProfile.name ||
-                                          senderProfile.companyName}
+                                        {senderProfile?.name ||
+                                          senderProfile?.companyName ||
+                                          "Unknown"}
                                       </span>
                                     </div>
                                     <div>{notification.message}</div>
+                                    <div className="text-xs text-gray-500">
+                                      {new Date(
+                                        notification.createdAt
+                                      ).toLocaleString()}
+                                    </div>
                                   </div>
                                 )}
                               </Menu.Item>
