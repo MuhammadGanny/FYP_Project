@@ -38,6 +38,11 @@ const postSchema = new mongoose.Schema({
       ref: "Milestone",
     },
   ],
+  status: {
+    type: String,
+    enum: ["in progress", "completed"],
+    default: null,
+  },
 });
 
 const Post = mongoose.model("Post", postSchema);

@@ -55,6 +55,7 @@ export default function OngoingProjects() {
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     Skills
                   </Typography>
+
                   <div className="flex flex-wrap gap-2">
                     {project.skills.map((skill, index) => (
                       <span
@@ -65,6 +66,9 @@ export default function OngoingProjects() {
                       </span>
                     ))}
                   </div>
+                  <p className="text-sm text-gray-500">
+                    Status: {project.status}
+                  </p>
                 </CardBody>
                 <CardFooter className="pt-0">
                   <Link to={`/student-milestones/${project._id}`}>

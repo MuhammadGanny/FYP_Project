@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import HeaderStudent from "../components/headerStudent";
+import Sidebar from "../components/sidebar";
 // import Header from "../components/headerStudent";
 import Cookies from "js-cookie";
 import {
@@ -26,15 +27,62 @@ export default function Homestudent() {
   const [selectedAuthor, setSelectedAuthor] = useState(null); // State for selected author
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5000/posts")
+  //     .then(async (response) => {
+  //       const reversedPosts = response.data.posts.reverse();
+
+  //       const filteredPosts = reversedPosts.filter(
+  //         (post) => post.status === null
+  //       );
+  //       // Fetch author's data for each post
+  //       const postsWithAuthorData = await Promise.all(
+  //         reversedPosts.map(async (post) => {
+  //           try {
+  //             // Fetch user data of the author
+  //             const authorUserId = post.author;
+  //             const userDataResponse = await axios.get(
+  //               `http://localhost:5000/profile/profile?userId=${authorUserId}&userType=company`
+  //             );
+  //             const { userProfile, email } = userDataResponse.data;
+
+  //             // Add author's data to the post object
+  //             return {
+  //               ...post,
+  //               authorData: {
+  //                 userProfile,
+  //                 email,
+  //               },
+  //             };
+  //           } catch (error) {
+  //             console.error("Error fetching author's data:", error);
+  //             // If fetching author's data fails, return the post without author data
+  //             return post;
+  //           }
+  //         })
+  //       );
+
+  //       setProjectPosts(postsWithAuthorData);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching project posts:", error);
+  //     });
+  // }, []);
   useEffect(() => {
     axios
       .get("http://localhost:5000/posts")
       .then(async (response) => {
         const reversedPosts = response.data.posts.reverse();
 
+        // Filter out posts that are in progress or completed
+        const filteredPosts = reversedPosts.filter(
+          (post) => post.status === null
+        );
+
         // Fetch author's data for each post
         const postsWithAuthorData = await Promise.all(
-          reversedPosts.map(async (post) => {
+          filteredPosts.map(async (post) => {
             try {
               // Fetch user data of the author
               const authorUserId = post.author;
@@ -115,6 +163,7 @@ export default function Homestudent() {
     <>
       <div className="min-h-full">
         <HeaderStudent />
+        {/* <Sidebar /> */}
         <ToastContainer />{" "}
         {/* Ensure ToastContainer is placed at the root level */}
         <header className="bg-[#DEE4EA] shadow">
@@ -212,6 +261,110 @@ export default function Homestudent() {
                           </p>
                         </div>
                       </div>
+                    </div>
+                    <div className="border-t border-gray-200">
+                      <div className="p-6">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                          About Me
+                        </h2>
+                        <p className="text-gray-600">
+                          {selectedAuthor.userProfile.bio ||
+                            selectedAuthor.userProfile.description}
+                        </p>
+                      </div>
+
+                      {(selectedAuthor.userProfile.projects ||
+                        selectedAuthor.userProfile.products) && (
+                        <div className="p-6">
+                          <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                            {selectedAuthor.userProfile.projects
+                              ? "Projects"
+                              : "Products"}
+                          </h2>
+                          <ul>
+                            {Array.isArray(
+                              selectedAuthor.userProfile.projects ||
+                                selectedAuthor.userProfile.products
+                            ) ? (
+                              (
+                                selectedAuthor.userProfile.projects ||
+                                selectedAuthor.userProfile.products
+                              ).map((detail, index) => (
+                                <li key={index}>{detail}</li>
+                              ))
+                            ) : (
+                              <li>No data available</li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
+
+                      {selectedAuthor.userProfile.skills && (
+                        <div className="p-6">
+                          <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                            Skills
+                          </h2>
+                          <div className="flex flex-wrap gap-2">
+                            {selectedAuthor.userProfile.skills.map(
+                              (skill, index) => (
+                                <span
+                                  key={index}
+                                  className="bg-blue-200 px-2 py-1 rounded-md"
+                                >
+                                  {skill}
+                                </span>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {(selectedAuthor.userProfile.experiences ||
+                        selectedAuthor.userProfile.services) && (
+                        <div className="p-6">
+                          <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                            {selectedAuthor.userProfile.experiences
+                              ? "Experiences"
+                              : "Services"}
+                          </h2>
+                          <ul>
+                            {Array.isArray(
+                              selectedAuthor.userProfile.experiences ||
+                                selectedAuthor.userProfile.services
+                            ) ? (
+                              (
+                                selectedAuthor.userProfile.experiences ||
+                                selectedAuthor.userProfile.services
+                              ).map((detail, index) => (
+                                <li key={index}>{detail}</li>
+                              ))
+                            ) : (
+                              <li>No data available</li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
+
+                      {selectedAuthor.userProfile.education && (
+                        <div className="p-6">
+                          <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                            Education
+                          </h2>
+                          <ul>
+                            {Array.isArray(
+                              selectedAuthor.userProfile.education
+                            ) ? (
+                              selectedAuthor.userProfile.education.map(
+                                (educationDetail, index) => (
+                                  <li key={index}>{educationDetail}</li>
+                                )
+                              )
+                            ) : (
+                              <li>No education data available</li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

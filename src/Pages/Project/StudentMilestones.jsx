@@ -73,6 +73,7 @@ export default function StudentMilestones() {
               </div>
               <p>{milestone.description}</p>
               <p>
+                {/* {new Date(notification.createdAt).toLocaleString()} */}
                 Start Date: {new Date(milestone.startDate).toLocaleDateString()}
               </p>
               <p>
@@ -102,9 +103,10 @@ export default function StudentMilestones() {
                   }
                   className="mb-2"
                 />
+                <br />
                 <Button
                   onClick={() => submitLink(milestone._id)}
-                  className="mb-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="mb-4 absolute rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Submit Link
                 </Button>

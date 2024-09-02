@@ -6,6 +6,7 @@ import postController from "../controllers/postController.js";
 router.post("/", postController.createPost);
 router.get("/", postController.getAllPosts);
 router.post("/connect", postController.postConnect);
+router.get("/completed-projects", postController.getCompletedProjects);
 router.get("/:postId/applicants", postController.getApplicants);
 router.get("/author/:authorId", postController.getPostsByAuthor);
 router.put("/:postId", postController.updatePost);
@@ -21,4 +22,6 @@ router.get(
   "/projects-for-student/:userId",
   postController.getProjectsForStudent
 );
+router.put("/:postId/complete", postController.completeProject);
+
 export default router;

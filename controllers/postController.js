@@ -1,13 +1,9 @@
 import Post from "../models/post.js";
-// import Notification from "../models/Notification.js";
-// import UserData from "../models/UserData.js";
-//import { io } from "../src/Pages/socket.js"; // Import the io instance
-// import { io } from "socket.io-client";
-// import socket from "../src/Pages/socket.js"; // Import the socket instance
+import User from "../models/UserData.js";
+import StudentProfile from "../models/StudentProfile.js";
 import { io } from "../server.js";
 import Notification from "../models/Notification.js";
-// import sendNotification from "./NotificationController.js";
-// import Cookies from "js-cookie";
+
 const createPost = async (req, res) => {
   try {
     const { projectHeading, projectDescription, skills, author } = req.body;
@@ -207,6 +203,7 @@ const postConnect = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 //ye wala porana wale ne diya
 // const postConnect = async (req, res) => {
 //   const { postId, studentId } = req.body;
@@ -314,78 +311,6 @@ const getPostById = async (req, res) => {
   }
 };
 
-// Add this method to your postController.js the og orignal
-// const selectApplicants = async (req, res) => {
-//   try {
-//     const { postId, applicantIds } = req.body;
-//     const post = await Post.findById(postId);
-//     if (!post) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-//     post.selectedApplicants = applicantIds;
-//     await post.save();
-//     res.status(200).json({ message: "Applicants selected successfully", post });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-///given by new gpts
-
-// const selectApplicants = async (req, res) => {
-//   try {
-//     const { postId, applicantIds, userId } = req.body;
-
-//     if (!userId) {
-//       return res.status(400).json({ error: "User ID is required" });
-//     }
-
-//     const post = await Post.findById(postId);
-//     if (!post) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-
-//     if (applicantIds.length !== 2) {
-//       return res
-//         .status(400)
-//         .json({ error: "Exactly 2 applicants must be selected" });
-//     }
-
-//     post.selectedApplicants = applicantIds;
-//     await post.save();
-
-//     const message = `You have been selected for the project: ${post.title}`;
-
-//     // Iterate over applicantIds to create and emit notifications for each selected student
-//     for (const applicantId of applicantIds) {
-//       // Create and save the notification
-//       const notification = new Notification({
-//         senderId: userId, // The company selecting the applicants
-//         recipientIds: [applicantId],
-//         message,
-//         type: "project",
-//         relatedId: postId,
-//       });
-//       await notification.save();
-
-//       // Emit notification via Socket.io
-//       io.to(applicantId.toString()).emit("newNotification", {
-//         senderId: userId,
-//         message,
-//         type: "project",
-//         relatedId: postId,
-//         createdAt: notification.createdAt,
-//       });
-//     }
-
-//     res
-//       .status(200)
-//       .json({ message: "Applicants selected and notified successfully", post });
-//   } catch (error) {
-//     console.error("Error selecting applicants:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
 const selectApplicants = async (req, res) => {
   try {
     const { postId, applicantIds, userId } = req.body;
@@ -409,6 +334,7 @@ const selectApplicants = async (req, res) => {
 
     // Update the post with the selected applicants
     post.selectedApplicants = applicantIds;
+    post.status = "in progress";
     await post.save();
 
     // Construct the notification message with the actual project title
@@ -459,6 +385,106 @@ const getProjectsForStudent = async (req, res) => {
   }
 };
 
+const completeProject = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    // Find the post and update its status to "completed"
+    const post = await Post.findById(postId).populate("selectedApplicants");
+    if (!post) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    post.status = "completed";
+    await post.save();
+
+    // Notify the selected students that the project is completed
+    const studentMessage = `The project "${post.projectHeading}" has been completed.`;
+
+    for (const studentId of post.selectedApplicants) {
+      const studentNotification = new Notification({
+        senderId: post.author, // Company ID
+        recipientIds: [studentId],
+        message: studentMessage,
+        type: "project",
+        relatedId: post._id,
+      });
+      await studentNotification.save();
+
+      // Emit notification to student via Socket.io
+      io.to(studentId.toString()).emit("newNotification", {
+        senderId: post.author,
+        message: studentMessage,
+        type: "project",
+        relatedId: post._id,
+        createdAt: studentNotification.createdAt,
+      });
+    }
+
+    res.status(200).json({ message: "Project completed successfully", post });
+  } catch (error) {
+    console.error("Error completing the project:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+const getCompletedProjects = async (req, res) => {
+  try {
+    const { userId, userType } = req.query;
+
+    let completedProjects = [];
+
+    if (userType === "student") {
+      // Find the user by ID
+      const user = await User.findById(userId).populate("Sprofile").exec();
+      if (!user || !user.Sprofile) {
+        return res.status(404).json({ error: "Student profile not found" });
+      }
+
+      // Find completed projects where the user was a selected applicant
+      completedProjects = await Post.find({
+        selectedApplicants: user._id,
+        status: "completed",
+      }).populate({
+        path: "author", // Populate the author field
+        populate: { path: "Cprofile", select: "companyName" }, // Populate the companyName from Cprofile
+      });
+
+      console.log("Completed Projects for Student:", completedProjects);
+    } else if (userType === "company") {
+      // Find completed projects authored by the company
+      completedProjects = await Post.find({
+        author: userId,
+        status: "completed",
+      }).populate({
+        path: "selectedApplicants",
+        populate: { path: "Sprofile", select: "name" }, // Populate the name from Sprofile
+      });
+
+      console.log("Completed Projects for Company:", completedProjects);
+    }
+
+    // Format the response
+    res.status(200).json({
+      completedProjects: completedProjects.map((project) => ({
+        projectHeading: project.projectHeading,
+        ...(userType === "student"
+          ? { companyName: project.author.Cprofile?.companyName }
+          : {
+              students: project.selectedApplicants.map((student) => {
+                const studentProfile = student.Sprofile;
+                return studentProfile
+                  ? studentProfile.name
+                  : student._id.toString();
+              }),
+            }),
+      })),
+    });
+  } catch (error) {
+    console.error("Error fetching completed projects:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export default {
   createPost,
   getAllPosts,
@@ -469,6 +495,7 @@ export default {
   deletePost,
   getPostById,
   selectApplicants,
-  //isSelectedForProject,
   getProjectsForStudent,
+  completeProject,
+  getCompletedProjects,
 };

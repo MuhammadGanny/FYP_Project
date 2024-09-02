@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
 
   socket.on("joinRoom", ({ userId }) => {
     socket.join(userId.toString());
-    console.log(`User ${userId} joined their room`);
+    console.log(`User ${userId} joined their room`, socket.rooms);
   });
 
   socket.on("disconnect", () => {
