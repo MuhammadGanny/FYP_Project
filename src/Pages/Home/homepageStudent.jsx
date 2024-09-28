@@ -27,48 +27,6 @@ export default function Homestudent() {
   const [selectedAuthor, setSelectedAuthor] = useState(null); // State for selected author
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:5000/posts")
-  //     .then(async (response) => {
-  //       const reversedPosts = response.data.posts.reverse();
-
-  //       const filteredPosts = reversedPosts.filter(
-  //         (post) => post.status === null
-  //       );
-  //       // Fetch author's data for each post
-  //       const postsWithAuthorData = await Promise.all(
-  //         reversedPosts.map(async (post) => {
-  //           try {
-  //             // Fetch user data of the author
-  //             const authorUserId = post.author;
-  //             const userDataResponse = await axios.get(
-  //               `http://localhost:5000/profile/profile?userId=${authorUserId}&userType=company`
-  //             );
-  //             const { userProfile, email } = userDataResponse.data;
-
-  //             // Add author's data to the post object
-  //             return {
-  //               ...post,
-  //               authorData: {
-  //                 userProfile,
-  //                 email,
-  //               },
-  //             };
-  //           } catch (error) {
-  //             console.error("Error fetching author's data:", error);
-  //             // If fetching author's data fails, return the post without author data
-  //             return post;
-  //           }
-  //         })
-  //       );
-
-  //       setProjectPosts(postsWithAuthorData);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching project posts:", error);
-  //     });
-  // }, []);
   useEffect(() => {
     axios
       .get("http://localhost:5000/posts")

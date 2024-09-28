@@ -1,70 +1,9 @@
 import Notification from "../models/Notification.js";
-import { io } from "../server.js"; // Ensure your server exports io
+import { io } from "../server.js";
 import UserData from "../models/UserData.js";
 import StudentProfile from "../models/StudentProfile.js";
 import CompanyProfileData from "../models/CompanyProfile.js";
 
-// export async function sendNotification(
-//   senderId,
-//   recipientIds,
-//   message,
-//   type,
-//   relatedId = null
-// ) {
-//   try {
-//     const notification = new Notification({
-//       senderId,
-//       recipientIds,
-//       message,
-//       type,
-//       relatedId,
-//     });
-//     await notification.save();
-
-//     recipientIds.forEach((recipientId) => {
-//       io.to(recipientId.toString()).emit("newNotification", {
-//         senderId,
-//         message,
-//         type,
-//         relatedId,
-//         createdAt: notification.createdAt,
-//       });
-//     });
-//   } catch (error) {
-//     console.error("Error sending notification:", error);
-//   }
-// }
-// const sendNotification = async (
-//   senderId,
-//   recipientIds,
-//   message,
-//   type,
-//   relatedId = null
-// ) => {
-//   try {
-//     const notification = new Notification({
-//       senderId,
-//       recipientIds: [recipientId],
-//       message,
-//       type,
-//       relatedId,
-//     });
-//     await notification.save();
-
-//     recipientIds.forEach((recipientId) => {
-//       // Emit the notification to the recipient via their socket ID
-//       io.to(recipientId.toString()).emit("newNotification", {
-//         senderId,
-//         message,
-//         type,
-//         relatedId,
-//         createdAt: notification.createdAt,
-//       });
-//     });
-//   } catch (error) {
-//     console.error("Error sending notification:", error);
-//   }
-// };
 const sendNotification = async (
   senderId,
   recipientIds,
@@ -73,7 +12,6 @@ const sendNotification = async (
   relatedId = null
 ) => {
   try {
-    // Create notifications for each recipient
     for (const recipientId of recipientIds) {
       const notification = new Notification({
         senderId,
@@ -84,7 +22,6 @@ const sendNotification = async (
       });
       await notification.save();
 
-      // Emit the notification to the recipient via their socket ID
       io.to(recipientId.toString()).emit("newNotification", {
         senderId,
         message,

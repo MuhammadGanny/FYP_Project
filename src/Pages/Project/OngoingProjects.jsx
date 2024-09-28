@@ -66,9 +66,6 @@ export default function OngoingProjects() {
                       </span>
                     ))}
                   </div>
-                  <p className="text-sm text-gray-500">
-                    Status: {project.status}
-                  </p>
                 </CardBody>
                 <CardFooter className="pt-0">
                   <Link to={`/student-milestones/${project._id}`}>

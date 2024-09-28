@@ -7,8 +7,6 @@ import Notification from "../models/Notification.js";
 const createPost = async (req, res) => {
   try {
     const { projectHeading, projectDescription, skills, author } = req.body;
-    //const author = req.userId; // Assuming you have middleware to extract user ID from the request
-    //const author = req.cookies.userId;
 
     const newPost = new Post({
       projectHeading,
@@ -59,70 +57,6 @@ const getAllPosts = async (req, res) => {
   }
 };
 
-// router.post("/posts/connect", orignal post Connect
-// const postConnect = async (req, res) => {
-//   const { postId, studentId } = req.body;
-
-//   try {
-//     const post = await Post.findById(postId);
-//     if (!post) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-
-//     // Ensure uniqueness of studentId in applicants array
-//     if (!post.applicants.includes(studentId)) {
-//       // Add the student to the list of applicants
-//       post.applicants.push(studentId);
-//       await post.save();
-
-//       res.status(200).json({ message: "Connected successfully" });
-//     } else {
-//       res.status(400).json({ error: "Student already applied" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-//ye sab notifications ke liye
-// const postConnect = async (req, res) => {
-//   const { postId, studentId } = req.body;
-
-//   try {
-//     const post = await Post.findById(postId);
-//     if (!post) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-
-//     // Ensure uniqueness of studentId in applicants array
-//     if (!post.applicants.includes(studentId)) {
-//       post.applicants.push(studentId);
-//       await post.save();
-
-//       // Fetch the company's profile ID using the author (user) ID
-//       const user = await UserData.findById(post.author); // Assuming post.author is userId
-//       const companyProfileId = user.Cprofile; // Assuming Cprofile is the reference to the company profile
-
-//       if (companyProfileId) {
-//         io.to(companyProfileId.toString()).emit("notification", {
-//           message: `A student has connected to your post: ${post.projectHeading}`,
-//         });
-//         console.log(`Notification sent to company with ID ${companyProfileId}`);
-//       } else {
-//         console.error("Company profile not found for the user");
-//       }
-
-//       res.status(200).json({ message: "Connected successfully" });
-//     } else {
-//       res.status(400).json({ error: "Student already applied" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-
-// const postConnect = async (req, res) => {
 //   const { postId, studentId } = req.body;
 
 //   try {
@@ -165,17 +99,13 @@ const postConnect = async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // Ensure uniqueness of studentId in applicants array
     if (!post.applicants.includes(studentId)) {
-      // Add the student to the list of applicants
       post.applicants.push(studentId);
       await post.save();
 
-      // Send notification to the company
-      const companyId = post.author; // Assuming the author is the company
+      const companyId = post.author;
       const message = `A student has connected to your project: ${post.projectHeading}`;
 
-      // Create and save the notification
       const notification = new Notification({
         senderId: studentId,
         recipientIds: [companyId],
@@ -185,7 +115,6 @@ const postConnect = async (req, res) => {
       });
       await notification.save();
 
-      // Emit notification via Socket.io
       io.to(companyId.toString()).emit("newNotification", {
         senderId: studentId,
         message,
@@ -204,8 +133,6 @@ const postConnect = async (req, res) => {
   }
 };
 
-//ye wala porana wale ne diya
-// const postConnect = async (req, res) => {
 //   const { postId, studentId } = req.body;
 
 //   try {
@@ -319,7 +246,6 @@ const selectApplicants = async (req, res) => {
       return res.status(400).json({ error: "User ID is required" });
     }
 
-    // Find the post by its ID and ensure that it exists
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
@@ -332,19 +258,15 @@ const selectApplicants = async (req, res) => {
         .json({ error: "Exactly 2 applicants must be selected" });
     }
 
-    // Update the post with the selected applicants
     post.selectedApplicants = applicantIds;
     post.status = "in progress";
     await post.save();
 
-    // Construct the notification message with the actual project title
     const message = `You have been selected for the project: ${post.projectHeading}`;
 
-    // Iterate over applicantIds to create and emit notifications for each selected student
     for (const applicantId of applicantIds) {
-      // Create and save the notification
       const notification = new Notification({
-        senderId: userId, // The company selecting the applicants
+        senderId: userId,
         recipientIds: [applicantId],
         message,
         type: "project",
@@ -352,7 +274,6 @@ const selectApplicants = async (req, res) => {
       });
       await notification.save();
 
-      // Emit notification via Socket.io
       io.to(applicantId.toString()).emit("newNotification", {
         senderId: userId,
         message,
@@ -389,7 +310,6 @@ const completeProject = async (req, res) => {
   try {
     const { postId } = req.params;
 
-    // Find the post and update its status to "completed"
     const post = await Post.findById(postId).populate("selectedApplicants");
     if (!post) {
       return res.status(404).json({ error: "Project not found" });
@@ -398,12 +318,11 @@ const completeProject = async (req, res) => {
     post.status = "completed";
     await post.save();
 
-    // Notify the selected students that the project is completed
     const studentMessage = `The project "${post.projectHeading}" has been completed.`;
 
     for (const studentId of post.selectedApplicants) {
       const studentNotification = new Notification({
-        senderId: post.author, // Company ID
+        senderId: post.author,
         recipientIds: [studentId],
         message: studentMessage,
         type: "project",
@@ -411,7 +330,6 @@ const completeProject = async (req, res) => {
       });
       await studentNotification.save();
 
-      // Emit notification to student via Socket.io
       io.to(studentId.toString()).emit("newNotification", {
         senderId: post.author,
         message: studentMessage,
@@ -434,36 +352,32 @@ const getCompletedProjects = async (req, res) => {
     let completedProjects = [];
 
     if (userType === "student") {
-      // Find the user by ID
       const user = await User.findById(userId).populate("Sprofile").exec();
       if (!user || !user.Sprofile) {
         return res.status(404).json({ error: "Student profile not found" });
       }
 
-      // Find completed projects where the user was a selected applicant
       completedProjects = await Post.find({
         selectedApplicants: user._id,
         status: "completed",
       }).populate({
-        path: "author", // Populate the author field
-        populate: { path: "Cprofile", select: "companyName" }, // Populate the companyName from Cprofile
+        path: "author",
+        populate: { path: "Cprofile", select: "companyName" },
       });
 
       console.log("Completed Projects for Student:", completedProjects);
     } else if (userType === "company") {
-      // Find completed projects authored by the company
       completedProjects = await Post.find({
         author: userId,
         status: "completed",
       }).populate({
         path: "selectedApplicants",
-        populate: { path: "Sprofile", select: "name" }, // Populate the name from Sprofile
+        populate: { path: "Sprofile", select: "name" },
       });
 
       console.log("Completed Projects for Company:", completedProjects);
     }
 
-    // Format the response
     res.status(200).json({
       completedProjects: completedProjects.map((project) => ({
         projectHeading: project.projectHeading,

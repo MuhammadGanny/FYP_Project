@@ -13,11 +13,7 @@ router.put("/:postId", postController.updatePost);
 router.delete("/:postId", postController.deletePost);
 router.get("/:postId", postController.getPostById);
 router.post("/select-applicants", postController.selectApplicants);
-// router.post(
-//   "/select-applicants",
-//   authMiddleware,
-//   postController.selectApplicants
-// );
+
 router.get(
   "/projects-for-student/:userId",
   postController.getProjectsForStudent
