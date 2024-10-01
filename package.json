@@ -7,7 +7,8 @@
     "start:client": "vite",
     "start:server": "nodemon server.js",
     "dev": "vite",
-    "build": "esbuild src/App.jsx --bundle --minify --sourcemap --outfile=public/bundle.js --loader:.jsx=jsx",
+    "build": "esbuild src/App.jsx --bundle --minify --sourcemap --outfile=public/bundle.js --loader:.jsx=jsx --loader:.svg=file",
+    
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "concurrently npm:start:*"
