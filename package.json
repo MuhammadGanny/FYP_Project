@@ -1,5 +1,4 @@
 {
-  "homepage": "https://muhammadganny.github.io/FYP_Project",
   "name": "fyp-project",
   "private": true,
   "version": "0.0.0",
@@ -7,10 +6,8 @@
   "scripts": {
     "start:client": "vite",
     "start:server": "nodemon server.js",
-    "predeploy": "yarn start",
-    "deploy": "gh-pages -d build",
     "dev": "vite",
-    "build": "esbuild src/App.js --bundle --minify --sourcemap --outfile=public/bundle.js --loader:.js",
+    "build": "esbuild src/App.js --bundle --minify --sourcemap --outfile=public/bundle.js --loader:.js=jsx",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "concurrently npm:start:*"
