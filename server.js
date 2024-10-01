@@ -53,7 +53,7 @@ import uroutes from "./routes/URoutes.js";
 import profileroutes from "./routes/profileRoutes.js";
 import milestoneRoutes from "./routes/MilestoneRoutes.js";
 import notificationsRoutes from "./routes/NotificationRoutes.js";
-
+// import app from './src/App.jsx'
 const app = express();
 const server = http.createServer(app); // New: Create an HTTP server
 // export const io = new SocketIoServer(server);
