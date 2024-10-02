@@ -4,7 +4,9 @@ import { io } from "socket.io-client";
 // const socket = io("http://localhost:5000", {
 //   withCredentials: true,
 // });
-const socket = io("http://localhost:5000");
+//const socket = io("http://localhost:5000");
+
+const socket = io("https://fyp-project.vercel.app");
 
 socket.on("connect", () => {
   console.log("Connected to Socket.IO server");
