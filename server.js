@@ -15,14 +15,22 @@ const app = express();
 const server = http.createServer(app); // New: Create an HTTP server
 // export const io = new SocketIoServer(server);
 // app.use(cookieParser());
+
+// const io = new SocketIoServer(server, {
+//   cors: {
+//     origin: "*", // Allow all origins, configure as per your need
+//     methods: ["GET", "POST"],
+//   },
+// });
 const io = new SocketIoServer(server, {
   cors: {
-    origin: "*", // Allow all origins, configure as per your need
+    origin: "https://fyp-project-eight.vercel.app", // Replace with your actual frontend URL
     methods: ["GET", "POST"],
   },
 });
 
-const port = 5000;
+// const port = 5000;
+const port = process.env.PORT || 5000;
 
 const mongoURI =
   "mongodb+srv://dbcollab:dbcollab@fyp.lswfdqq.mongodb.net/?retryWrites=true&w=majority";

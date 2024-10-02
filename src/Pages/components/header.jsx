@@ -33,9 +33,13 @@ export default function Header() {
     const userId = Cookies.get("userId");
     const userType = Cookies.get("userType");
 
+    // https://fyp-project-eight.vercel.app
+    // axios
+    //   .get(
+    //     `http://localhost:5000/profile/profile?userId=${userId}&userType=${userType}`,
     axios
       .get(
-        `http://localhost:5000/profile/profile?userId=${userId}&userType=${userType}`,
+        `https://fyp-project-eight.vercel.app/profile/profile?userId=${userId}&userType=${userType}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,11 +55,14 @@ export default function Header() {
       });
 
     axios
-      .get(`http://localhost:5000/notifications?userId=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://fyp-project-eight.vercel.app/notifications?userId=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         setNotifications(response.data.notifications.reverse());
         checkUnreadNotifications(response.data.notifications);
@@ -100,7 +107,9 @@ export default function Header() {
     const userId = Cookies.get("userId");
 
     axios
-      .put(`http://localhost:5000/notifications/markAsRead`, { userId })
+      .put(`https://fyp-project-eight.vercel.app/notifications/markAsRead`, {
+        userId,
+      })
       .then(() => {
         setNotifications(
           notifications.map((notification) => ({
